@@ -67,13 +67,14 @@ class TutorialActivity : AppCompatActivity() {
         /**
          * Init recyclerView first
          */
-        val adapter = TutorialAdapter(arrayListOf())
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val adapter = TutorialAdapter(arrayListOf(), recyclerView, viewOverflowPagerIndicator)
+        recyclerView.layoutManager = linearLayoutManager
         recyclerView.adapter = adapter
         adapter.addAllItem(data)
 
         /**
-         * Init overflowPagerIndicator and attach to recyclerView
+         * Attach overflowPagerIndicator to recyclerView
          */
         viewOverflowPagerIndicator.attachToRecyclerView(recyclerView)
         SimpleSnapHelper(viewOverflowPagerIndicator).attachToRecyclerView(recyclerView)
