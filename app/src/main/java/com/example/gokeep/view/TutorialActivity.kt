@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.gokeep.R
 import com.example.gokeep.databinding.ActivityTutorialBinding
 import com.example.gokeep.view.adpter.TutorialAdapter
+import cz.intik.overflowindicator.SimpleSnapHelper
 
 class TutorialActivity : AppCompatActivity() {
 
@@ -70,13 +71,11 @@ class TutorialActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = adapter
         adapter.addAllItem(data)
-        val snapHelper = PagerSnapHelper()
-        snapHelper.attachToRecyclerView(recyclerView)
 
         /**
          * Init overflowPagerIndicator and attach to recyclerView
          */
         viewOverflowPagerIndicator.attachToRecyclerView(recyclerView)
-//        SimpleSnapHelper(viewOverflowPagerIndicator).attachToRecyclerView(recyclerView)
+        SimpleSnapHelper(viewOverflowPagerIndicator).attachToRecyclerView(recyclerView)
     }
 }
