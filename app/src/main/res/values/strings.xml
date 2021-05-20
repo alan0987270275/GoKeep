@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">GoKeep</string>
+
+
+    <!--Tutorial-->
+    <string name="tutorial_title_1">Track your spending \n to achieve the goal</string>
+    <string name="tutorial_title_2">Set your goal and \n make it come true</string>
+    <string name="tutorial_title_3">Use 6-3-1 to group \n your monthly cost</string>
+    <string name="tutorial_title_4">Start to explore \n your journey</string>
+    <string name="tutorial_sub_title_1">Track Your Money</string>
+    <string name="tutorial_sub_title_2">Set Your Goal</string>
+    <string name="tutorial_sub_title_3">Categorize Your Expense</string>
+    <string name="tutorial_sub_title_4">Grow Your Dream</string>
+    <string name="tutorial_message_1">Start record your everyday spending \nand create a habit. So you can\n achieve your goal.</string>
+    <string name="tutorial_message_2">Setting up your goal as your Motivation and keep saving money to make your goal complete</string>
+    <string name="tutorial_message_3">Using 6-3-1 to grouping your expenses. 60% for the daily spending, 30% for your deposit, 10% for your Goal</string>
+    <string name="tutorial_message_4">Make a habit of record your everyday spending, and save money for your dreams or gaols! </string>
+    <string name="tutorial_button_text">Let\'s start</string>
+
+
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Text -->
+    <dimen name="text_XLargeTitle">44sp</dimen>
+    <dimen name="text_LargeTitle">34sp</dimen>
+    <dimen name="text_Title1">28sp</dimen>
+    <dimen name="text_Title2">22sp</dimen>
+    <dimen name="text_Title3">20sp</dimen>
+    <dimen name="text_HeadLine">17sp</dimen>
+    <dimen name="text_Body">17sp</dimen>
+    <dimen name="text_SubTitle">15sp</dimen>
+    <dimen name="text_Footnote">13sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="text_size_large">22sp</dimen>
+    <dimen name="text_size_subtitle">30sp</dimen>
+    <dimen name="text_size_title">42sp</dimen>
+</resources>
