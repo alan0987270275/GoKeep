@@ -7,10 +7,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bluePrimary"
-    tools:context=".ui.TutorialActivity">
+    tools:context=".view.TutorialActivity">
 
     <TextView
-        style="@style/LargeTitle.tutorial"
+        style="@style/Title1.tutorial"
         android:id="@+id/tutorialTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,6 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tutorialTitle"
+        android:clipToPadding="false"
         tools:listitem="@layout/recycler_item_tutorial"
         tools:itemCount="2"
         tools:orientation="horizontal"
@@ -42,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:indicatorFillColor="#FF0000"
-        app:indicatorStrokeColor="#0000FF" />
+        app:indicatorFillColor="#FFF"
+        app:indicatorStrokeColor="#FFF" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

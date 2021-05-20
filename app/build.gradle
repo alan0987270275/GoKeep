@@ -16,6 +16,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        viewBinding true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -35,6 +39,8 @@ dependencies {
 
     // Pager Indicator widget
     implementation 'com.github.intik:overflow-pager-indicator:3.1.0'
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
 
 
     testImplementation 'junit:junit:4.12'

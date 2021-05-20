@@ -1,7 +1,8 @@
-package com.example.gokeep
+package com.example.gokeep.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.gokeep.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
