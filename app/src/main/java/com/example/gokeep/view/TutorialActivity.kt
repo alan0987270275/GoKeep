@@ -61,6 +61,7 @@ class TutorialActivity : AppCompatActivity() {
         )
     }
 
+    //TODO: Setup Recycler.OnScrollListener to show background and Title Animation
 
     private fun setUpView() = with(binding) {
 
