@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gokeep.R
 import com.example.gokeep.databinding.ActivityTutorialBinding
+import com.example.gokeep.util.PreferencesManager
 import com.example.gokeep.view.adpter.TutorialAdapter
 import cz.intik.overflowindicator.SimpleSnapHelper
 
@@ -33,6 +33,18 @@ class TutorialActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTutorialBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val prefManager = PreferencesManager
+        prefManager.init(this)
+
+        /**
+         * Set up prefManger First Time in App to true
+         */
+        if( (prefManager.get("first_time_in_app", false as Boolean) == false) ) {
+            prefManager.set("first_time_in_app", true)
+            Log.d(TAG, "IN~~~~")
+        }
+
 
         setUpData()
         setUpView()
