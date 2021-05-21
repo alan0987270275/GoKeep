@@ -40,9 +40,8 @@ class TutorialActivity : AppCompatActivity() {
         /**
          * Set up prefManger First Time in App to true
          */
-        if( (prefManager.get("first_time_in_app", false as Boolean) == false) ) {
+        if(prefManager.get("first_time_in_app", false) == false) {
             prefManager.set("first_time_in_app", true)
-            Log.d(TAG, "IN~~~~")
         }
 
 
