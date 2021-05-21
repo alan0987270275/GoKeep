@@ -69,9 +69,9 @@
     <style name="Body.tutorial">
         <item name="android:textColor">@color/black_overlay</item>
         <item name="android:gravity">center</item>
-        <item name="android:minLines">3</item>
-        <item name="android:maxLines">5</item>
-        <item name="android:ellipsize">end</item>
+<!--        <item name="android:minLines">3</item>-->
+<!--        <item name="android:maxLines">5</item>-->
+<!--        <item name="android:ellipsize">end</item>-->
     </style>
 
 
