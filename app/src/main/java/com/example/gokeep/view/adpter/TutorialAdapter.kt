@@ -2,11 +2,10 @@ package com.example.gokeep.view.adpter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.gokeep.databinding.RecyclerItemTutorialBinding
-import com.example.gokeep.view.TutorialActivity
+import com.example.gokeep.view.ui.TutorialActivity
 import cz.intik.overflowindicator.OverflowPagerIndicator
 
 class TutorialAdapter(private val data: ArrayList<TutorialActivity.TutorialViewData>,

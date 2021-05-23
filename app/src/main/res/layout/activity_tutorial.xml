@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bluePrimary"
-    tools:context=".view.TutorialActivity">
+    tools:context=".view.ui.TutorialActivity">
 
     <TextView
         style="@style/Title1.tutorial"
