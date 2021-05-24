@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".view.ui.SplashActivity"
+            android:name=".view.ui.activity.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,9 +20,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.ui.TutorialActivity"
+            android:name=".view.ui.activity.TutorialActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".view.ui.MainActivity"/>
+        <activity
+            android:name=".view.ui.activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

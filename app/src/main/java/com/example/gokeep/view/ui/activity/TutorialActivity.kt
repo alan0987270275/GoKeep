@@ -1,4 +1,4 @@
-package com.example.gokeep.view.ui
+package com.example.gokeep.view.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
