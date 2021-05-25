@@ -11,7 +11,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="256dp"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:background="@color/bluePrimaryDark"
         tools:ignore="MissingConstraints">
@@ -24,12 +24,14 @@
             android:background="@color/bluePrimaryDark"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:background="@color/bluePrimaryDark"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"/>
+<!--            <androidx.appcompat.widget.Toolbar-->
+<!--                android:id="@+id/toolbar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:background="@color/bluePrimaryDark"-->
+<!--                android:layout_height="?attr/actionBarSize"-->
+<!--                app:layout_collapseMode="pin"/>-->
+            <include
+                layout="@layout/home_header_layout"/>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 

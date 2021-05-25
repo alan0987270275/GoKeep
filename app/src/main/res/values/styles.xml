@@ -79,6 +79,17 @@
 <!--        <item name="android:ellipsize">end</item>-->
     </style>
 
+    <!--Home Header Text Style-->
+    <style name="XLargeTitle.home_header">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Title2.home_header">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:alpha">0.7</item>
+    </style>
+
 
     <!--Round Button-->
     <style name="RoundButton" parent="Widget.AppCompat.Button">
@@ -91,5 +102,11 @@
     <style name="RoundButton.tutorial">
         <item name="android:backgroundTint">@color/button_blue</item>
     </style>
+
+    <style name="circleImageViewStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
 
 </resources>
