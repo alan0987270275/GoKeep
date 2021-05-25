@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:id="@+id/goalContainer"
+        android:layout_width="64dp"
+        android:layout_height="128dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_goal_1"
+            android:alpha="1"
+            app:shapeAppearanceOverlay="@style/circleImageViewStyle" />
+
+        <TextView
+            style="@style/Footnote.goal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone"
+            android:text="@string/goal_achieved_title"/>
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:progress="70"
+            android:layout_gravity="bottom"
+            android:progressDrawable="@drawable/custom_progressbar" />
+    </FrameLayout>
+
+    <TextView
+        style="@style/Body.goal"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:paddingRight="4dp"
+        android:paddingLeft="4dp"
+        android:gravity="center"
+        android:alpha="1"
+        android:text="USA for holiday!!!"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/goalContainer"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

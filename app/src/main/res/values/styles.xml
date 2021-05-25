@@ -90,6 +90,21 @@
         <item name="android:alpha">0.7</item>
     </style>
 
+    <!--Goal Text Style-->
+    <style name="Footnote.goal">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Body.goal">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:maxEms">15</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
 
     <!--Round Button-->
     <style name="RoundButton" parent="Widget.AppCompat.Button">

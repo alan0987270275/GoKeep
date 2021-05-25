@@ -20,7 +20,9 @@
     <!--Home header-->
     <string name="home_header_title">Available Balance</string>
     <string name="home_header_available_balance">$%1$s</string>
-
+    
+    <!--Goal-->
+    <string name="goal_achieved_title">Achieved</string>
 
     <string name="test">jrio2jewjfijewfijweifjewfiowejfiwejfewjfewifjwiefjweijfewofjwenkjdsnfjkndsjfnsdjndjkvnjcxnvjcxnvjkxcnvjknejnv
     wej13213123123ewjfewifjwiefjweijfewofjwenkjdsnfjkndsjfnsdjndjkvnjcxnvjcxnvjkxcnvjknejnv

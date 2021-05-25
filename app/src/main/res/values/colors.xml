@@ -15,4 +15,7 @@
     <color name="blueAccent">#088BAC</color>
 
     <color name="button_blue">#0BB8E4</color>
+
+    <color name="yellow">#E6BE15</color>
+    <color name="yellowLight">#FFCE00</color>
 </resources>
