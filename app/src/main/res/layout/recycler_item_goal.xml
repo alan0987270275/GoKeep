@@ -14,6 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
         <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/goalImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
@@ -31,7 +32,7 @@
 
         <ProgressBar
             style="?android:attr/progressBarStyleHorizontal"
-            android:id="@+id/progressBar"
+            android:id="@+id/goalProgressBar"
             android:layout_width="match_parent"
             android:layout_height="8dp"
             android:progress="70"
@@ -41,6 +42,7 @@
 
     <TextView
         style="@style/Body.goal"
+        android:id="@+id/goalTitle"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:paddingRight="4dp"
