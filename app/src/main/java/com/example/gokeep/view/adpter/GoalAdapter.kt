@@ -1,6 +1,9 @@
 package com.example.gokeep.view.adpter
 
+import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -10,8 +13,9 @@ import com.example.gokeep.data.model.Goal
 import com.example.gokeep.databinding.RecyclerItemGoalBinding
 import com.example.gokeep.databinding.RecyclerItemSetGoalBinding
 
-class GoalAdapter(val goalList: List<Goal>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class GoalAdapter(private val goalList: MutableList<Goal>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private val TAG = GoalAdapter::javaClass.name
     private val VIEW_TYPE_SET_GOAL = 0
     private val VIEW_TYPE__GOAL_ITEM = 1
 
@@ -37,10 +41,10 @@ class GoalAdapter(val goalList: List<Goal>): RecyclerView.Adapter<RecyclerView.V
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        TODO("Not yet implemented")
         when(holder.itemViewType) {
             0 -> {
                 val setGoalViewHolder = holder as SetGoalViewHolder
+                Log.d(TAG, "size" + goalList.size)
                 setGoalViewHolder.bind()
             }
             else -> {
@@ -57,6 +61,14 @@ class GoalAdapter(val goalList: List<Goal>): RecyclerView.Adapter<RecyclerView.V
 
     override fun getItemViewType(position: Int)
             = if( position == 0) VIEW_TYPE_SET_GOAL else VIEW_TYPE__GOAL_ITEM
+
+    fun addItem(goal: Goal) {
+        goalList.add(goal)
+    }
+
+    fun addAllItem(list: MutableList<Goal>) {
+        goalList.addAll(list)
+    }
 
     class SetGoalViewHolder(private val itemBinding: RecyclerItemSetGoalBinding): RecyclerView.ViewHolder(itemBinding.root) {
         fun bind() = with(itemBinding) {
@@ -77,7 +89,12 @@ class GoalAdapter(val goalList: List<Goal>): RecyclerView.Adapter<RecyclerView.V
 
                 if(goalProgressBar.progress == 100) {
                     goalImageView.alpha = 0.5F
-                    goalImageView.strokeWidth = 4F
+                    achievedTextView.visibility = View.VISIBLE
+                    goalImageView.strokeWidth = TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP, 8F,
+                            context.resources.displayMetrics
+                    )
+                    goalProgressBar.alpha = 0.5F
                     goalImageView.strokeColor =
                         ContextCompat.getColorStateList(context, R.color.yellow)
                 }

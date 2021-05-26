@@ -1,11 +1,19 @@
 package com.example.gokeep.view.ui.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gokeep.R
+import com.example.gokeep.data.model.Goal
+import com.example.gokeep.databinding.FragmentHomeBinding
+import com.example.gokeep.databinding.HomeHeaderLayoutBinding
+import com.example.gokeep.view.adpter.GoalAdapter
+import com.example.gokeep.view.adpter.TutorialAdapter
+import com.example.gokeep.view.ui.activity.TutorialActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +30,13 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    // Those properties is only valid between onCreateView and onDestroyView.
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+    private var _homeHeaderLayoutBinding: HomeHeaderLayoutBinding? = null
+    private val homeHeaderLayoutBinding get() = _homeHeaderLayoutBinding!!
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -35,8 +50,68 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _homeHeaderLayoutBinding = binding.homeHeaderLayout
+        return binding.root
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initView()
+    }
+
+    /**
+     * Init all the view
+     */
+    private fun initView() {
+
+        /**
+         * Init homeHeaderLayout
+         */
+        initHomeHeaderLayout()
+
+    }
+
+    private fun initHomeHeaderLayout() = with(homeHeaderLayoutBinding) {
+        /**
+         * Init goalRecyclerView
+         */
+        val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        /**
+         * Add fake data for testing
+         */
+        val adapter = GoalAdapter(arrayListOf()).apply {
+            addAllItem(fakeData)
+        }
+        goalRecyclerView.layoutManager = linearLayoutManager
+        goalRecyclerView.adapter = adapter
+
+
+    }
+
+    private val fakeData =
+        mutableListOf<Goal>(
+             Goal(
+                 "summer vacation to Thailand",
+                 "https://scandasia.com/wp-content/uploads/2021/03/11reasonsthailand.jpg",
+                 70,
+                 1622346511L,
+                 1622029711L
+             ),
+            Goal(
+                "Buy a Guitar",
+                "https://cdn.store-assets.com/s/180631/f/3891188.jpeg",
+                100,
+                1622346511L,
+                1622029711L
+            )
+         )
 
     companion object {
         /**
