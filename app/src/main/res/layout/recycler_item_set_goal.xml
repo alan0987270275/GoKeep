@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/goalContainer"
+    android:layout_width="64dp"
+    android:layout_height="128dp"
+    android:background="@drawable/round_background"
+    android:alpha="0.5">
+
+    <ImageView
+        android:id="@+id/setGoalImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_add_black_24dp"
+        app:tint="@color/button_blue" />
+
+    <TextView
+        style="@style/Footnote.goal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/setGoalImageView"
+        android:gravity="center"
+        android:textColor="@color/button_blue"
+        android:text="@string/goal_set_title"/>
+
+</RelativeLayout>

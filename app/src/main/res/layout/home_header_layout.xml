@@ -63,6 +63,9 @@
         app:layout_constraintTop_toBottomOf="@id/availableBalanceTextView">
 
         <include
+            layout="@layout/recycler_item_set_goal"/>
+
+        <include
             layout="@layout/recycler_item_goal"/>
     </LinearLayout>
 
