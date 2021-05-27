@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -75,7 +78,7 @@ class HomeFragment : Fragment() {
          * Init homeHeaderLayout
          */
         initHomeHeaderLayout()
-
+        initFab()
     }
 
     private fun initHomeHeaderLayout() = with(homeHeaderLayoutBinding) {
@@ -93,6 +96,51 @@ class HomeFragment : Fragment() {
         goalRecyclerView.adapter = adapter
 
 
+    }
+
+    private fun initFab() = with(binding) {
+        val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_rotate_open_anim) }
+        val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_rotate_close_anim) }
+        val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_from_bottom_anim) }
+        val toBottom: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_to_bottom_anim) }
+        var clicked = false
+        addActionFab.setOnClickListener {
+            setFabVisibility(clicked)
+            setFabAnimation(
+                clicked,
+                rotateOpen,
+                rotateClose,
+                fromBottom,
+                toBottom
+            )
+            clicked = !clicked
+        }
+        setGoalFab.setOnClickListener { Toast.makeText(context, "setGoalFab clicked", Toast.LENGTH_SHORT).show() }
+        setSpendingFab.setOnClickListener { Toast.makeText(context, "setSpendingFab clicked", Toast.LENGTH_SHORT).show() }
+    }
+
+    private fun setFabAnimation(clicked: Boolean,
+                                rotateOpen: Animation, rotateClose: Animation,
+                                fromBottom: Animation, toBottom: Animation) = with(binding) {
+        if (!clicked) {
+            setGoalFab.startAnimation(fromBottom)
+            setSpendingFab.startAnimation(fromBottom)
+            addActionFab.startAnimation(rotateOpen)
+        } else {
+            setGoalFab.startAnimation(toBottom)
+            setSpendingFab.startAnimation(toBottom)
+            addActionFab.startAnimation(rotateClose)
+        }
+    }
+
+    private fun setFabVisibility(clicked: Boolean) = with(binding) {
+        if (!clicked) {
+            setGoalFab.visibility = View.VISIBLE
+            setSpendingFab.visibility = View.VISIBLE
+        } else {
+            setGoalFab.visibility = View.GONE
+            setSpendingFab.visibility = View.GONE
+        }
     }
 
     private val fakeData =

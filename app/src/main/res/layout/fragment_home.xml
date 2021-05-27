@@ -24,12 +24,6 @@
             android:background="@color/bluePrimaryDark"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
-<!--            <androidx.appcompat.widget.Toolbar-->
-<!--                android:id="@+id/toolbar"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:background="@color/bluePrimaryDark"-->
-<!--                android:layout_height="?attr/actionBarSize"-->
-<!--                app:layout_collapseMode="pin"/>-->
             <include
                 android:id="@+id/homeHeaderLayout"
                 layout="@layout/home_header_layout"/>
@@ -53,13 +47,49 @@
             android:text="@string/test"/>
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:layout_gravity="bottom|right"
-        android:backgroundTint="@color/bluePrimaryDark"
-        android:tint="@color/white"
-        app:srcCompat="@drawable/ic_add_black_24dp"/>
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/setGoalFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/bluePrimary"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/ic_add_a_photo_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/setSpendingFab"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/setSpendingFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/bluePrimary"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/ic_baseline_attach_money_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/addActionFab"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addActionFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/bluePrimaryDark"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/ic_add_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
