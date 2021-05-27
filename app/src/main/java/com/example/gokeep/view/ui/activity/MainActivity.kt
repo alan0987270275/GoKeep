@@ -28,21 +28,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0){
-            supportFragmentManager.popBackStack()
-        }
-        else {
-            super.onBackPressed();
-        }
-    }
+//    override fun onBackPressed() {
+//        if (supportFragmentManager.backStackEntryCount > 0){
+//            supportFragmentManager.popBackStack()
+//        }
+//        else {
+//            super.onBackPressed();
+//        }
+//    }
 
     fun showFragment(layoutId: Int) {
         var fragment: Fragment? = null
 
         when(layoutId) {
             R.layout.fragment_create_item -> {
-                fragment = CreateItemFragment()
+                fragment = CreateItemFragment.newInstance("Goal")
             }
         }
 
@@ -50,8 +50,14 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.popBackStackImmediate(fragment::class.java.name, 0).apply {
                 if(!this) {
                     supportFragmentManager.commit {
-                        addToBackStack(fragment::class.java.name)
-                        replace(R.id.fragment_container_view, fragment)
+                        setCustomAnimations(
+                            R.anim.fragment_slide_in,
+                            R.anim.fragment_fade_out,
+                            R.anim.fragment_fade_in,
+                            R.anim.fragment_slide_out
+                        )
+                        add(R.id.fragment_container_view, fragment)
+                        addToBackStack(null)
                     }
                 }
             }

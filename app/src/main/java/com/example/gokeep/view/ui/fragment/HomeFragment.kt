@@ -41,6 +41,13 @@ class HomeFragment : Fragment() {
     private val homeHeaderLayoutBinding get() = _homeHeaderLayoutBinding!!
 
 
+    // Animation for FAB
+    val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_rotate_open_anim) }
+    val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_rotate_close_anim) }
+    val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_from_bottom_anim) }
+    val toBottom: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_to_bottom_anim) }
+    var clicked = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -100,33 +107,27 @@ class HomeFragment : Fragment() {
     }
 
     private fun initFab() = with(binding) {
-        val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_rotate_open_anim) }
-        val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_rotate_close_anim) }
-        val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_from_bottom_anim) }
-        val toBottom: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_to_bottom_anim) }
-        var clicked = false
+
+
         addActionFab.setOnClickListener {
-            setFabVisibility(clicked)
-            setFabAnimation(
-                clicked,
-                rotateOpen,
-                rotateClose,
-                fromBottom,
-                toBottom
-            )
-            clicked = !clicked
+            fabOnClick()
         }
         setGoalFab.setOnClickListener {
+            fabOnClick()
             (activity as MainActivity).showFragment(R.layout.fragment_create_item)
         }
         setSpendingFab.setOnClickListener {
-
+            fabOnClick()
         }
     }
 
-    private fun setFabAnimation(clicked: Boolean,
-                                rotateOpen: Animation, rotateClose: Animation,
-                                fromBottom: Animation, toBottom: Animation) = with(binding) {
+    private fun fabOnClick() {
+        setFabVisibility()
+        setFabAnimation()
+        clicked = !clicked
+    }
+
+    private fun setFabAnimation() = with(binding) {
         if (!clicked) {
             setGoalFab.startAnimation(fromBottom)
             setSpendingFab.startAnimation(fromBottom)
@@ -138,7 +139,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setFabVisibility(clicked: Boolean) = with(binding) {
+    private fun setFabVisibility() = with(binding) {
         if (!clicked) {
             setGoalFab.visibility = View.VISIBLE
             setSpendingFab.visibility = View.VISIBLE
