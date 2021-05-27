@@ -137,9 +137,13 @@ class HomeFragment : Fragment() {
         if (!clicked) {
             setGoalFab.visibility = View.VISIBLE
             setSpendingFab.visibility = View.VISIBLE
+            setGoalFab.isEnabled = true
+            setSpendingFab.isEnabled = true
         } else {
-            setGoalFab.visibility = View.GONE
-            setSpendingFab.visibility = View.GONE
+            setGoalFab.visibility = View.INVISIBLE
+            setSpendingFab.visibility = View.INVISIBLE
+            setGoalFab.isEnabled = false
+            setSpendingFab.isEnabled = false
         }
     }
 
