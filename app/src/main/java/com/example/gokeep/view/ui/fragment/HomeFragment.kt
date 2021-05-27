@@ -114,10 +114,11 @@ class HomeFragment : Fragment() {
         }
         setGoalFab.setOnClickListener {
             fabOnClick()
-            (activity as MainActivity).showFragment(R.layout.fragment_create_item)
+            (activity as MainActivity).showFragment(R.layout.fragment_create_item, "Goal")
         }
         setSpendingFab.setOnClickListener {
             fabOnClick()
+            (activity as MainActivity).showFragment(R.layout.fragment_create_item, "Spend")
         }
     }
 

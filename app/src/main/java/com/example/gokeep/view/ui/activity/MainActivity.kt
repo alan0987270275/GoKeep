@@ -37,12 +37,12 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 
-    fun showFragment(layoutId: Int) {
+    fun showFragment(layoutId: Int, param: String) {
         var fragment: Fragment? = null
 
         when(layoutId) {
             R.layout.fragment_create_item -> {
-                fragment = CreateItemFragment.newInstance("Goal")
+                fragment = CreateItemFragment.newInstance(param)
             }
         }
 
