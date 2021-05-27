@@ -16,6 +16,7 @@ import com.example.gokeep.databinding.FragmentHomeBinding
 import com.example.gokeep.databinding.HomeHeaderLayoutBinding
 import com.example.gokeep.view.adpter.GoalAdapter
 import com.example.gokeep.view.adpter.TutorialAdapter
+import com.example.gokeep.view.ui.activity.MainActivity
 import com.example.gokeep.view.ui.activity.TutorialActivity
 
 // TODO: Rename parameter arguments, choose names that match
@@ -115,8 +116,12 @@ class HomeFragment : Fragment() {
             )
             clicked = !clicked
         }
-        setGoalFab.setOnClickListener { Toast.makeText(context, "setGoalFab clicked", Toast.LENGTH_SHORT).show() }
-        setSpendingFab.setOnClickListener { Toast.makeText(context, "setSpendingFab clicked", Toast.LENGTH_SHORT).show() }
+        setGoalFab.setOnClickListener {
+            (activity as MainActivity).showFragment(R.layout.fragment_create_item)
+        }
+        setSpendingFab.setOnClickListener {
+
+        }
     }
 
     private fun setFabAnimation(clicked: Boolean,
