@@ -26,6 +26,13 @@ class ExpandingFloatingActionButton: ConstraintLayout {
     private var jumpToParam1:String? = null
     private var jumpToParam2 :String? = null
 
+    private var listener: ExpandingFloatingActionButtonListener? = null
+
+    interface ExpandingFloatingActionButtonListener {
+        fun firstButtonOnClick()
+        fun secondButtonOnClick()
+    }
+
     constructor(context: Context) : super(context) {
         init(context, null)
     }
@@ -69,11 +76,11 @@ class ExpandingFloatingActionButton: ConstraintLayout {
         }
         setGoalFab.setOnClickListener {
             fabOnClick()
-            (context as MainActivity).showFragment(jumpToLayout1, jumpToParam1 ?: "")
+            listener?.firstButtonOnClick()
         }
         setSpendingFab.setOnClickListener {
             fabOnClick()
-            (context as MainActivity).showFragment(jumpToLayout2, jumpToParam2 ?: "")
+            listener?.secondButtonOnClick()
         }
     }
 
@@ -113,11 +120,8 @@ class ExpandingFloatingActionButton: ConstraintLayout {
         }
     }
 
-    open fun setJumpActivity(layout1: Int, layout2: Int, param1: String, param2: String){
-        jumpToLayout1 = layout1
-        jumpToLayout2 = layout2
-        jumpToParam1 = param1
-        jumpToParam2 = param2
+    open fun setListener(listener: ExpandingFloatingActionButtonListener) {
+        this.listener = listener
     }
 
 

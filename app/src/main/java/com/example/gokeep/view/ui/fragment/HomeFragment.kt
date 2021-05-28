@@ -18,6 +18,7 @@ import com.example.gokeep.view.adpter.GoalAdapter
 import com.example.gokeep.view.adpter.TutorialAdapter
 import com.example.gokeep.view.ui.activity.MainActivity
 import com.example.gokeep.view.ui.activity.TutorialActivity
+import com.example.gokeep.view.ui.components.ExpandingFloatingActionButton
 import kotlinx.android.synthetic.main.fragment_home.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -109,12 +110,16 @@ class HomeFragment : Fragment() {
 
     private fun initFab() = with(binding) {
 
-        expandingFloatingActionButton.setJumpActivity(
-            R.layout.fragment_create_item,
-            R.layout.fragment_create_item,
-            "Goal",
-            "Spend"
-        )
+        expandingFloatingActionButton.setListener(object : ExpandingFloatingActionButton.ExpandingFloatingActionButtonListener{
+            override fun firstButtonOnClick() {
+                (context as MainActivity).showFragment(R.layout.fragment_create_item, "Goal")
+            }
+
+            override fun secondButtonOnClick() {
+                (context as MainActivity).showFragment(R.layout.fragment_create_item, "Spend")
+            }
+        })
+
     }
 
     private val fakeData =
