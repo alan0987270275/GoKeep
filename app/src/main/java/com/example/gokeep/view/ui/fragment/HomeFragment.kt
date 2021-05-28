@@ -108,6 +108,9 @@ class HomeFragment : Fragment() {
 
     private fun initFab() = with(binding) {
 
+        fabBackground.setOnClickListener {
+            fabOnClick()
+        }
 
         addActionFab.setOnClickListener {
             fabOnClick()
@@ -130,27 +133,31 @@ class HomeFragment : Fragment() {
 
     private fun setFabAnimation() = with(binding) {
         if (!clicked) {
-            setGoalFab.startAnimation(fromBottom)
-            setSpendingFab.startAnimation(fromBottom)
+            goalFabLayout.startAnimation(fromBottom)
+            spendingFabLayout.startAnimation(fromBottom)
             addActionFab.startAnimation(rotateOpen)
         } else {
-            setGoalFab.startAnimation(toBottom)
-            setSpendingFab.startAnimation(toBottom)
+            goalFabLayout.startAnimation(toBottom)
+            spendingFabLayout.startAnimation(toBottom)
             addActionFab.startAnimation(rotateClose)
         }
     }
 
     private fun setFabVisibility() = with(binding) {
         if (!clicked) {
-            setGoalFab.visibility = View.VISIBLE
-            setSpendingFab.visibility = View.VISIBLE
+            goalFabLayout.visibility = View.VISIBLE
+            spendingFabLayout.visibility = View.VISIBLE
             setGoalFab.isEnabled = true
             setSpendingFab.isEnabled = true
+            fabBackground.isEnabled = true
+            fabBackground.visibility = View.VISIBLE
         } else {
-            setGoalFab.visibility = View.INVISIBLE
-            setSpendingFab.visibility = View.INVISIBLE
+            goalFabLayout.visibility = View.INVISIBLE
+            spendingFabLayout.visibility = View.INVISIBLE
             setGoalFab.isEnabled = false
             setSpendingFab.isEnabled = false
+            fabBackground.isEnabled = false
+            fabBackground.visibility = View.INVISIBLE
         }
     }
 
