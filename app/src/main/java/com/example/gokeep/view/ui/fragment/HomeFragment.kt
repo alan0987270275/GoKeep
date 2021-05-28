@@ -18,6 +18,7 @@ import com.example.gokeep.view.adpter.GoalAdapter
 import com.example.gokeep.view.adpter.TutorialAdapter
 import com.example.gokeep.view.ui.activity.MainActivity
 import com.example.gokeep.view.ui.activity.TutorialActivity
+import kotlinx.android.synthetic.main.fragment_home.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -108,57 +109,12 @@ class HomeFragment : Fragment() {
 
     private fun initFab() = with(binding) {
 
-        fabBackground.setOnClickListener {
-            fabOnClick()
-        }
-
-        addActionFab.setOnClickListener {
-            fabOnClick()
-        }
-        setGoalFab.setOnClickListener {
-            fabOnClick()
-            (activity as MainActivity).showFragment(R.layout.fragment_create_item, "Goal")
-        }
-        setSpendingFab.setOnClickListener {
-            fabOnClick()
-            (activity as MainActivity).showFragment(R.layout.fragment_create_item, "Spend")
-        }
-    }
-
-    private fun fabOnClick() {
-        setFabVisibility()
-        setFabAnimation()
-        clicked = !clicked
-    }
-
-    private fun setFabAnimation() = with(binding) {
-        if (!clicked) {
-            goalFabLayout.startAnimation(fromBottom)
-            spendingFabLayout.startAnimation(fromBottom)
-            addActionFab.startAnimation(rotateOpen)
-        } else {
-            goalFabLayout.startAnimation(toBottom)
-            spendingFabLayout.startAnimation(toBottom)
-            addActionFab.startAnimation(rotateClose)
-        }
-    }
-
-    private fun setFabVisibility() = with(binding) {
-        if (!clicked) {
-            goalFabLayout.visibility = View.VISIBLE
-            spendingFabLayout.visibility = View.VISIBLE
-            setGoalFab.isEnabled = true
-            setSpendingFab.isEnabled = true
-            fabBackground.isEnabled = true
-            fabBackground.visibility = View.VISIBLE
-        } else {
-            goalFabLayout.visibility = View.INVISIBLE
-            spendingFabLayout.visibility = View.INVISIBLE
-            setGoalFab.isEnabled = false
-            setSpendingFab.isEnabled = false
-            fabBackground.isEnabled = false
-            fabBackground.visibility = View.INVISIBLE
-        }
+        expandingFloatingActionButton.setJumpActivity(
+            R.layout.fragment_create_item,
+            R.layout.fragment_create_item,
+            "Goal",
+            "Spend"
+        )
     }
 
     private val fakeData =
