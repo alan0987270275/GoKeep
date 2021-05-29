@@ -36,6 +36,7 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     // param1 to determine show which kind of layout.
     private var param1: String? = null
     private val TAG = CreateItemFragment::class.java.name
+    private val FINAL_CHOOSE_PHOTO = 1
     private val RC_CAMERA_PERM = 123
     private val RC_GALLERY_PERM = 124
 //    private var param2: String? = null
@@ -152,8 +153,7 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     fun galleryTask() {
         if (hasGalleryPermission()) {
             // Have permission, do the thing!
-            Log.d(TAG,"HasPermission")
-            Toast.makeText(requireContext(), "hasGalleryPermission", Toast.LENGTH_SHORT).show()
+            openAlbum()
         } else {
             // Ask for one permission
             EasyPermissions.requestPermissions(
@@ -164,11 +164,16 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
     }
 
+    private fun openAlbum() {
+        val intent = Intent("android.intent.action.GET_CONTENT")
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(intent, FINAL_CHOOSE_PHOTO)
+    }
+
     fun cameraTask() {
         if (hasCameraPermission()) {
             // Have permission, do the thing!
-            Log.d(TAG,"HasPermission")
-            Toast.makeText(requireContext(), "hasCameraPermission", Toast.LENGTH_SHORT).show()
         } else {
             // Ask for one permission
             EasyPermissions.requestPermissions(
@@ -203,17 +208,16 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     @SuppressLint("StringFormatMatches")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE)
-        {
-            val yes = getString(R.string.yes)
-            val no = getString(R.string.no)
-            val str = getString(
-                R.string.returned_from_app_settings_to_activity,
-                if (hasCameraPermission()) yes else no
-            )
-            // Do something after user returned from app settings screen, like showing a Toast.
-            Toast.makeText(requireContext(),str, Toast.LENGTH_LONG).show()
-        }
+//        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
+//            val yes = getString(R.string.yes)
+//            val no = getString(R.string.no)
+//            val str = getString(
+//                R.string.returned_from_app_settings_to_activity,
+//                if (hasCameraPermission()) yes else no
+//            )
+//            // Do something after user returned from app settings screen, like showing a Toast.
+//            Toast.makeText(requireContext(),str, Toast.LENGTH_LONG).show()
+//        }
     }
 
 
