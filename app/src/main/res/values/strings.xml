@@ -42,6 +42,10 @@
     <string name="spending_time_title">Goal Time</string>
     <string name="spending_button_text">Create goal</string>
 
+    <!--BottomSheet-->
+    <string name="take_photo_by_camera_title">Take a Photo by camera</string>
+    <string name="take_photo_by_gallery_title">Take a Photo by gallery</string>
+
     <string name="test">jrio2jewjfijewfijweifjewfiowejfiwejfewjfewifjwiefjweijfewofjwenkjdsnfjkndsjfnsdjndjkvnjcxnvjcxnvjkxcnvjknejnv
     wej13213123123ewjfewifjwiefjweijfewofjwenkjdsnfjkndsjfnsdjndjkvnjcxnvjcxnvjkxcnvjknejnv
     weojfweifjewjfewifjwiefjweijfewofjwenkjdsnfjkndsjfnsdjndjkvnjcxnvjcxnvjkxcnvjknejnv

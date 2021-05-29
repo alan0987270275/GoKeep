@@ -12,6 +12,8 @@ import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.core.util.Pair
 import com.example.gokeep.databinding.FragmentCreateItemBinding
+import com.example.gokeep.view.ui.activity.MainActivity
+import com.example.gokeep.view.ui.components.AddPhotoBottomSheetDialog
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.time.YearMonth
@@ -62,8 +64,13 @@ class CreateItemFragment : Fragment() {
 
     private fun initView() = with(binding) {
 
+        cancelButton.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+        addPictureLayout.setOnClickListener {
+            (activity as MainActivity).showAddPhotoBottomSheetDialog()
+        }
         initCalenderView()
-
 
     }
 

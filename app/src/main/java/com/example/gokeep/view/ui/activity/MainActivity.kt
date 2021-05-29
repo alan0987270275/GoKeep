@@ -2,11 +2,13 @@ package com.example.gokeep.view.ui.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.example.gokeep.R
+import com.example.gokeep.view.ui.components.AddPhotoBottomSheetDialog
 import com.example.gokeep.view.ui.fragment.CreateItemFragment
 import com.example.gokeep.view.ui.fragment.HomeFragment
 
@@ -38,6 +40,20 @@ class MainActivity : AppCompatActivity() {
 //            super.onBackPressed();
 //        }
 //    }
+
+    fun showAddPhotoBottomSheetDialog() {
+        val addPhotoBottomSheetDialog = AddPhotoBottomSheetDialog.newInstance()
+        addPhotoBottomSheetDialog.setListener(object : AddPhotoBottomSheetDialog.AddPhotoBottomSheetDialogListener{
+            override fun cameraOnclick() {
+                Toast.makeText(this@MainActivity, "Camera Click", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun galleryOnclick() {
+                Toast.makeText(this@MainActivity, "Gallery Click", Toast.LENGTH_SHORT).show()
+            }
+        })
+        addPhotoBottomSheetDialog.show(supportFragmentManager, AddPhotoBottomSheetDialog.TAG)
+    }
 
     fun showFragment(layoutId: Int, param: String) {
         var fragment: Fragment? = null
