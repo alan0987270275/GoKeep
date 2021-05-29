@@ -41,20 +41,6 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 
-    fun showAddPhotoBottomSheetDialog() {
-        val addPhotoBottomSheetDialog = AddPhotoBottomSheetDialog.newInstance()
-        addPhotoBottomSheetDialog.setListener(object : AddPhotoBottomSheetDialog.AddPhotoBottomSheetDialogListener{
-            override fun cameraOnclick() {
-                Toast.makeText(this@MainActivity, "Camera Click", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun galleryOnclick() {
-                Toast.makeText(this@MainActivity, "Gallery Click", Toast.LENGTH_SHORT).show()
-            }
-        })
-        addPhotoBottomSheetDialog.show(supportFragmentManager, AddPhotoBottomSheetDialog.TAG)
-    }
-
     fun showFragment(layoutId: Int, param: String) {
         var fragment: Fragment? = null
 

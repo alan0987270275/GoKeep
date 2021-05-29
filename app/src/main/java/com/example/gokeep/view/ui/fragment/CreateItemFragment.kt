@@ -1,6 +1,9 @@
 package com.example.gokeep.view.ui.fragment
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -9,15 +12,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.annotation.RequiresApi
-import androidx.core.util.Pair
+import android.widget.Toast
+import com.example.gokeep.R
 import com.example.gokeep.databinding.FragmentCreateItemBinding
-import com.example.gokeep.view.ui.activity.MainActivity
 import com.example.gokeep.view.ui.components.AddPhotoBottomSheetDialog
-import com.google.android.material.datepicker.MaterialDatePicker
+import pub.devrel.easypermissions.AppSettingsDialog
+import pub.devrel.easypermissions.EasyPermissions
 import java.text.SimpleDateFormat
-import java.time.YearMonth
-import java.time.temporal.WeekFields
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -30,11 +31,13 @@ private const val ARG_PARAM2 = "param2"
  * Use the [CeateItemFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CreateItemFragment : Fragment() {
+class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     // param1 to determine show which kind of layout.
     private var param1: String? = null
     private val TAG = CreateItemFragment::class.java.name
+    private val RC_CAMERA_PERM = 123
+    private val RC_GALLERY_PERM = 124
 //    private var param2: String? = null
 
     private var _binding: FragmentCreateItemBinding? = null
@@ -67,13 +70,26 @@ class CreateItemFragment : Fragment() {
         cancelButton.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
-        addPictureLayout.setOnClickListener {
-            (activity as MainActivity).showAddPhotoBottomSheetDialog()
-        }
+        initTakePhotoLayout()
         initCalenderView()
-
     }
 
+    private fun initTakePhotoLayout() = with(binding) {
+        val addPhotoBottomSheetDialog = AddPhotoBottomSheetDialog.newInstance()
+        addPhotoBottomSheetDialog.setListener(object : AddPhotoBottomSheetDialog.AddPhotoBottomSheetDialogListener{
+            override fun cameraOnclick() {
+                cameraTask()
+            }
+
+            override fun galleryOnclick() {
+                galleryTask()
+            }
+        })
+
+        addPictureLayout.setOnClickListener {
+            addPhotoBottomSheetDialog.show(parentFragmentManager, AddPhotoBottomSheetDialog.TAG)
+        }
+    }
 
     private fun initCalenderView() = with(binding) {
         val calendar = Calendar.getInstance()
@@ -109,6 +125,97 @@ class CreateItemFragment : Fragment() {
     }
 
     private fun format(format: String, date: Date) = SimpleDateFormat(format, Locale.TAIWAN).format(date)
+
+    private fun hasCameraPermission(): Boolean {
+        return if(context != null) {
+            EasyPermissions.hasPermissions(requireContext(),
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        }else{
+            false
+        }
+    }
+
+    private fun hasGalleryPermission(): Boolean {
+        return if(context != null) {
+            EasyPermissions.hasPermissions(requireContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        }else{
+            false
+        }
+    }
+
+    fun galleryTask() {
+        if (hasGalleryPermission()) {
+            // Have permission, do the thing!
+            Log.d(TAG,"HasPermission")
+            Toast.makeText(requireContext(), "hasGalleryPermission", Toast.LENGTH_SHORT).show()
+        } else {
+            // Ask for one permission
+            EasyPermissions.requestPermissions(
+                this,
+                getString(R.string.rationale_gallery),
+                RC_GALLERY_PERM,
+                Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+    }
+
+    fun cameraTask() {
+        if (hasCameraPermission()) {
+            // Have permission, do the thing!
+            Log.d(TAG,"HasPermission")
+            Toast.makeText(requireContext(), "hasCameraPermission", Toast.LENGTH_SHORT).show()
+        } else {
+            // Ask for one permission
+            EasyPermissions.requestPermissions(
+                this,
+                getString(R.string.rationale_camera),
+                RC_CAMERA_PERM,
+                Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode:Int,
+                                            permissions:Array<String>,
+                                            grantResults:IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        // EasyPermissions handles the request result.
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        Log.d(TAG, "onPermissionsDenied:" + requestCode + ":" + perms.size)
+
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            AppSettingsDialog.Builder(this).build().show()
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+        Log.d(TAG, "onPermissionsGranted:" + requestCode + ":" + perms.size)
+    }
+
+    @SuppressLint("StringFormatMatches")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE)
+        {
+            val yes = getString(R.string.yes)
+            val no = getString(R.string.no)
+            val str = getString(
+                R.string.returned_from_app_settings_to_activity,
+                if (hasCameraPermission()) yes else no
+            )
+            // Do something after user returned from app settings screen, like showing a Toast.
+            Toast.makeText(requireContext(),str, Toast.LENGTH_LONG).show()
+        }
+    }
+
 
     companion object {
         /**

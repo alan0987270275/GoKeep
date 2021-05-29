@@ -46,6 +46,17 @@
     <string name="take_photo_by_camera_title">Take a Photo by camera</string>
     <string name="take_photo_by_gallery_title">Take a Photo by gallery</string>
 
+    <!--Permissions Dialog-->
+    <string name="rationale_camera">This app needs access to your camera so you can take pictures.</string>
+    <string name="rationale_gallery">This app needs access to your gallery so you can select pictures.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="returned_from_app_settings_to_activity">
+        Returned from app settings to MainActivity with the following permissions:\n\nCamera: %s
+    </string>
+
+
+
     <string name="test">jrio2jewjfijewfijweifjewfiowejfiwejfewjfewifjwiefjweijfewofjwenkjdsnfjkndsjfnsdjndjkvnjcxnvjcxnvjkxcnvjknejnv
     wej13213123123ewjfewifjwiefjweijfewofjwenkjdsnfjkndsjfnsdjndjkvnjcxnvjcxnvjkxcnvjknejnv
     weojfweifjewjfewifjwiefjweijfewofjwenkjdsnfjkndsjfnsdjndjkvnjcxnvjcxnvjkxcnvjknejnv
