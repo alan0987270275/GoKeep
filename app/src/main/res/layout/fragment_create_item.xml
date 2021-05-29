@@ -120,6 +120,7 @@
             android:orientation="horizontal">
             <Button
                 style="@style/BorderlessEditText"
+                android:id="@+id/fromDateButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -130,6 +131,7 @@
 
             <Button
                 style="@style/BorderlessEditText"
+                android:id="@+id/toDateButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

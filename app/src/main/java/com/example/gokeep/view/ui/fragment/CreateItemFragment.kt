@@ -1,11 +1,19 @@
 package com.example.gokeep.view.ui.fragment
 
+import android.app.DatePickerDialog
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.annotation.RequiresApi
+import androidx.core.util.Pair
 import com.example.gokeep.databinding.FragmentCreateItemBinding
+import com.google.android.material.datepicker.MaterialDatePicker
+import java.text.SimpleDateFormat
 import java.time.YearMonth
 import java.time.temporal.WeekFields
 import java.util.*
@@ -24,6 +32,7 @@ class CreateItemFragment : Fragment() {
 
     // param1 to determine show which kind of layout.
     private var param1: String? = null
+    private val TAG = CreateItemFragment::class.java.name
 //    private var param2: String? = null
 
     private var _binding: FragmentCreateItemBinding? = null
@@ -58,9 +67,41 @@ class CreateItemFragment : Fragment() {
 
     }
 
-    private fun initCalenderView() = with(binding) {
 
+    private fun initCalenderView() = with(binding) {
+        val calendar = Calendar.getInstance()
+        var selectedCalendar = Calendar.getInstance()
+        val onDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+            selectedCalendar.set(year, monthOfYear, dayOfMonth)
+
+        }
+
+        val datePickerDialog = context?.let {
+                DatePickerDialog(it, onDateSetListener,
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH))
+        }
+        fromDateButton.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                datePickerDialog?.setOnDateSetListener(onDateSetListener(fromDateButton, selectedCalendar))
+            }
+            datePickerDialog?.show()
+        }
+        toDateButton.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                datePickerDialog?.setOnDateSetListener(onDateSetListener(toDateButton, selectedCalendar))
+            }
+            datePickerDialog?.show()
+        }
     }
+
+    private fun onDateSetListener(view: View, selectedCalendar: Calendar) = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+        selectedCalendar.set(year, monthOfYear, dayOfMonth)
+        (view as Button).text = format("yyyy / MM / dd", selectedCalendar.time)
+    }
+
+    private fun format(format: String, date: Date) = SimpleDateFormat(format, Locale.TAIWAN).format(date)
 
     companion object {
         /**
