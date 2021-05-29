@@ -26,7 +26,8 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".view.ui.activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
     </application>
 
 </manifest>

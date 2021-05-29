@@ -20,12 +20,6 @@ class ExpandingFloatingActionButton: ConstraintLayout {
     private val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_from_bottom_anim) }
     private val toBottom: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_to_bottom_anim) }
     private var clicked = false
-
-    private var jumpToLayout1 = 0
-    private var jumpToLayout2 = 0
-    private var jumpToParam1:String? = null
-    private var jumpToParam2 :String? = null
-
     private var listener: ExpandingFloatingActionButtonListener? = null
 
     interface ExpandingFloatingActionButtonListener {

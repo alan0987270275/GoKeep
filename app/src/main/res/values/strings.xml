@@ -26,8 +26,21 @@
     <string name="goal_achieved_title">Achieved</string>
 
     <!--Create-->
-    <string name="create_goal">Create Your Goal</string>
-    <string name="create_spending">Record Your Spending</string>
+    <string name="create_goal_fab">Create Your Goal</string>
+    <string name="create_spending_fab">Record Your Spending</string>
+    <string name="create_goal_title">Create\nYour Goal</string>
+    <string name="create_spending_title">Record\nYour Spending</string>
+    <string name="add_photo_title">Add a picture\nfor your goal</string>
+    <string name="goal_edit_text_title">Goal Title</string>
+    <string name="goal_edit_text_hint">Your goal...</string>
+    <string name="goal_budget_edit_text_title">Goal Budget</string>
+    <string name="goal_time_title">Goal Time</string>
+    <string name="goal_button_text">Create goal</string>
+    <string name="spending_edit_text_title">Goal Title</string>
+    <string name="spending_edit_text_hint">$</string>
+    <string name="spending_budget_edit_text_title">Goal Budget</string>
+    <string name="spending_time_title">Goal Time</string>
+    <string name="spending_button_text">Create goal</string>
 
     <string name="test">jrio2jewjfijewfijweifjewfiowejfiwejfewjfewifjwiefjweijfewofjwenkjdsnfjkndsjfnsdjndjkvnjcxnvjcxnvjkxcnvjknejnv
     wej13213123123ewjfewifjwiefjweijfewofjwenkjdsnfjkndsjfnsdjndjkvnjcxnvjcxnvjkxcnvjknejnv

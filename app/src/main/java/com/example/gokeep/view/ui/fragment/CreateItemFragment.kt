@@ -5,9 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.gokeep.R
 import com.example.gokeep.databinding.FragmentCreateItemBinding
-import com.example.gokeep.databinding.FragmentHomeBinding
+import java.time.YearMonth
+import java.time.temporal.WeekFields
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,7 +52,14 @@ class CreateItemFragment : Fragment() {
     }
 
     private fun initView() = with(binding) {
-        textView.text = param1
+
+        initCalenderView()
+
+
+    }
+
+    private fun initCalenderView() = with(binding) {
+
     }
 
     companion object {

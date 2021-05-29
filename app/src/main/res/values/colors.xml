@@ -8,11 +8,13 @@
     <color name="black">#000</color>
     <color name="white">#FAFAFA</color>
     <color name="while_gray">#F2F2F2</color>
+    <color name="gray">#919191</color>
 
     <color name="bluePrimary">#277DCE</color>
     <color name="bluePrimaryDark">#08367E</color>
     <color name="bluePrimaryLight">#35BDCE</color>
     <color name="blueAccent">#088BAC</color>
+    <color name="blueSuperLight">#F0F5FE</color>
 
     <color name="button_blue">#0BB8E4</color>
 

@@ -50,7 +50,6 @@
 
     <style name="SubTitle" parent="android:Widget.TextView">
         <item name="android:textSize">@dimen/text_SubTitle</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Footnote" parent="android:Widget.TextView">
@@ -105,6 +104,21 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <!--Create Item Text Style-->
+    <style name="LargeTitle.create">
+        <item name="android:textColor">@color/bluePrimaryDark</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">left</item>
+    </style>
+    <style name="Title3.addPhoto">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="Title2.goalTitle">
+        <item name="android:textColor">@color/bluePrimaryDark</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">left</item>
+    </style>
 
     <!--Round Button-->
     <style name="RoundButton" parent="Widget.AppCompat.Button">
@@ -123,5 +137,10 @@
         <item name="cornerSize">8dp</item>
     </style>
 
-
+    <!--EditText-->
+    <style name="BorderlessEditText" parent="android:Widget.EditText">
+        <item name="android:backgroundTint">@color/blueSuperLight</item>
+        <item name="android:background">@drawable/round_edit_text_background</item>
+        <item name="android:padding">16dp</item>
+    </style>
 </resources>

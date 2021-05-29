@@ -10,9 +10,11 @@ import com.example.gokeep.R
 import com.example.gokeep.view.ui.fragment.CreateItemFragment
 import com.example.gokeep.view.ui.fragment.HomeFragment
 
-private var TAG = MainActivity::class.java.name
 
 class MainActivity : AppCompatActivity() {
+    
+    private var TAG = MainActivity::class.java.name
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

@@ -54,7 +54,7 @@
         android:layout_gravity="bottom|right"
         app:image1="@drawable/ic_add_a_photo_black_24dp"
         app:image2="@drawable/ic_baseline_attach_money_24"
-        app:text1="@string/create_goal"
-        app:text2="@string/create_spending"/>
+        app:text1="@string/create_goal_fab"
+        app:text2="@string/create_spending_fab"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
