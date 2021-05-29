@@ -2,10 +2,18 @@ package com.example.gokeep.view.ui.fragment
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.ContentUris
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.DocumentsContract
+import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -80,10 +88,12 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         addPhotoBottomSheetDialog.setListener(object : AddPhotoBottomSheetDialog.AddPhotoBottomSheetDialogListener{
             override fun cameraOnclick() {
                 cameraTask()
+                addPhotoBottomSheetDialog.dismiss()
             }
 
             override fun galleryOnclick() {
                 galleryTask()
+                addPhotoBottomSheetDialog.dismiss()
             }
         })
 
@@ -208,17 +218,84 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     @SuppressLint("StringFormatMatches")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
-//            val yes = getString(R.string.yes)
-//            val no = getString(R.string.no)
-//            val str = getString(
-//                R.string.returned_from_app_settings_to_activity,
-//                if (hasCameraPermission()) yes else no
-//            )
-//            // Do something after user returned from app settings screen, like showing a Toast.
-//            Toast.makeText(requireContext(),str, Toast.LENGTH_LONG).show()
-//        }
+        when(requestCode) {
+            FINAL_CHOOSE_PHOTO -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        handleImageOnKitkat(data)
+                    }
+                    else{
+                    }
+                }
+
+            }
+            AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE -> {
+                val yes = getString(R.string.yes)
+                val no = getString(R.string.no)
+                val str = getString(
+                    R.string.returned_from_app_settings_to_activity,
+                    if (hasCameraPermission()) yes else no
+                )
+                // Do something after user returned from app settings screen, like showing a Toast.
+                Toast.makeText(requireContext(),str, Toast.LENGTH_LONG).show()
+            }
+        }
+
     }
+
+    @TargetApi(19)
+    private fun handleImageOnKitkat(data: Intent?) {
+        var imagePath: String? = null
+        val uri = data!!.data
+        if (DocumentsContract.isDocumentUri(requireContext(), uri)){
+            val docId = DocumentsContract.getDocumentId(uri)
+            if ("com.android.providers.media.documents" == uri?.authority){
+                val id = docId.split(":")[1]
+                val selsetion = MediaStore.Images.Media._ID + "=" + id
+                imagePath = imagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selsetion)
+            }
+            else if ("com.android.providers.downloads.documents" == uri?.authority){
+                val contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(docId))
+                imagePath = imagePath(contentUri, null)
+            }
+        } else if ("content".equals(uri?.scheme, ignoreCase = true)){
+            imagePath = imagePath(uri, null)
+        } else if ("file".equals(uri?.scheme, ignoreCase = true)){
+            imagePath = uri?.path
+        }
+        displayImage(imagePath)
+    }
+
+    private fun imagePath(uri: Uri?, selection: String?): String {
+        var path: String? = null
+        val cursor = context?.contentResolver?.query(uri!!, null, selection, null, null )
+        if (cursor != null){
+            if (cursor.moveToFirst()) {
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
+            }
+            cursor.close()
+        }
+        return path!!
+    }
+
+    private fun displayImage(imagePath: String?) {
+        if (imagePath != null) {
+            val bitmap = BitmapFactory.decodeFile(imagePath)
+            setPhotoToShow(bitmap)
+        }
+        else {
+            Toast.makeText(requireContext(), "Failed to get image", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setPhotoToShow(bitmap: Bitmap) = with(binding) {
+        photoImageView.setImageBitmap(bitmap)
+        photoImageView.visibility = View.VISIBLE
+        addPictureLayout.background = null
+        cameraImageView.visibility = View.GONE
+        cameraTextView.visibility = View.GONE
+    }
+
 
 
     companion object {

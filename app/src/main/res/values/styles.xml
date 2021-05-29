@@ -114,7 +114,7 @@
         <item name="android:textColor">@color/gray</item>
         <item name="android:gravity">center</item>
     </style>
-    <style name="Title2.goalTitle">
+    <style name="Title3.goalTitle">
         <item name="android:textColor">@color/bluePrimaryDark</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">left</item>

@@ -49,17 +49,19 @@
         <ImageView
             android:id="@+id/photoImageView"
             android:layout_width="match_parent"
-            android:layout_height="240dp"
+            android:layout_height="156dp"
             android:visibility="gone"
             android:scaleType="centerCrop"/>
 
         <ImageView
+            android:id="@+id/cameraImageView"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginTop="16dp"
             android:src="@drawable/ic_add_a_photo_black_24dp" />
         <TextView
             style="@style/Title3.addPhoto"
+            android:id="@+id/cameraTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -72,7 +74,7 @@
         android:layout_marginTop="16dp"
         android:orientation="vertical">
         <TextView
-            style="@style/Title2.goalTitle"
+            style="@style/Title3.goalTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -93,7 +95,7 @@
         android:layout_marginTop="16dp"
         android:orientation="vertical">
         <TextView
-            style="@style/Title2.goalTitle"
+            style="@style/Title3.goalTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -117,7 +119,7 @@
         android:orientation="vertical">
 
         <TextView
-            style="@style/Title2.goalTitle"
+            style="@style/Title3.goalTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
