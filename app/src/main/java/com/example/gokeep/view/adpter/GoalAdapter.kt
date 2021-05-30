@@ -9,11 +9,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.gokeep.R
-import com.example.gokeep.data.model.Goal
+import com.example.gokeep.data.localdb.entity.Goal
 import com.example.gokeep.databinding.RecyclerItemGoalBinding
 import com.example.gokeep.databinding.RecyclerItemSetGoalBinding
 
-class GoalAdapter(private val goalList: MutableList<Goal>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class GoalAdapter(private val goalList: ArrayList<Goal>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val TAG = GoalAdapter::javaClass.name
     private val VIEW_TYPE_SET_GOAL = 0
@@ -66,7 +66,7 @@ class GoalAdapter(private val goalList: MutableList<Goal>): RecyclerView.Adapter
         goalList.add(goal)
     }
 
-    fun addAllItem(list: MutableList<Goal>) {
+    fun addAllItem(list: List<Goal>) {
         goalList.addAll(list)
     }
 
@@ -85,7 +85,7 @@ class GoalAdapter(private val goalList: MutableList<Goal>): RecyclerView.Adapter
 
                 goalTitle.text = data.title
 
-                goalProgressBar.progress = data.progress
+                goalProgressBar.progress = (data.currentSaving/data.budget) * 100
 
                 if(goalProgressBar.progress == 100) {
                     goalImageView.alpha = 0.5F

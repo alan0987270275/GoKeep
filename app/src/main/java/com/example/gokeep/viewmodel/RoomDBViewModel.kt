@@ -1,5 +1,6 @@
 package com.example.gokeep.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,5 +29,9 @@ class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
                 goals.postValue(Resource.error("Something Went Wrong", null))
             }
         }
+    }
+
+    fun getGoals(): LiveData<Resource<List<Goal>>> {
+        return goals
     }
 }

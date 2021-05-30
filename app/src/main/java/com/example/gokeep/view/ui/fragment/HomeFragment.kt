@@ -7,14 +7,23 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gokeep.R
-import com.example.gokeep.data.model.Goal
+import com.example.gokeep.data.localdb.DatabaseBuilder
+import com.example.gokeep.data.localdb.DatabaseHelperImpl
+import com.example.gokeep.data.localdb.entity.Goal
 import com.example.gokeep.databinding.FragmentHomeBinding
 import com.example.gokeep.databinding.HomeHeaderLayoutBinding
+import com.example.gokeep.util.Status
+import com.example.gokeep.util.ViewModelFactory
 import com.example.gokeep.view.adpter.GoalAdapter
 import com.example.gokeep.view.ui.activity.MainActivity
 import com.example.gokeep.view.ui.components.ExpandingFloatingActionButton
+import com.example.gokeep.viewmodel.RoomDBViewModel
+import kotlinx.android.synthetic.main.activity_tutorial.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,6 +46,8 @@ class HomeFragment : Fragment() {
     private var _homeHeaderLayoutBinding: HomeHeaderLayoutBinding? = null
     private val homeHeaderLayoutBinding get() = _homeHeaderLayoutBinding!!
 
+    private lateinit var viewModel: RoomDBViewModel
+    private lateinit var adapter: GoalAdapter
 
     // Animation for FAB
     val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_rotate_open_anim) }
@@ -84,6 +95,8 @@ class HomeFragment : Fragment() {
          */
         initHomeHeaderLayout()
         initFab()
+        initViewModel()
+        initObserver()
     }
 
     private fun initHomeHeaderLayout() = with(homeHeaderLayoutBinding) {
@@ -94,9 +107,7 @@ class HomeFragment : Fragment() {
         /**
          * Add fake data for testing
          */
-        val adapter = GoalAdapter(arrayListOf()).apply {
-            addAllItem(fakeData)
-        }
+        adapter = GoalAdapter(arrayListOf())
         goalRecyclerView.layoutManager = linearLayoutManager
         goalRecyclerView.adapter = adapter
 
@@ -117,28 +128,38 @@ class HomeFragment : Fragment() {
 
     }
 
-    private val fakeData =
-        mutableListOf<Goal>(
-             Goal(
-                 "summer vacation to Thailand",
-                 "https://scandasia.com/wp-content/uploads/2021/03/11reasonsthailand.jpg",
-                 10000,
-                 7000,
-                 70,
-                 1622346511L,
-                 1622029711L
-             ),
-            Goal(
-                "Buy a Guitar",
-                "https://cdn.store-assets.com/s/180631/f/3891188.jpeg",
-                100000,
-                57123,
-                100,
-                1622346511L,
-                1622029711L
-            )
-         )
+    private fun initObserver() {
+        viewModel.getGoals().observe(viewLifecycleOwner, Observer {
+            when(it.status) {
+                Status.SUCCESS -> {
+                    it.data?.let { goals ->
+                        println("INININININ: "+goals.size)
+                        renderList(goals)
+                    }
+                }
+                Status.ERROR -> {
 
+                }
+                Status.LOADING -> {
+
+                }
+            }
+        })
+    }
+
+    private fun initViewModel() {
+        viewModel = ViewModelProviders.of(
+            requireActivity(),
+            ViewModelFactory(
+                DatabaseHelperImpl(DatabaseBuilder.getInstance(requireContext().applicationContext))
+            )
+        ).get(RoomDBViewModel::class.java)
+    }
+
+    private fun renderList(goals: List<Goal>) {
+        adapter.addAllItem(goals)
+        adapter.notifyDataSetChanged()
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of
