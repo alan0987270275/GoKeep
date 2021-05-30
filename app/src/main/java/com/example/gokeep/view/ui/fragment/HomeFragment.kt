@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gokeep.R
@@ -15,11 +13,8 @@ import com.example.gokeep.data.model.Goal
 import com.example.gokeep.databinding.FragmentHomeBinding
 import com.example.gokeep.databinding.HomeHeaderLayoutBinding
 import com.example.gokeep.view.adpter.GoalAdapter
-import com.example.gokeep.view.adpter.TutorialAdapter
 import com.example.gokeep.view.ui.activity.MainActivity
-import com.example.gokeep.view.ui.activity.TutorialActivity
 import com.example.gokeep.view.ui.components.ExpandingFloatingActionButton
-import kotlinx.android.synthetic.main.fragment_home.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

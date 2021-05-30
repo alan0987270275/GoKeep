@@ -253,8 +253,7 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 val id = docId.split(":")[1]
                 val selsetion = MediaStore.Images.Media._ID + "=" + id
                 imagePath = imagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selsetion)
-            }
-            else if ("com.android.providers.downloads.documents" == uri?.authority){
+            } else if ("com.android.providers.downloads.documents" == uri?.authority){
                 val contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(docId))
                 imagePath = imagePath(contentUri, null)
             }

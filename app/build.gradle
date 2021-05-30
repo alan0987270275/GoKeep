@@ -47,6 +47,10 @@ dependencies {
     def fragment_version = "1.3.4"
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
 
+    // LiquidSwipe
+    implementation 'com.github.Chrisvin:LiquidSwipe:1.3'
+    // Pager Dots Indicator
+    implementation 'com.tbuonomo:dotsindicator:4.2'
     // Pager Indicator widget
     implementation 'com.github.intik:overflow-pager-indicator:3.1.0'
     // Glide

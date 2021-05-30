@@ -14,7 +14,7 @@ class SplashActivity : AppCompatActivity() {
         prefManager.init(this)
         when (prefManager.get("first_time_in_app", false)) {
             true -> startActivity(Intent(this, MainActivity::class.java))
-            false -> startActivity(Intent(this, TutorialActivity::class.java))
+            false -> startActivity(Intent(this, OnBoardingActivity::class.java))
         }
         finish()
     }

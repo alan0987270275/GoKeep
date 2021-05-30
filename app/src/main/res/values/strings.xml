@@ -17,6 +17,19 @@
     <string name="tutorial_message_4">Make a habit of record your everyday spending, and save money for your dreams or gaols! </string>
     <string name="tutorial_button_text">Let\'s start</string>
 
+    <!--OnBoarding-->
+    <string name="on_boarding_title_1">Set Your</string>
+    <string name="on_boarding_sub_title_1">Goal</string>
+    <string name="on_boarding_message_1">Setting up your goal as your Motivation and keep saving money to make your goal complete</string>
+
+    <string name="on_boarding_title_2">Track Your</string>
+    <string name="on_boarding_sub_title_2">Spending</string>
+    <string name="on_boarding_message_2">Start record your everyday spending and create a habit. So you can achieve your goal.</string>
+
+    <string name="on_boarding_title_3">Build Your</string>
+    <string name="on_boarding_sub_title_3">Habit</string>
+    <string name="on_boarding_message_3">Make a habit of record your everyday spending, and save money for your dreams or gaols!</string>
+
     <!--Home header-->
     <string name="home_header_title">Available Balance</string>
     <string name="home_header_available_balance">$%1$s</string>
@@ -54,7 +67,6 @@
     <string name="returned_from_app_settings_to_activity">
         Returned from app settings to MainActivity with the following permissions:\n\nCamera: %s
     </string>
-
 
 
     <string name="test">jrio2jewjfijewfijweifjewfiowejfiwejfewjfewifjwiefjweijfewofjwenkjdsnfjkndsjfnsdjndjkvnjcxnvjcxnvjkxcnvjknejnv
