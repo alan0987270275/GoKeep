@@ -21,11 +21,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
 import com.example.gokeep.R
 import com.example.gokeep.databinding.FragmentCreateItemBinding
 import com.example.gokeep.view.ui.components.AddPhotoBottomSheetDialog
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -44,10 +47,12 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     // param1 to determine show which kind of layout.
     private var param1: String? = null
     private val TAG = CreateItemFragment::class.java.name
+    private val FINAL_TAKE_PHOTO = 0
     private val FINAL_CHOOSE_PHOTO = 1
     private val RC_CAMERA_PERM = 123
     private val RC_GALLERY_PERM = 124
-//    private var param2: String? = null
+    private var imageUri: Uri? = null
+
 
     private var _binding: FragmentCreateItemBinding? = null
     private val binding get() = _binding!!
@@ -96,7 +101,6 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 addPhotoBottomSheetDialog.dismiss()
             }
         })
-
         addPictureLayout.setOnClickListener {
             addPhotoBottomSheetDialog.show(parentFragmentManager, AddPhotoBottomSheetDialog.TAG)
         }
@@ -184,6 +188,22 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     fun cameraTask() {
         if (hasCameraPermission()) {
             // Have permission, do the thing!
+            val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+            val outputImage = File(requireContext().externalCacheDir?.absolutePath, timeStamp+"_output_image.jpg")
+            if(outputImage.exists()) {
+                outputImage.delete()
+            }
+            outputImage.createNewFile()
+            imageUri = if(Build.VERSION.SDK_INT >= 24){
+                FileProvider.getUriForFile(requireContext(), "com.example.gokeep.fileprovider", outputImage)
+            } else {
+                Uri.fromFile(outputImage)
+            }
+
+            val intent = Intent("android.media.action.IMAGE_CAPTURE")
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+            startActivityForResult(intent, FINAL_TAKE_PHOTO)
+
         } else {
             // Ask for one permission
             EasyPermissions.requestPermissions(
@@ -229,6 +249,18 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 }
 
             }
+            FINAL_TAKE_PHOTO -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val bitmap = BitmapFactory.decodeStream(imageUri?.let {
+                        requireContext().contentResolver.openInputStream(
+                            it
+                        )
+                    })
+                    Log.d(TAG, "imageUri: "+imageUri)
+                    galleryAddPic(imageUri.toString())
+                    setPhotoToShow(bitmap)
+                }
+            }
             AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE -> {
                 val yes = getString(R.string.yes)
                 val no = getString(R.string.no)
@@ -240,8 +272,16 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 Toast.makeText(requireContext(),str, Toast.LENGTH_LONG).show()
             }
         }
-
     }
+
+    private fun galleryAddPic(imageUri: String) {
+        Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).also { mediaScanIntent ->
+            val f = File(imageUri)
+            mediaScanIntent.data = Uri.fromFile(f)
+            requireContext().sendBroadcast(mediaScanIntent)
+        }
+    }
+
 
     @TargetApi(19)
     private fun handleImageOnKitkat(data: Intent?) {
