@@ -22,10 +22,15 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.FileProvider
-import com.bumptech.glide.Glide
 import com.example.gokeep.R
+import com.example.gokeep.data.localdb.DatabaseBuilder
+import com.example.gokeep.data.localdb.DatabaseHelperImpl
+import com.example.gokeep.data.localdb.entity.Goal
 import com.example.gokeep.databinding.FragmentCreateItemBinding
 import com.example.gokeep.view.ui.components.AddPhotoBottomSheetDialog
+import kotlinx.android.synthetic.main.recycler_item_goal.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.File
@@ -52,11 +57,13 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private val RC_CAMERA_PERM = 123
     private val RC_GALLERY_PERM = 124
     private var imageUri: Uri? = null
+    private var fromDateTimeStamp: Long = 0L
+    private var toDateTimeStamp: Long = 0L
 
 
     private var _binding: FragmentCreateItemBinding? = null
     private val binding get() = _binding!!
-
+    private lateinit var dbHelperImpl: DatabaseHelperImpl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -70,6 +77,11 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentCreateItemBinding.inflate(inflater, container, false)
+        dbHelperImpl = activity?.applicationContext?.let {
+            DatabaseBuilder.getInstance(
+                it
+            )
+        }?.let { DatabaseHelperImpl(it) }!!
         return binding.root
     }
 
@@ -86,6 +98,26 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
         initTakePhotoLayout()
         initCalenderView()
+        initCreateButton()
+    }
+
+    private fun initCreateButton() = with(binding) {
+        createGoalButton.setOnClickListener {
+            GlobalScope.launch {
+                val goalFromInput = Goal(
+                    0,
+                    goalTitleEditText.text.toString(),
+                    imageUri.toString(),
+                    goalBudgetEditText.text.toString().toInt(),
+                    0,
+                    fromDateTimeStamp,
+                    toDateTimeStamp
+                )
+                val goal = dbHelperImpl.insertGoal(goalFromInput)
+                parentFragmentManager.popBackStack()
+            }
+
+        }
     }
 
     private fun initTakePhotoLayout() = with(binding) {
@@ -124,12 +156,14 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 datePickerDialog?.setOnDateSetListener(onDateSetListener(fromDateButton, selectedCalendar))
             }
+            fromDateTimeStamp = selectedCalendar.timeInMillis
             datePickerDialog?.show()
         }
         toDateButton.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 datePickerDialog?.setOnDateSetListener(onDateSetListener(toDateButton, selectedCalendar))
             }
+            toDateTimeStamp = selectedCalendar.timeInMillis
             datePickerDialog?.show()
         }
     }
@@ -302,6 +336,7 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         } else if ("file".equals(uri?.scheme, ignoreCase = true)){
             imagePath = uri?.path
         }
+        imageUri = Uri.parse(imagePath)
         displayImage(imagePath)
     }
 
