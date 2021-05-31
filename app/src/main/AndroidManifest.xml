@@ -33,6 +33,7 @@
             android:name=".view.ui.activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -1,6 +1,7 @@
 package com.example.gokeep.view.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,6 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gokeep.R
@@ -23,7 +23,6 @@ import com.example.gokeep.view.adpter.GoalAdapter
 import com.example.gokeep.view.ui.activity.MainActivity
 import com.example.gokeep.view.ui.components.ExpandingFloatingActionButton
 import com.example.gokeep.viewmodel.RoomDBViewModel
-import kotlinx.android.synthetic.main.activity_tutorial.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,6 +38,7 @@ class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private val TAG = HomeFragment::class.java.name
 
     // Those properties is only valid between onCreateView and onDestroyView.
     private var _binding: FragmentHomeBinding? = null
@@ -129,15 +129,16 @@ class HomeFragment : Fragment() {
     }
 
     private fun initObserver() {
-        viewModel.getGoals().observe(viewLifecycleOwner, Observer {
+        viewModel.getGoals().observe(requireActivity(), Observer {
             when(it.status) {
                 Status.SUCCESS -> {
                     it.data?.let { goals ->
-                        println("INININININ: "+goals.size)
+                        Log.d(TAG,"ININNIN: "+ goals.size)
                         renderList(goals)
                     }
                 }
                 Status.ERROR -> {
+                    println("ERROR: "+it.message)
 
                 }
                 Status.LOADING -> {

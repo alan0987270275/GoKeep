@@ -15,8 +15,8 @@
         app:layout_constraintTop_toTopOf="parent">
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/goalImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="64dp"
+            android:layout_height="128dp"
             android:scaleType="centerCrop"
             android:src="@drawable/bg_goal_1"
             android:alpha="1"

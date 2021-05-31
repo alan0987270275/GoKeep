@@ -22,12 +22,15 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import androidx.lifecycle.ViewModelProviders
 import com.example.gokeep.R
 import com.example.gokeep.data.localdb.DatabaseBuilder
 import com.example.gokeep.data.localdb.DatabaseHelperImpl
 import com.example.gokeep.data.localdb.entity.Goal
 import com.example.gokeep.databinding.FragmentCreateItemBinding
+import com.example.gokeep.util.ViewModelFactory
 import com.example.gokeep.view.ui.components.AddPhotoBottomSheetDialog
+import com.example.gokeep.viewmodel.RoomDBViewModel
 import kotlinx.android.synthetic.main.recycler_item_goal.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -64,6 +67,8 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private var _binding: FragmentCreateItemBinding? = null
     private val binding get() = _binding!!
     private lateinit var dbHelperImpl: DatabaseHelperImpl
+    private lateinit var viewModel: RoomDBViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -88,7 +93,17 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initViewModel()
         initView()
+    }
+
+    private fun initViewModel() {
+        viewModel = ViewModelProviders.of(
+            requireActivity(),
+            ViewModelFactory(
+                DatabaseHelperImpl(DatabaseBuilder.getInstance(requireContext().applicationContext))
+            )
+        ).get(RoomDBViewModel::class.java)
     }
 
     private fun initView() = with(binding) {
@@ -103,19 +118,30 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun initCreateButton() = with(binding) {
         createGoalButton.setOnClickListener {
-            GlobalScope.launch {
-                val goalFromInput = Goal(
-                    0,
-                    goalTitleEditText.text.toString(),
-                    imageUri.toString(),
-                    goalBudgetEditText.text.toString().toInt(),
-                    0,
-                    fromDateTimeStamp,
-                    toDateTimeStamp
-                )
-                val goal = dbHelperImpl.insertGoal(goalFromInput)
-                parentFragmentManager.popBackStack()
-            }
+            val goalFromInput = Goal(
+                0,
+                goalTitleEditText.text.toString(),
+                imageUri.toString(),
+                goalBudgetEditText.text.toString().toInt(),
+                0,
+                fromDateTimeStamp,
+                toDateTimeStamp
+            )
+            viewModel.insert(goalFromInput)
+            parentFragmentManager.popBackStack()
+//            GlobalScope.launch {
+//                val goalFromInput = Goal(
+//                    0,
+//                    goalTitleEditText.text.toString(),
+//                    imageUri.toString(),
+//                    goalBudgetEditText.text.toString().toInt(),
+//                    0,
+//                    fromDateTimeStamp,
+//                    toDateTimeStamp
+//                )
+//                val goal = dbHelperImpl.insertGoal(goalFromInput)
+//
+//            }
 
         }
     }
@@ -215,7 +241,7 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private fun openAlbum() {
         val intent = Intent("android.intent.action.GET_CONTENT")
         intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
+        intent.action = Intent.ACTION_PICK
         startActivityForResult(intent, FINAL_CHOOSE_PHOTO)
     }
 
@@ -269,7 +295,6 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         Log.d(TAG, "onPermissionsGranted:" + requestCode + ":" + perms.size)
     }
 
-    @SuppressLint("StringFormatMatches")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode) {

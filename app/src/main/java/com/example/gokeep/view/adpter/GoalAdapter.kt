@@ -67,6 +67,7 @@ class GoalAdapter(private val goalList: ArrayList<Goal>): RecyclerView.Adapter<R
     }
 
     fun addAllItem(list: List<Goal>) {
+        goalList.clear()
         goalList.addAll(list)
     }
 

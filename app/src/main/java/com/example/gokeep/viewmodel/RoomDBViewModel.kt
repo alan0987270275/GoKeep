@@ -31,6 +31,12 @@ class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
         }
     }
 
+    fun insert(goal: Goal) = viewModelScope.launch {
+        dbHelper.insertGoal(goal)
+        fetchGoals()
+    }
+
+
     fun getGoals(): LiveData<Resource<List<Goal>>> {
         return goals
     }
