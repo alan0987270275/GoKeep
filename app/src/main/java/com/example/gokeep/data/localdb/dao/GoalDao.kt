@@ -9,7 +9,7 @@ import com.example.gokeep.data.localdb.entity.Goal
 @Dao
 interface GoalDao {
 
-    @Query("SELECT * FROM Goal")
+    @Query("SELECT * FROM Goal ORDER BY id DESC")
     suspend fun getAll(): List<Goal>
 
     @Insert
