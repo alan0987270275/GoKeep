@@ -32,6 +32,7 @@
 
     <!--Home header-->
     <string name="home_header_title">Available Balance</string>
+    <string name="home_header_title2">Goals</string>
     <string name="home_header_available_balance">$%1$s</string>
 
     <!--Goal-->

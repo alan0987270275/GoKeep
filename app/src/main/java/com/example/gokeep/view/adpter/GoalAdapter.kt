@@ -49,18 +49,20 @@ class GoalAdapter(private val goalList: ArrayList<Goal>): RecyclerView.Adapter<R
             }
             else -> {
                 val goalViewHolder = holder as GoalViewHolder
-                goalViewHolder.bind(data = goalList[position - 1])
+                goalViewHolder.bind(data = goalList[position])
             }
         }
     }
 
     /**
-     * Plus one for the setGoal View
+     * If no goal than return size == 1 to show addItem Layout to user
      */
-    override fun getItemCount() = goalList.size + 1
-
+    override fun getItemCount() = if(goalList.size > 0) goalList.size  else 1
+    /**
+     * If no goal than show addItem Layout to user at position 0
+     */
     override fun getItemViewType(position: Int)
-            = if( position == 0) VIEW_TYPE_SET_GOAL else VIEW_TYPE__GOAL_ITEM
+            = if( position == 0 && goalList.size == 0) VIEW_TYPE_SET_GOAL else VIEW_TYPE__GOAL_ITEM
 
     fun addItem(goal: Goal) {
         goalList.add(goal)
@@ -84,21 +86,40 @@ class GoalAdapter(private val goalList: ArrayList<Goal>): RecyclerView.Adapter<R
                     .load(data.imageUrl)
                     .into(goalImageView)
 
-                goalTitle.text = data.title
+                goalTitleTextView.text = data.title
 
-                goalProgressBar.progress = (data.currentSaving/data.budget) * 100
+                val sb = StringBuilder()
+                val progress = (data.currentSaving/data.budget)
+                goalProgressTextView.text = progress.toString().plus("%")
+                sb.append("($").append(data.currentSaving).append("/").append(data.budget).append(")")
+                goalProgressDetailTextView.text = sb.toString()
 
-                if(goalProgressBar.progress == 100) {
-                    goalImageView.alpha = 0.5F
-                    achievedTextView.visibility = View.VISIBLE
-                    goalImageView.strokeWidth = TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_DIP, 8F,
-                            context.resources.displayMetrics
-                    )
-                    goalProgressBar.alpha = 0.5F
-                    goalImageView.strokeColor =
-                        ContextCompat.getColorStateList(context, R.color.yellow)
-                }
+                goalProgressBar.progress =
+                    when {
+                        progress > 0 -> {
+                            progress * 100
+                        }
+                        progress == 100 -> {
+                            100
+                        }
+                        else -> {
+                            // If just create a goal we also show some progress to motivate user.
+                            5
+                        }
+                    }
+
+
+//                if(goalProgressBar.progress == 100) {
+//                    goalImageView.alpha = 0.5F
+//                    achievedTextView.visibility = View.VISIBLE
+//                    goalImageView.strokeWidth = TypedValue.applyDimension(
+//                            TypedValue.COMPLEX_UNIT_DIP, 8F,
+//                            context.resources.displayMetrics
+//                    )
+//                    goalProgressBar.alpha = 0.5F
+//                    goalImageView.strokeColor =
+//                        ContextCompat.getColorStateList(context, R.color.yellow)
+//                }
             }
         }
     }

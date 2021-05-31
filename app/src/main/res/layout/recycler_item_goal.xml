@@ -1,59 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.cardview.widget.CardView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/goalContainer"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="4dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_marginTop="8dp"
+    android:layout_marginLeft="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
 
-    <FrameLayout
-        android:id="@+id/goalContainer"
-        android:layout_width="64dp"
-        android:layout_height="128dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="256dp"
+        android:layout_height="126dp">
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/goalImageView"
-            android:layout_width="64dp"
-            android:layout_height="128dp"
+            android:layout_width="256dp"
+            android:layout_height="126dp"
             android:scaleType="centerCrop"
             android:src="@drawable/bg_goal_1"
             android:alpha="1"
-            app:shapeAppearanceOverlay="@style/circleImageViewStyle" />
+            app:shapeAppearanceOverlay="@style/circleImageViewStyle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <View
+            android:layout_width="256dp"
+            android:layout_height="126dp"
+            android:background="@color/black"
+            android:alpha="0.5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
-            android:id="@+id/achievedTextView"
+            style="@style/Title2.goal"
+            android:id="@+id/goalTitleTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="Travel to Mongolia"
+            app:layout_constraintWidth_percent="0.8"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
             style="@style/Footnote.goal"
-            android:layout_width="match_parent"
+            android:id="@+id/dateTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textSize="12sp"
+            android:text="May 16. 2020 - Aug 26. 2021"
+            app:layout_constraintWidth_percent="0.8"
+            app:layout_constraintEnd_toEndOf="@id/goalTitleTextView"
+            app:layout_constraintStart_toStartOf="@id/goalTitleTextView"
+            app:layout_constraintTop_toBottomOf="@id/goalTitleTextView"/>
+
+        <TextView
+            style="@style/Title2.goal"
+            android:id="@+id/goalProgressTextView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:visibility="gone"
-            android:text="@string/goal_achieved_title"/>
+            android:layout_marginLeft="8dp"
+            android:text="50%"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintWidth_percent="0.8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/goalProgressBar"/>
+
+        <TextView
+            style="@style/Footnote.goal"
+            android:id="@+id/goalProgressDetailTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="($ 626/7000)"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintVertical_bias="0.4"
+            app:layout_constraintWidth_percent="0.8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/goalProgressTextView"
+            app:layout_constraintStart_toEndOf="@id/goalProgressTextView"
+            app:layout_constraintBottom_toBottomOf="@id/goalProgressBar"/>
 
         <ProgressBar
             style="?android:attr/progressBarStyleHorizontal"
             android:id="@+id/goalProgressBar"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="16dp"
             android:progress="70"
-            android:layout_gravity="bottom"
-            android:progressDrawable="@drawable/custom_progressbar" />
-    </FrameLayout>
+            android:progressDrawable="@drawable/custom_progressbar"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintWidth_percent="0.7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <TextView
-        style="@style/Body.goal"
-        android:id="@+id/goalTitle"
-        android:layout_width="96dp"
-        android:layout_height="wrap_content"
-        android:paddingRight="4dp"
-        android:paddingLeft="4dp"
-        android:gravity="center"
-        android:alpha="1"
-        android:text="USA for holiday!!!"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/goalContainer"/>
+        <TextView
+            style="@style/Footnote.goal"
+            android:id="@+id/editTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="edit"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/goalProgressBar"
+            app:layout_constraintTop_toTopOf="@id/goalProgressBar"
+            app:layout_constraintBottom_toBottomOf="@id/goalProgressBar"/>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit_icon"
+            android:layout_marginLeft="4dp"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintVertical_bias="0.7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/editTextView"
+            app:layout_constraintTop_toTopOf="@id/editTextView"
+            app:layout_constraintBottom_toBottomOf="@id/editTextView"/>
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
