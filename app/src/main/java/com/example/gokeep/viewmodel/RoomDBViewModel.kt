@@ -39,7 +39,10 @@ class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
     }
 
     private fun <T> MutableLiveData<T>.notifyObserver() {
-        this.value = this.value
+        // Make this call can using the background thread to change the LiveData,
+        this.postValue(this.value)
+        // Using setValue can only call in MainThread
+//        this.value = this.value
     }
 
     fun getGoals(): LiveData<Resource<ArrayList<Goal>>> {
