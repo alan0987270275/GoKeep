@@ -95,10 +95,15 @@
     <!--Home Body Text Style-->
     <style name="Title1.home_body">
         <item name="android:textColor">@color/bluePrimaryDark</item>
+        <item name="android:textStyle">bold</item>
     </style>
-
+    <style name="HeadLine.home_body">
+        <item name="android:textColor">@color/bluePrimaryDark</item>
+        <item name="android:textStyle">bold</item>
+    </style>
     <style name="Body.home_body">
         <item name="android:textColor">@color/bluePrimaryDark</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <!--Goal Text Style-->

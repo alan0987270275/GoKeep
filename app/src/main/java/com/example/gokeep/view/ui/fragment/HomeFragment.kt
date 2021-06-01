@@ -22,6 +22,7 @@ import com.example.gokeep.util.Status
 import com.example.gokeep.util.ViewModelFactory
 import com.example.gokeep.view.adpter.CategoryAdapter
 import com.example.gokeep.view.adpter.GoalAdapter
+import com.example.gokeep.view.adpter.SpendingAdapter
 import com.example.gokeep.view.ui.activity.MainActivity
 import com.example.gokeep.view.ui.components.ExpandingFloatingActionButton
 import com.example.gokeep.viewmodel.RoomDBViewModel
@@ -120,10 +121,17 @@ class HomeFragment : Fragment() {
 
     private fun initHomeBodyLayout() = with(homeBodyLayoutBinding) {
 
-        val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val horizontalLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
         val cateGoryAdapter = CategoryAdapter(categoryDataList)
-        categoryRecyclerView.layoutManager = linearLayoutManager
+        categoryRecyclerView.layoutManager = horizontalLinearLayoutManager
         categoryRecyclerView.adapter = cateGoryAdapter
+
+        val verticalLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        val spendingAdapter = SpendingAdapter()
+        spendingRecyclerView.layoutManager = verticalLinearLayoutManager
+        spendingRecyclerView.adapter = spendingAdapter
+
     }
 
     private fun initFab() = with(binding) {
