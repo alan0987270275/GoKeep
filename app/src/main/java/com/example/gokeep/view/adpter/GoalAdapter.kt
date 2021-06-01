@@ -119,18 +119,6 @@ class GoalAdapter(private val goalList: ArrayList<Goal>): RecyclerView.Adapter<R
                 val createDateString = simpleDateFormat.format(data.createdTimeStamp)
                 val validDateString = simpleDateFormat.format(data.validTimestamp)
                 dateTextView.text = createDateString.plus("-").plus(validDateString)
-
-//                if(goalProgressBar.progress == 100) {
-//                    goalImageView.alpha = 0.5F
-//                    achievedTextView.visibility = View.VISIBLE
-//                    goalImageView.strokeWidth = TypedValue.applyDimension(
-//                            TypedValue.COMPLEX_UNIT_DIP, 8F,
-//                            context.resources.displayMetrics
-//                    )
-//                    goalProgressBar.alpha = 0.5F
-//                    goalImageView.strokeColor =
-//                        ContextCompat.getColorStateList(context, R.color.yellow)
-//                }
             }
         }
     }

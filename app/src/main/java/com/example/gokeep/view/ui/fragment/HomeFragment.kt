@@ -16,9 +16,11 @@ import com.example.gokeep.data.localdb.DatabaseBuilder
 import com.example.gokeep.data.localdb.DatabaseHelperImpl
 import com.example.gokeep.data.localdb.entity.Goal
 import com.example.gokeep.databinding.FragmentHomeBinding
+import com.example.gokeep.databinding.HomeBodyLayoutBinding
 import com.example.gokeep.databinding.HomeHeaderLayoutBinding
 import com.example.gokeep.util.Status
 import com.example.gokeep.util.ViewModelFactory
+import com.example.gokeep.view.adpter.CategoryAdapter
 import com.example.gokeep.view.adpter.GoalAdapter
 import com.example.gokeep.view.ui.activity.MainActivity
 import com.example.gokeep.view.ui.components.ExpandingFloatingActionButton
@@ -45,16 +47,16 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private var _homeHeaderLayoutBinding: HomeHeaderLayoutBinding? = null
     private val homeHeaderLayoutBinding get() = _homeHeaderLayoutBinding!!
+    private var _homeBodyLayoutBinding: HomeBodyLayoutBinding? = null
+    private val homeBodyLayoutBinding get() = _homeBodyLayoutBinding!!
 
     private lateinit var viewModel: RoomDBViewModel
-    private lateinit var adapter: GoalAdapter
+    private lateinit var goalAdapter: GoalAdapter
 
-    // Animation for FAB
-    val rotateOpen: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_rotate_open_anim) }
-    val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_rotate_close_anim) }
-    val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_from_bottom_anim) }
-    val toBottom: Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.fab_to_bottom_anim) }
-    var clicked = false
+    data class CategoryViewData(
+        val imageId: Int,
+        val title: String
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,12 +73,15 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         _homeHeaderLayoutBinding = binding.homeHeaderLayout
+        _homeBodyLayoutBinding = binding.homeBodyLayout
         return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        _homeHeaderLayoutBinding = null
+        _homeBodyLayoutBinding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -94,6 +99,7 @@ class HomeFragment : Fragment() {
          * Init homeHeaderLayout
          */
         initHomeHeaderLayout()
+        initHomeBodyLayout()
         initFab()
         initViewModel()
         initObserver()
@@ -107,11 +113,17 @@ class HomeFragment : Fragment() {
         /**
          * Add fake data for testing
          */
-        adapter = GoalAdapter(arrayListOf())
+        goalAdapter = GoalAdapter(arrayListOf())
         goalRecyclerView.layoutManager = linearLayoutManager
-        goalRecyclerView.adapter = adapter
+        goalRecyclerView.adapter = goalAdapter
+    }
 
+    private fun initHomeBodyLayout() = with(homeBodyLayoutBinding) {
 
+        val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val cateGoryAdapter = CategoryAdapter(categoryDataList)
+        categoryRecyclerView.layoutManager = linearLayoutManager
+        categoryRecyclerView.adapter = cateGoryAdapter
     }
 
     private fun initFab() = with(binding) {
@@ -158,9 +170,45 @@ class HomeFragment : Fragment() {
     }
 
     private fun renderList(goals: List<Goal>) {
-        adapter.addAllItem(goals)
-        adapter.notifyDataSetChanged()
+        goalAdapter.addAllItem(goals)
+        goalAdapter.notifyDataSetChanged()
     }
+
+    val categoryDataList = listOf(
+        CategoryViewData(
+            R.drawable.icon_all,
+            ""
+        ),
+        CategoryViewData(
+            R.drawable.ic_icon_income,
+            "Income"
+        ),
+        CategoryViewData(
+            R.drawable.ic_outlined_flag_black_24dp,
+            "Goal"
+        ),
+        CategoryViewData(
+            R.drawable.ic_card_giftcard_black_24dp,
+            "Shopping"
+        ),
+        CategoryViewData(
+            R.drawable.ic_commute_black_24dp,
+            "Transport"
+        ),
+        CategoryViewData(
+            R.drawable.ic_local_grocery_store_black_24dp,
+            "Grocery"
+        ),
+        CategoryViewData(
+            R.drawable.ic_restaurant_black_24dp,
+            "Restaurant"
+        ),
+        CategoryViewData(
+            R.drawable.ic_request_quote_black_24dp,
+            "Billing"
+        )
+    )
+
     companion object {
         /**
          * Use this factory method to create a new instance of

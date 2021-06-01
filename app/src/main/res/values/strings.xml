@@ -35,6 +35,12 @@
     <string name="home_header_title2">Goals</string>
     <string name="home_header_available_balance">$%1$s</string>
 
+    <!--Home body-->
+    <string name="home_body_title">Daily Spending</string>
+    <string name="home_body_title2">See all</string>
+    <string name="home_body_today_title">Today</string>
+    <string name="home_body_yesterday_title2">Yesterday</string>
+
     <!--Goal-->
     <string name="goal_set_title">Set Your Goal</string>
     <string name="goal_achieved_title">Achieved</string>

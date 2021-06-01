@@ -40,11 +40,14 @@
         android:padding="24dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="36sp"
-            android:text="@string/test"/>
+        <include
+            android:id="@+id/homeBodyLayout"
+            layout="@layout/home_body_layout"/>
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:textSize="36sp"-->
+<!--            android:text="@string/test"/>-->
     </androidx.core.widget.NestedScrollView>
 
     <com.example.gokeep.view.ui.components.ExpandingFloatingActionButton
