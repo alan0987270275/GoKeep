@@ -12,6 +12,9 @@ import com.example.gokeep.R
 import com.example.gokeep.data.localdb.entity.Goal
 import com.example.gokeep.databinding.RecyclerItemGoalBinding
 import com.example.gokeep.databinding.RecyclerItemSetGoalBinding
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class GoalAdapter(private val goalList: ArrayList<Goal>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -89,7 +92,7 @@ class GoalAdapter(private val goalList: ArrayList<Goal>): RecyclerView.Adapter<R
                 goalTitleTextView.text = data.title
 
                 val sb = StringBuilder()
-                val progress = (data.currentSaving/data.budget)
+                val progress = (data.currentSaving / data.budget)
                 goalProgressTextView.text = progress.toString().plus("%")
                 sb.append("($").append(data.currentSaving).append("/").append(data.budget).append(")")
                 goalProgressDetailTextView.text = sb.toString()
@@ -107,7 +110,15 @@ class GoalAdapter(private val goalList: ArrayList<Goal>): RecyclerView.Adapter<R
                             5
                         }
                     }
+                if(goalProgressBar.progress == 100) {
+                    goalContainer.strokeWidth = 4
+                    goalContainer.strokeColor =  ContextCompat.getColor(context, R.color.yellow)
+                }
 
+                val simpleDateFormat = SimpleDateFormat("MMM dd yyyy", Locale.US)
+                val createDateString = simpleDateFormat.format(data.createdTimeStamp)
+                val validDateString = simpleDateFormat.format(data.validTimestamp)
+                dateTextView.text = createDateString.plus("-").plus(validDateString)
 
 //                if(goalProgressBar.progress == 100) {
 //                    goalImageView.alpha = 0.5F

@@ -129,20 +129,6 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             )
             viewModel.insert(goalFromInput)
             parentFragmentManager.popBackStack()
-//            GlobalScope.launch {
-//                val goalFromInput = Goal(
-//                    0,
-//                    goalTitleEditText.text.toString(),
-//                    imageUri.toString(),
-//                    goalBudgetEditText.text.toString().toInt(),
-//                    0,
-//                    fromDateTimeStamp,
-//                    toDateTimeStamp
-//                )
-//                val goal = dbHelperImpl.insertGoal(goalFromInput)
-//
-//            }
-
         }
     }
 
