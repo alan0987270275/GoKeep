@@ -51,6 +51,7 @@ class SpendingAdapter(private val spendingList: ArrayList<Spending>) : RecyclerV
                 contentTextView.text = data.title
                 if(!data.tag.equals("Income")) {
                     moneyTextView.text = "-$${data.cost}"
+                    moneyTextView.setTextColor(ContextCompat.getColor(context, R.color.bluePrimaryDark))
                 } else {
                     moneyTextView.text = "$${data.cost}"
                     moneyTextView.setTextColor(ContextCompat.getColor(context, R.color.greenSuccess))
