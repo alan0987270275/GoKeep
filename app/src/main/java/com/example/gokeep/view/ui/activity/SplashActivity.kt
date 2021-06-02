@@ -9,10 +9,9 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        val prefManager = PreferencesManager
-        prefManager.init(this)
-        when (prefManager.get("first_time_in_app", false)) {
+        // initialize PreferencesManager with applicationContext
+        PreferencesManager.init(applicationContext)
+        when (PreferencesManager.get("first_time_in_app", false)) {
             true -> startActivity(Intent(this, MainActivity::class.java))
             false -> startActivity(Intent(this, OnBoardingActivity::class.java))
         }

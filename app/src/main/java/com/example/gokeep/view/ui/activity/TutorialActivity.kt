@@ -33,14 +33,13 @@ class TutorialActivity : AppCompatActivity() {
         binding = ActivityTutorialBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val prefManager = PreferencesManager
-        prefManager.init(this)
+
 
         /**
          * Set up prefManger First Time in App to true
          */
-        if(prefManager.get("first_time_in_app", false) == false) {
-            prefManager.set("first_time_in_app", true)
+        if(PreferencesManager.get("first_time_in_app", false) == false) {
+            PreferencesManager.set("first_time_in_app", true)
         }
 
 
