@@ -128,7 +128,7 @@ class CreateGoalFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 fromDateTimeStamp,
                 toDateTimeStamp
             )
-            viewModel.insert(goalFromInput)
+            viewModel.insertGaol(goalFromInput)
             parentFragmentManager.popBackStack()
         }
     }

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gokeep.data.localdb.DatabaseHelper
 import com.example.gokeep.data.localdb.entity.Goal
+import com.example.gokeep.data.localdb.entity.Spending
 import com.example.gokeep.util.Resource
 import kotlinx.coroutines.launch
 
@@ -31,11 +32,15 @@ class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
         }
     }
 
-    fun insert(goal: Goal) = viewModelScope.launch {
+    fun insertGaol(goal: Goal) = viewModelScope.launch {
         dbHelper.insertGoal(goal)
         // add new element to first place
         goals.value?.data?.add(0, goal)
         goals.notifyObserver()
+    }
+
+    fun insertSpending(spending: Spending) = viewModelScope.launch {
+        dbHelper.insertSpending(spending)
     }
 
     private fun <T> MutableLiveData<T>.notifyObserver() {

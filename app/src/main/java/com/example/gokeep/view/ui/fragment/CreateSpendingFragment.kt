@@ -12,6 +12,7 @@ import android.widget.Button
 import androidx.lifecycle.ViewModelProviders
 import com.example.gokeep.data.localdb.DatabaseBuilder
 import com.example.gokeep.data.localdb.DatabaseHelperImpl
+import com.example.gokeep.data.localdb.entity.Spending
 import com.example.gokeep.data.model.categoryDataList
 import com.example.gokeep.data.model.getTag
 import com.example.gokeep.databinding.FragmentCreateSpendingBinding
@@ -88,12 +89,18 @@ class CreateSpendingFragment : Fragment() {
         createSpendingButton.setOnClickListener {
             val tag = getTag(cateGoryAdapter.getSelected())
             val title = goalTitleEditText.text.toString()
-            val budget = goalBudgetEditText.text.toString().toInt()
+            val cost = goalBudgetEditText.text.toString().toInt()
             val time = dateTimeStamp
-
-            Log.d(TAG, "Create: $tag, $title, $budget, $time")
+            val spending = Spending(
+                0,
+                tag,
+                title,
+                cost,
+                time
+            )
+            viewModel.insertSpending(spending)
+            parentFragmentManager.popBackStack()
         }
-        parentFragmentManager.popBackStack()
     }
 
     private fun initCategory() = with(binding) {
