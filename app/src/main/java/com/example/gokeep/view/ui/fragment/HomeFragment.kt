@@ -5,8 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,13 +13,11 @@ import com.example.gokeep.R
 import com.example.gokeep.data.localdb.DatabaseBuilder
 import com.example.gokeep.data.localdb.DatabaseHelperImpl
 import com.example.gokeep.data.localdb.entity.Goal
-import com.example.gokeep.data.model.CategoryViewData
 import com.example.gokeep.databinding.FragmentHomeBinding
 import com.example.gokeep.databinding.HomeBodyLayoutBinding
 import com.example.gokeep.databinding.HomeHeaderLayoutBinding
 import com.example.gokeep.util.Status
 import com.example.gokeep.util.ViewModelFactory
-import com.example.gokeep.view.adpter.CategoryAdapter
 import com.example.gokeep.view.adpter.GoalAdapter
 import com.example.gokeep.view.adpter.SpendingAdapter
 import com.example.gokeep.view.ui.activity.MainActivity
@@ -117,12 +113,6 @@ class HomeFragment : Fragment() {
 
     private fun initHomeBodyLayout() = with(homeBodyLayoutBinding) {
 
-        val horizontalLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
-        val cateGoryAdapter = CategoryAdapter(categoryDataList)
-        categoryRecyclerView.layoutManager = horizontalLinearLayoutManager
-        categoryRecyclerView.adapter = cateGoryAdapter
-
         val verticalLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         val spendingAdapter = SpendingAdapter()
         spendingRecyclerView.layoutManager = verticalLinearLayoutManager
@@ -134,11 +124,11 @@ class HomeFragment : Fragment() {
 
         expandingFloatingActionButton.setListener(object : ExpandingFloatingActionButton.ExpandingFloatingActionButtonListener{
             override fun firstButtonOnClick() {
-                (context as MainActivity).showFragment(R.layout.fragment_create_item, "Goal")
+                (context as MainActivity).showFragment(R.layout.fragment_create_goal)
             }
 
             override fun secondButtonOnClick() {
-                (context as MainActivity).showFragment(R.layout.fragment_create_item, "Spend")
+                (context as MainActivity).showFragment(R.layout.fragment_create_spending)
             }
         })
 
@@ -177,42 +167,6 @@ class HomeFragment : Fragment() {
         goalAdapter.addAllItem(goals)
         goalAdapter.notifyDataSetChanged()
     }
-
-    val categoryDataList = listOf(
-        CategoryViewData(
-            R.drawable.icon_all,
-            "",
-            true
-        ),
-        CategoryViewData(
-            R.drawable.ic_icon_income,
-            "Income"
-        ),
-        CategoryViewData(
-            R.drawable.ic_outlined_flag_black_24dp,
-            "Goal"
-        ),
-        CategoryViewData(
-            R.drawable.ic_card_giftcard_black_24dp,
-            "Shopping"
-        ),
-        CategoryViewData(
-            R.drawable.ic_commute_black_24dp,
-            "Transport"
-        ),
-        CategoryViewData(
-            R.drawable.ic_local_grocery_store_black_24dp,
-            "Grocery"
-        ),
-        CategoryViewData(
-            R.drawable.ic_restaurant_black_24dp,
-            "Restaurant"
-        ),
-        CategoryViewData(
-            R.drawable.ic_request_quote_black_24dp,
-            "Billing"
-        )
-    )
 
     companion object {
         /**

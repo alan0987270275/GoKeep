@@ -5,3 +5,34 @@ data class CategoryViewData (
     val title: String,
     var isSelected: Boolean = false
 )
+
+val categoryDataList = kotlin.collections.listOf(
+    CategoryViewData(
+        com.example.gokeep.R.drawable.ic_icon_income,
+        "Income"
+    ),
+    CategoryViewData(
+        com.example.gokeep.R.drawable.ic_outlined_flag_black_24dp,
+        "Goal"
+    ),
+    CategoryViewData(
+        com.example.gokeep.R.drawable.ic_card_giftcard_black_24dp,
+        "Shopping"
+    ),
+    CategoryViewData(
+        com.example.gokeep.R.drawable.ic_commute_black_24dp,
+        "Transport"
+    ),
+    CategoryViewData(
+        com.example.gokeep.R.drawable.ic_local_grocery_store_black_24dp,
+        "Grocery"
+    ),
+    CategoryViewData(
+        com.example.gokeep.R.drawable.ic_restaurant_black_24dp,
+        "Restaurant"
+    ),
+    CategoryViewData(
+        com.example.gokeep.R.drawable.ic_request_quote_black_24dp,
+        "Billing"
+    )
+)

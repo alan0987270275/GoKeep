@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.gokeep.databinding.BottomSheetDialogAddPhotoBinding
-import com.example.gokeep.view.ui.fragment.CreateItemFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class AddPhotoBottomSheetDialog : BottomSheetDialogFragment() {

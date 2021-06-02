@@ -1,15 +1,13 @@
 package com.example.gokeep.view.ui.activity
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.example.gokeep.R
-import com.example.gokeep.view.ui.components.AddPhotoBottomSheetDialog
-import com.example.gokeep.view.ui.fragment.CreateItemFragment
+import com.example.gokeep.view.ui.fragment.CreateGoalFragment
+import com.example.gokeep.view.ui.fragment.CreateSpendingFragment
 import com.example.gokeep.view.ui.fragment.HomeFragment
 
 
@@ -41,12 +39,15 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 
-    fun showFragment(layoutId: Int, param: String) {
+    fun showFragment(layoutId: Int) {
         var fragment: Fragment? = null
 
         when(layoutId) {
-            R.layout.fragment_create_item -> {
-                fragment = CreateItemFragment.newInstance(param)
+            R.layout.fragment_create_goal -> {
+                fragment = CreateGoalFragment.newInstance()
+            }
+            R.layout.fragment_create_spending -> {
+                fragment = CreateSpendingFragment.newInstance()
             }
         }
 

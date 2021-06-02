@@ -18,10 +18,11 @@
 
         <TextView
             style="@style/LargeTitle.create"
+            android:id="@+id/fragmentTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="9"
-            android:text="@string/create_goal_title"/>
+            android:text="@string/create_spending_title"/>
 
         <ImageView
             android:id="@+id/cancelButton"
@@ -34,39 +35,17 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/addPictureLayout"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categoryRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:background="@drawable/round_dash_background"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="36dp"
-        android:layout_marginLeft="36dp"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/photoImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="156dp"
-            android:visibility="gone"
-            android:scaleType="centerCrop"/>
-
-        <ImageView
-            android:id="@+id/cameraImageView"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/ic_add_a_photo_black_24dp" />
-        <TextView
-            style="@style/Title3.addPhoto"
-            android:id="@+id/cameraTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@string/add_photo_title"/>
-    </LinearLayout>
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:visibility="visible"
+        tools:itemCount="10"
+        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/recycler_item_category"
+        tools:orientation="horizontal" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -75,10 +54,11 @@
         android:orientation="vertical">
         <TextView
             style="@style/Title3.goalTitle"
+            android:id="@+id/itemTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:text="@string/goal_edit_text_title"/>
+            android:text="@string/spending_edit_text_title"/>
         <EditText
             style="@style/BorderlessEditText"
             android:id="@+id/goalTitleEditText"
@@ -87,7 +67,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
-            android:hint="@string/goal_edit_text_hint" />
+            android:hint="@string/spending_edit_text_hint" />
     </LinearLayout>
 
     <LinearLayout
@@ -97,10 +77,11 @@
         android:orientation="vertical">
         <TextView
             style="@style/Title3.goalTitle"
+            android:id="@+id/budgetTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:text="@string/goal_budget_edit_text_title"/>
+            android:text="@string/spending_budget_edit_text_title"/>
         <EditText
             style="@style/BorderlessEditText"
             android:id="@+id/goalBudgetEditText"
@@ -122,26 +103,18 @@
 
         <TextView
             style="@style/Title3.goalTitle"
+            android:id="@+id/timeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:text="@string/goal_time_title"/>
+            android:text="@string/spending_time_title"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:orientation="horizontal">
-            <Button
-                style="@style/BorderlessEditText"
-                android:id="@+id/fromDateButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_weight="1"
-                android:hint="From"/>
-
-
             <Button
                 style="@style/BorderlessEditText"
                 android:id="@+id/toDateButton"
@@ -159,7 +132,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_weight="2"
         android:orientation="vertical">
         <Button
             style="@style/RoundButton.tutorial"
@@ -168,7 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="36dp"
             android:layout_marginRight="36dp"
-            android:text="@string/goal_button_text" />
+            android:text="@string/spending_button_text" />
     </LinearLayout>
 
 

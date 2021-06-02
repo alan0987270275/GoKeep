@@ -23,17 +23,17 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gokeep.R
 import com.example.gokeep.data.localdb.DatabaseBuilder
 import com.example.gokeep.data.localdb.DatabaseHelperImpl
 import com.example.gokeep.data.localdb.entity.Goal
-import com.example.gokeep.databinding.FragmentCreateItemBinding
+import com.example.gokeep.data.model.CategoryViewData
+import com.example.gokeep.databinding.FragmentCreateGoalBinding
 import com.example.gokeep.util.ViewModelFactory
+import com.example.gokeep.view.adpter.CategoryAdapter
 import com.example.gokeep.view.ui.components.AddPhotoBottomSheetDialog
 import com.example.gokeep.viewmodel.RoomDBViewModel
-import kotlinx.android.synthetic.main.recycler_item_goal.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.File
@@ -50,11 +50,11 @@ private const val ARG_PARAM2 = "param2"
  * Use the [CeateItemFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
+class CreateGoalFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     // param1 to determine show which kind of layout.
     private var param1: String? = null
-    private val TAG = CreateItemFragment::class.java.name
+    private val TAG = CreateGoalFragment::class.java.name
     private val FINAL_TAKE_PHOTO = 0
     private val FINAL_CHOOSE_PHOTO = 1
     private val RC_CAMERA_PERM = 123
@@ -64,7 +64,7 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private var toDateTimeStamp: Long = 0L
 
 
-    private var _binding: FragmentCreateItemBinding? = null
+    private var _binding: FragmentCreateGoalBinding? = null
     private val binding get() = _binding!!
     private lateinit var dbHelperImpl: DatabaseHelperImpl
     private lateinit var viewModel: RoomDBViewModel
@@ -81,7 +81,7 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentCreateItemBinding.inflate(inflater, container, false)
+        _binding = FragmentCreateGoalBinding.inflate(inflater, container, false)
         dbHelperImpl = activity?.applicationContext?.let {
             DatabaseBuilder.getInstance(
                 it
@@ -393,11 +393,7 @@ class CreateItemFragment : Fragment(), EasyPermissions.PermissionCallbacks {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String) =
-            CreateItemFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                }
-            }
+        fun newInstance() =
+            CreateGoalFragment()
     }
 }
