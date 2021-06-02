@@ -20,4 +20,6 @@
 
     <color name="yellow">#E6BE15</color>
     <color name="yellowLight">#FFCE00</color>
+
+    <color name="greenSuccess">#76B91B</color>
 </resources>

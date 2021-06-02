@@ -13,6 +13,7 @@ import com.example.gokeep.R
 import com.example.gokeep.data.localdb.DatabaseBuilder
 import com.example.gokeep.data.localdb.DatabaseHelperImpl
 import com.example.gokeep.data.localdb.entity.Goal
+import com.example.gokeep.data.localdb.entity.Spending
 import com.example.gokeep.databinding.FragmentHomeBinding
 import com.example.gokeep.databinding.HomeBodyLayoutBinding
 import com.example.gokeep.databinding.HomeHeaderLayoutBinding
@@ -50,6 +51,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var viewModel: RoomDBViewModel
     private lateinit var goalAdapter: GoalAdapter
+    private lateinit var spendingAdapter: SpendingAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,7 +116,7 @@ class HomeFragment : Fragment() {
     private fun initHomeBodyLayout() = with(homeBodyLayoutBinding) {
 
         val verticalLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        val spendingAdapter = SpendingAdapter()
+        spendingAdapter = SpendingAdapter(arrayListOf())
         spendingRecyclerView.layoutManager = verticalLinearLayoutManager
         spendingRecyclerView.adapter = spendingAdapter
 
@@ -140,7 +142,24 @@ class HomeFragment : Fragment() {
                 Status.SUCCESS -> {
                     it.data?.let { goals ->
                         Log.d(TAG,"ININNIN: "+ goals.size)
-                        renderList(goals)
+                        renderGoalList(goals)
+                    }
+                }
+                Status.ERROR -> {
+                    println("ERROR: "+it.message)
+
+                }
+                Status.LOADING -> {
+
+                }
+            }
+        })
+        viewModel.getSpendings().observe(requireActivity(), Observer {
+            when(it.status) {
+                Status.SUCCESS -> {
+                    it.data?.let { spendings ->
+                        Log.d(TAG,"ININNIN: "+ spendings.size)
+                        renderSpendingList(spendings)
                     }
                 }
                 Status.ERROR -> {
@@ -163,9 +182,14 @@ class HomeFragment : Fragment() {
         ).get(RoomDBViewModel::class.java)
     }
 
-    private fun renderList(goals: List<Goal>) {
+    private fun renderGoalList(goals: List<Goal>) {
         goalAdapter.addAllItem(goals)
         goalAdapter.notifyDataSetChanged()
+    }
+
+    private fun renderSpendingList(spendings: List<Spending>) {
+        spendingAdapter.addAllItem(spendings)
+        spendingAdapter.notifyDataSetChanged()
     }
 
     companion object {

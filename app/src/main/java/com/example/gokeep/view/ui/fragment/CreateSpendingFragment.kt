@@ -14,7 +14,7 @@ import com.example.gokeep.data.localdb.DatabaseBuilder
 import com.example.gokeep.data.localdb.DatabaseHelperImpl
 import com.example.gokeep.data.localdb.entity.Spending
 import com.example.gokeep.data.model.categoryDataList
-import com.example.gokeep.data.model.getTag
+import com.example.gokeep.data.model.getTagByPosition
 import com.example.gokeep.databinding.FragmentCreateSpendingBinding
 import com.example.gokeep.util.DateHelper
 import com.example.gokeep.util.ViewModelFactory
@@ -87,7 +87,7 @@ class CreateSpendingFragment : Fragment() {
 
     private fun initCreateButton() = with(binding) {
         createSpendingButton.setOnClickListener {
-            val tag = getTag(cateGoryAdapter.getSelected())
+            val tag = getTagByPosition(cateGoryAdapter.getSelected())
             val title = goalTitleEditText.text.toString()
             val cost = goalBudgetEditText.text.toString().toInt()
             val time = dateTimeStamp

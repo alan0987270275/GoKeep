@@ -9,6 +9,6 @@ data class Spending (
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "tag") val tag: String,
     @ColumnInfo(name = "title") val title: String,
-    @ColumnInfo(name = "cost") val budget: Int,
+    @ColumnInfo(name = "cost") val cost: Int,
     @ColumnInfo(name = "createdTimeStamp") val createdTimeStamp: Long
 )

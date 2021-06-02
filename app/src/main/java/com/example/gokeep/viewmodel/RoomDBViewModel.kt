@@ -13,9 +13,11 @@ import kotlinx.coroutines.launch
 class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
 
     private val goals = MutableLiveData<Resource<ArrayList<Goal>>>()
+    private val spendings = MutableLiveData<Resource<ArrayList<Spending>>>()
 
     init {
         fetchGoals()
+        fetchSpending()
     }
 
     private fun fetchGoals() {
@@ -32,6 +34,20 @@ class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
         }
     }
 
+    private fun fetchSpending() {
+        viewModelScope.launch {
+            spendings.postValue(Resource.loading(null))
+            try {
+                val spendingFromDBB = dbHelper.getSpending()
+                if(spendingFromDBB.isNotEmpty()) {
+                    spendings.postValue(Resource.success(java.util.ArrayList(spendingFromDBB)))
+                }
+            } catch (e: Exception) {
+                spendings.postValue(Resource.error(e.toString(), null))
+            }
+        }
+    }
+
     fun insertGaol(goal: Goal) = viewModelScope.launch {
         dbHelper.insertGoal(goal)
         // add new element to first place
@@ -41,6 +57,8 @@ class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
 
     fun insertSpending(spending: Spending) = viewModelScope.launch {
         dbHelper.insertSpending(spending)
+        spendings.value?.data?.add(0, spending)
+        spendings.notifyObserver()
     }
 
     private fun <T> MutableLiveData<T>.notifyObserver() {
@@ -52,5 +70,9 @@ class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
 
     fun getGoals(): LiveData<Resource<ArrayList<Goal>>> {
         return goals
+    }
+
+    fun getSpendings(): LiveData<Resource<ArrayList<Spending>>> {
+        return spendings
     }
 }

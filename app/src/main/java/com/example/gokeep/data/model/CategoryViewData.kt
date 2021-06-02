@@ -7,7 +7,9 @@ data class CategoryViewData (
     var isSelected: Boolean = false
 )
 
-fun getTag(position: Int) = categoryDataList[position].title
+fun getTagByPosition(position: Int) = categoryDataList[position].title
+
+fun getTagImageByTitle(name: String) = categoryDataList.find { data -> data.title.equals(name) }?.imageId
 
 val categoryDataList = kotlin.collections.listOf(
     CategoryViewData(

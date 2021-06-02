@@ -2,10 +2,19 @@ package com.example.gokeep.view.adpter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.gokeep.R
+import com.example.gokeep.data.localdb.entity.Goal
+import com.example.gokeep.data.localdb.entity.Spending
+import com.example.gokeep.data.model.getTagImageByTitle
 import com.example.gokeep.databinding.RecyclerItemSpendingBinding
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
-class SpendingAdapter : RecyclerView.Adapter<SpendingAdapter.SpendingViewHolder>() {
+class SpendingAdapter(private val spendingList: ArrayList<Spending>) : RecyclerView.Adapter<SpendingAdapter.SpendingViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpendingViewHolder =
         SpendingViewHolder(
@@ -17,18 +26,37 @@ class SpendingAdapter : RecyclerView.Adapter<SpendingAdapter.SpendingViewHolder>
         )
 
     override fun onBindViewHolder(holder: SpendingViewHolder, position: Int) {
-        holder.bind()
+        holder.bind(spendingList[position])
     }
 
-    override fun getItemCount(): Int {
-        return 5
+    override fun getItemCount() = spendingList.size
+
+    fun addItem(spending: Spending) {
+        spendingList.add(spending)
+    }
+
+    fun addAllItem(list: List<Spending>) {
+        spendingList.clear()
+        spendingList.addAll(list)
     }
 
     class SpendingViewHolder(private val itemBinding: RecyclerItemSpendingBinding) : RecyclerView.ViewHolder(itemBinding.root) {
 
-        fun bind() = with(itemBinding) {
+        fun bind(data: Spending) = with(itemBinding) {
             itemView.apply {
-
+                Glide.with(categoryImageView.context)
+                    .load(getTagImageByTitle(data.tag))
+                    .into(categoryImageView)
+                categoryTextView.text = data.tag
+                contentTextView.text = data.title
+                if(!data.tag.equals("Income")) {
+                    moneyTextView.text = "-$${data.cost}"
+                } else {
+                    moneyTextView.text = "$${data.cost}"
+                    moneyTextView.setTextColor(ContextCompat.getColor(context, R.color.greenSuccess))
+                }
+                val simpleDateFormat = SimpleDateFormat("MMM dd", Locale.US)
+                dateTextView.text = simpleDateFormat.format(data.createdTimeStamp)
             }
         }
     }
