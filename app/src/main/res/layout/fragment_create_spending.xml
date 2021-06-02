@@ -8,7 +8,7 @@
     android:background="@drawable/round_corners"
     android:orientation="vertical"
     android:clickable="true"
-    tools:context=".view.ui.fragment.CreateItemFragment">
+    tools:context=".view.ui.fragment.CreateSpendingFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -117,12 +117,12 @@
             android:orientation="horizontal">
             <Button
                 style="@style/BorderlessEditText"
-                android:id="@+id/toDateButton"
+                android:id="@+id/dateButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginRight="16dp"
-                android:hint="To"/>
+                android:hint="MMM dd. YYYY"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -135,7 +135,7 @@
         android:orientation="vertical">
         <Button
             style="@style/RoundButton.tutorial"
-            android:id="@+id/createGoalButton"
+            android:id="@+id/createSpendingButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="36dp"

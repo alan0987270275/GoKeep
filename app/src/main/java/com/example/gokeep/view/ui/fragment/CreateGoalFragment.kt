@@ -30,6 +30,7 @@ import com.example.gokeep.data.localdb.DatabaseHelperImpl
 import com.example.gokeep.data.localdb.entity.Goal
 import com.example.gokeep.data.model.CategoryViewData
 import com.example.gokeep.databinding.FragmentCreateGoalBinding
+import com.example.gokeep.util.DateHelper
 import com.example.gokeep.util.ViewModelFactory
 import com.example.gokeep.view.adpter.CategoryAdapter
 import com.example.gokeep.view.ui.components.AddPhotoBottomSheetDialog
@@ -166,26 +167,19 @@ class CreateGoalFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
         fromDateButton.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                datePickerDialog?.setOnDateSetListener(onDateSetListener(fromDateButton, selectedCalendar))
+                datePickerDialog?.setOnDateSetListener(DateHelper.onDateSetListener(fromDateButton, selectedCalendar))
             }
             fromDateTimeStamp = selectedCalendar.timeInMillis
             datePickerDialog?.show()
         }
         toDateButton.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                datePickerDialog?.setOnDateSetListener(onDateSetListener(toDateButton, selectedCalendar))
+                datePickerDialog?.setOnDateSetListener(DateHelper.onDateSetListener(toDateButton, selectedCalendar))
             }
             toDateTimeStamp = selectedCalendar.timeInMillis
             datePickerDialog?.show()
         }
     }
-
-    private fun onDateSetListener(view: View, selectedCalendar: Calendar) = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-        selectedCalendar.set(year, monthOfYear, dayOfMonth)
-        (view as Button).text = format("yyyy / MM / dd", selectedCalendar.time)
-    }
-
-    private fun format(format: String, date: Date) = SimpleDateFormat(format, Locale.TAIWAN).format(date)
 
     private fun hasCameraPermission(): Boolean {
         return if(context != null) {

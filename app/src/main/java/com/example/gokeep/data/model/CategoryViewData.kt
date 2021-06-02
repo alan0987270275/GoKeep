@@ -1,10 +1,13 @@
 package com.example.gokeep.data.model
 
+
 data class CategoryViewData (
     val imageId: Int,
     val title: String,
     var isSelected: Boolean = false
 )
+
+fun getTag(position: Int) = categoryDataList[position].title
 
 val categoryDataList = kotlin.collections.listOf(
     CategoryViewData(

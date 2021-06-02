@@ -1,12 +1,25 @@
 package com.example.gokeep.view.ui.fragment
 
+import android.app.DatePickerDialog
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.lifecycle.ViewModelProviders
+import com.example.gokeep.data.localdb.DatabaseBuilder
+import com.example.gokeep.data.localdb.DatabaseHelperImpl
 import com.example.gokeep.data.model.categoryDataList
+import com.example.gokeep.data.model.getTag
 import com.example.gokeep.databinding.FragmentCreateSpendingBinding
+import com.example.gokeep.util.DateHelper
+import com.example.gokeep.util.ViewModelFactory
+import com.example.gokeep.view.adpter.CategoryAdapter
+import com.example.gokeep.viewmodel.RoomDBViewModel
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,8 +35,13 @@ class CreateSpendingFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private val TAG = CreateSpendingFragment::javaClass.name
+
     private var _binding: FragmentCreateSpendingBinding? = null
     private val binding get() = _binding!!
+    private lateinit var viewModel: RoomDBViewModel
+    private lateinit var cateGoryAdapter: CategoryAdapter
+    private var dateTimeStamp: Long = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,11 +62,38 @@ class CreateSpendingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViewModel()
         initView()
     }
 
-    private fun initView() {
+    private fun initViewModel() {
+        viewModel = ViewModelProviders.of(
+            requireActivity(),
+            ViewModelFactory(
+                DatabaseHelperImpl(DatabaseBuilder.getInstance(requireContext().applicationContext))
+            )
+        ).get(RoomDBViewModel::class.java)
+    }
+
+    private fun initView() = with(binding) {
+        cancelButton.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+        initCalendarView()
+        initCreateButton()
         initCategory()
+    }
+
+    private fun initCreateButton() = with(binding) {
+        createSpendingButton.setOnClickListener {
+            val tag = getTag(cateGoryAdapter.getSelected())
+            val title = goalTitleEditText.text.toString()
+            val budget = goalBudgetEditText.text.toString().toInt()
+            val time = dateTimeStamp
+
+            Log.d(TAG, "Create: $tag, $title, $budget, $time")
+        }
+        parentFragmentManager.popBackStack()
     }
 
     private fun initCategory() = with(binding) {
@@ -57,10 +102,33 @@ class CreateSpendingFragment : Fragment() {
             androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL,
             false
         )
-        val cateGoryAdapter = com.example.gokeep.view.adpter.CategoryAdapter(categoryDataList)
+        cateGoryAdapter = com.example.gokeep.view.adpter.CategoryAdapter(categoryDataList)
         categoryRecyclerView.layoutManager = horizontalLinearLayoutManager
         categoryRecyclerView.adapter = cateGoryAdapter
 
+    }
+
+    private fun initCalendarView() = with(binding) {
+        val calendar = Calendar.getInstance()
+        var selectedCalendar = Calendar.getInstance()
+        val onDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+            selectedCalendar.set(year, monthOfYear, dayOfMonth)
+
+        }
+
+        val datePickerDialog = context?.let {
+            DatePickerDialog(it, onDateSetListener,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH))
+        }
+        dateButton.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                datePickerDialog?.setOnDateSetListener(DateHelper.onDateSetListener(dateButton, selectedCalendar))
+            }
+            dateTimeStamp = selectedCalendar.timeInMillis
+            datePickerDialog?.show()
+        }
     }
 
     companion object {

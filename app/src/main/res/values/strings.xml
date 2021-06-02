@@ -60,7 +60,7 @@
     <string name="spending_edit_text_hint">$</string>
     <string name="spending_budget_edit_text_title">Goal Budget</string>
     <string name="spending_time_title">Goal Time</string>
-    <string name="spending_button_text">Create goal</string>
+    <string name="spending_button_text">Create Spending</string>
 
     <!--BottomSheet-->
     <string name="take_photo_by_camera_title">Take a Photo by camera</string>
