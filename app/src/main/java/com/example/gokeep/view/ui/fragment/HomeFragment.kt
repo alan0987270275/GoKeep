@@ -15,6 +15,7 @@ import com.example.gokeep.R
 import com.example.gokeep.data.localdb.DatabaseBuilder
 import com.example.gokeep.data.localdb.DatabaseHelperImpl
 import com.example.gokeep.data.localdb.entity.Goal
+import com.example.gokeep.data.model.CategoryViewData
 import com.example.gokeep.databinding.FragmentHomeBinding
 import com.example.gokeep.databinding.HomeBodyLayoutBinding
 import com.example.gokeep.databinding.HomeHeaderLayoutBinding
@@ -53,11 +54,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var viewModel: RoomDBViewModel
     private lateinit var goalAdapter: GoalAdapter
-
-    data class CategoryViewData(
-        val imageId: Int,
-        val title: String
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -185,7 +181,8 @@ class HomeFragment : Fragment() {
     val categoryDataList = listOf(
         CategoryViewData(
             R.drawable.icon_all,
-            ""
+            "",
+            true
         ),
         CategoryViewData(
             R.drawable.ic_icon_income,

@@ -11,8 +11,8 @@
     <com.google.android.material.card.MaterialCardView
         android:theme="@style/Theme.MaterialComponents.Light"
         android:id="@+id/container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:background="@color/white"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp"
