@@ -26,7 +26,7 @@ class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
                     goals.postValue(Resource.success(java.util.ArrayList(goalFromDb)))
                 }
             } catch (e: Exception) {
-                goals.postValue(Resource.error("Something Went Wrong", null))
+                goals.postValue(Resource.error(e.toString(), null))
             }
         }
     }
