@@ -11,6 +11,8 @@ interface DatabaseHelper {
 
     suspend fun getSpending(): List<Spending>
 
+    suspend fun getSpendingByTime(date1: Long, date2: Long): List<Spending>
+
     suspend fun insertSpending(spending: Spending)
 
 }

@@ -36,5 +36,5 @@ object DatabaseBuilder {
             context.applicationContext,
             AppDatabase::class.java,
             "com-example-gokeep"
-        ).addMigrations(MIGRATION_1_2).build()
+        ).build()
 }

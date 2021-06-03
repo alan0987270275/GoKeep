@@ -11,5 +11,7 @@ class DatabaseHelperImpl(private val appDatabase: AppDatabase) : DatabaseHelper 
 
     override suspend fun getSpending(): List<Spending> = appDatabase.spendingDao().getAll()
 
+    override suspend fun getSpendingByTime(date1: Long, date2: Long) = appDatabase.spendingDao().getItemByTimeStamp(date1, date2)
+
     override suspend fun insertSpending(spending: Spending) = appDatabase.spendingDao().insert(spending)
 }

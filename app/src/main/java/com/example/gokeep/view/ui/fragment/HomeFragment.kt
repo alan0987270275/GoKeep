@@ -51,7 +51,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var viewModel: RoomDBViewModel
     private lateinit var goalAdapter: GoalAdapter
-    private lateinit var spendingAdapter: SpendingAdapter
+    private lateinit var todaySpendingAdapter: SpendingAdapter
+    private lateinit var yesterdaySpendingAdapter: SpendingAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,10 +116,15 @@ class HomeFragment : Fragment() {
 
     private fun initHomeBodyLayout() = with(homeBodyLayoutBinding) {
 
-        val verticalLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        spendingAdapter = SpendingAdapter(arrayListOf())
-        spendingRecyclerView.layoutManager = verticalLinearLayoutManager
-        spendingRecyclerView.adapter = spendingAdapter
+        val verticalLinearLayoutManager1 = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        todaySpendingAdapter = SpendingAdapter(arrayListOf())
+        todaySpendingRecyclerView.layoutManager = verticalLinearLayoutManager1
+        todaySpendingRecyclerView.adapter = todaySpendingAdapter
+
+        val verticalLinearLayoutManager2 = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        yesterdaySpendingAdapter = SpendingAdapter(arrayListOf())
+        yesterdaySpendingRecyclerView.layoutManager = verticalLinearLayoutManager2
+        yesterdaySpendingRecyclerView.adapter = yesterdaySpendingAdapter
 
     }
 
@@ -154,12 +160,27 @@ class HomeFragment : Fragment() {
                 }
             }
         })
-        viewModel.getSpendings().observe(requireActivity(), Observer {
+        viewModel.getTodaySpending().observe(requireActivity(), Observer {
             when(it.status) {
                 Status.SUCCESS -> {
                     it.data?.let { spendings ->
-                        Log.d(TAG,"ININNIN: "+ spendings.size)
-                        renderSpendingList(spendings)
+                        renderSpendingList(spendings, todaySpendingAdapter)
+                    }
+                }
+                Status.ERROR -> {
+                    println("ERROR: "+it.message)
+
+                }
+                Status.LOADING -> {
+
+                }
+            }
+        })
+        viewModel.getYesterdaySpending().observe(requireActivity(), Observer {
+            when(it.status) {
+                Status.SUCCESS -> {
+                    it.data?.let { spendings ->
+                        renderSpendingList(spendings, yesterdaySpendingAdapter)
                     }
                 }
                 Status.ERROR -> {
@@ -187,9 +208,9 @@ class HomeFragment : Fragment() {
         goalAdapter.notifyDataSetChanged()
     }
 
-    private fun renderSpendingList(spendings: List<Spending>) {
-        spendingAdapter.addAllItem(spendings)
-        spendingAdapter.notifyDataSetChanged()
+    private fun renderSpendingList(spending: List<Spending>, adapter: SpendingAdapter) {
+        adapter.addAllItem(spending)
+        adapter.notifyDataSetChanged()
     }
 
     companion object {

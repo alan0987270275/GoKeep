@@ -12,6 +12,9 @@ interface SpendingDao {
     @Query("SELECT * FROM Spending ORDER BY id DESC")
     suspend fun getAll(): List<Spending>
 
+    @Query("SELECT * FROM Spending WHERE createdTimeStamp BETWEEN :date1 AND :date2 ORDER BY id DESC")
+    suspend fun getItemByTimeStamp(date1: Long, date2: Long): List<Spending>
+
     @Insert
     suspend fun insert(spending: Spending)
 

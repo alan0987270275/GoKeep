@@ -1,5 +1,6 @@
 package com.example.gokeep.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,17 +8,30 @@ import androidx.lifecycle.viewModelScope
 import com.example.gokeep.data.localdb.DatabaseHelper
 import com.example.gokeep.data.localdb.entity.Goal
 import com.example.gokeep.data.localdb.entity.Spending
+import com.example.gokeep.util.DateHelper.atEndOfDay
+import com.example.gokeep.util.DateHelper.atStartOfDay
 import com.example.gokeep.util.Resource
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
 
 class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
 
+    private val TAG = RoomDBViewModel::javaClass.name
     private val goals = MutableLiveData<Resource<ArrayList<Goal>>>()
-    private val spendings = MutableLiveData<Resource<ArrayList<Spending>>>()
+    private val todaySpending = MutableLiveData<Resource<ArrayList<Spending>>>()
+    private val yesterdaySpending = MutableLiveData<Resource<ArrayList<Spending>>>()
 
     init {
         fetchGoals()
-        fetchSpending()
+
+        // get today
+        val calendar = Calendar.getInstance()
+        fetchTodaySpending(date1 = atStartOfDay(calendar.time), date2 = atEndOfDay(calendar.time))
+
+        //get yesterday
+        calendar.add(Calendar.DAY_OF_MONTH, -1)
+        fetchYesterdaySpending(atStartOfDay(calendar.time), atEndOfDay(calendar.time))
     }
 
     private fun fetchGoals() {
@@ -34,16 +48,30 @@ class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
         }
     }
 
-    private fun fetchSpending() {
+    private fun fetchTodaySpending(date1: Long, date2: Long) {
         viewModelScope.launch {
-            spendings.postValue(Resource.loading(null))
+            todaySpending.postValue(Resource.loading(null))
             try {
-                val spendingFromDBB = dbHelper.getSpending()
+                val spendingFromDBB = dbHelper.getSpendingByTime(date1, date2)
                 if(spendingFromDBB.isNotEmpty()) {
-                    spendings.postValue(Resource.success(java.util.ArrayList(spendingFromDBB)))
+                    todaySpending.postValue(Resource.success(java.util.ArrayList(spendingFromDBB)))
                 }
             } catch (e: Exception) {
-                spendings.postValue(Resource.error(e.toString(), null))
+                todaySpending.postValue(Resource.error(e.toString(), null))
+            }
+        }
+    }
+
+    private fun fetchYesterdaySpending(date1: Long, date2: Long) {
+        viewModelScope.launch {
+            yesterdaySpending.postValue(Resource.loading(null))
+            try {
+                val spendingFromDBB = dbHelper.getSpendingByTime(date1, date2)
+                if(spendingFromDBB.isNotEmpty()) {
+                    yesterdaySpending.postValue(Resource.success(java.util.ArrayList(spendingFromDBB)))
+                }
+            } catch (e: Exception) {
+                yesterdaySpending.postValue(Resource.error(e.toString(), null))
             }
         }
     }
@@ -57,8 +85,8 @@ class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
 
     fun insertSpending(spending: Spending) = viewModelScope.launch {
         dbHelper.insertSpending(spending)
-        spendings.value?.data?.add(0, spending)
-        spendings.notifyObserver()
+        todaySpending.value?.data?.add(0, spending)
+        todaySpending.notifyObserver()
     }
 
     private fun <T> MutableLiveData<T>.notifyObserver() {
@@ -72,7 +100,11 @@ class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
         return goals
     }
 
-    fun getSpendings(): LiveData<Resource<ArrayList<Spending>>> {
-        return spendings
+    fun getTodaySpending(): LiveData<Resource<ArrayList<Spending>>> {
+        return todaySpending
+    }
+
+    fun getYesterdaySpending(): LiveData<Resource<ArrayList<Spending>>> {
+        return yesterdaySpending
     }
 }
