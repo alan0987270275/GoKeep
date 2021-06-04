@@ -14,6 +14,7 @@ import com.example.gokeep.data.localdb.DatabaseBuilder
 import com.example.gokeep.data.localdb.DatabaseHelperImpl
 import com.example.gokeep.data.localdb.entity.Goal
 import com.example.gokeep.data.localdb.entity.Spending
+import com.example.gokeep.data.model.SpendingGroupByTag
 import com.example.gokeep.databinding.FragmentHomeBinding
 import com.example.gokeep.databinding.HomeBodyLayoutBinding
 import com.example.gokeep.databinding.HomeHeaderLayoutBinding
@@ -209,7 +210,7 @@ class HomeFragment : Fragment() {
         goalAdapter.notifyDataSetChanged()
     }
 
-    private fun renderSpendingList(spending: List<Spending>, adapter: SpendingAdapter) {
+    private fun renderSpendingList(spending: List<SpendingGroupByTag>, adapter: SpendingAdapter) {
         adapter.addAllItem(spending)
         adapter.notifyDataSetChanged()
     }

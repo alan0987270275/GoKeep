@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.gokeep.data.localdb.DatabaseHelper
 import com.example.gokeep.data.localdb.entity.Goal
 import com.example.gokeep.data.localdb.entity.Spending
+import com.example.gokeep.data.model.SpendingGroupByTag
 import com.example.gokeep.util.DateHelper.atEndOfDay
 import com.example.gokeep.util.DateHelper.atStartOfDay
 import com.example.gokeep.util.DateHelper.getIsTodayOrIsYesterday
@@ -21,8 +22,8 @@ class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
 
     private val TAG = RoomDBViewModel::javaClass.name
     private val goals = MutableLiveData<Resource<ArrayList<Goal>>>()
-    private val todaySpending = MutableLiveData<Resource<ArrayList<Spending>>>()
-    private val yesterdaySpending = MutableLiveData<Resource<ArrayList<Spending>>>()
+    private val todaySpending = MutableLiveData<Resource<ArrayList<SpendingGroupByTag>>>()
+    private val yesterdaySpending = MutableLiveData<Resource<ArrayList<SpendingGroupByTag>>>()
 
     init {
         fetchGoals()
@@ -56,7 +57,7 @@ class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
         viewModelScope.launch {
             todaySpending.postValue(Resource.loading(null))
             try {
-                val spendingFromDBB = dbHelper.getSpendingByTime(date1, date2)
+                val spendingFromDBB = dbHelper.getSpendingByTagAndTime(date1, date2)
                 if(spendingFromDBB.isNotEmpty()) {
                     todaySpending.postValue(Resource.success(java.util.ArrayList(spendingFromDBB)))
                 } else {
@@ -72,7 +73,7 @@ class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
         viewModelScope.launch {
             yesterdaySpending.postValue(Resource.loading(null))
             try {
-                val spendingFromDBB = dbHelper.getSpendingByTime(date1, date2)
+                val spendingFromDBB = dbHelper.getSpendingByTagAndTime(date1, date2)
                 if (spendingFromDBB.isNotEmpty()) {
                     yesterdaySpending.postValue(Resource.success(java.util.ArrayList(spendingFromDBB)))
                 } else {
@@ -92,19 +93,19 @@ class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
     }
 
     fun insertSpending(spending: Spending) = viewModelScope.launch {
-        dbHelper.insertSpending(spending)
-        when(getIsTodayOrIsYesterday(spending.createdTimeStamp)) {
-            dateCompare.ISTODAY -> {
-                todaySpending.value?.data?.add(0, spending)
-                todaySpending.notifyObserver()
-            }
-            dateCompare.ISYESTER -> {
-                yesterdaySpending.value?.data?.add(0, spending)
-                yesterdaySpending.notifyObserver()
-            }
-            dateCompare.ISOTHER -> {
-            }
-        }
+//        dbHelper.insertSpending(spending)
+//        when(getIsTodayOrIsYesterday(spending.createdTimeStamp)) {
+//            dateCompare.ISTODAY -> {
+//                todaySpending.value?.data?.add(0, spending)
+//                todaySpending.notifyObserver()
+//            }
+//            dateCompare.ISYESTER -> {
+//                yesterdaySpending.value?.data?.add(0, spending)
+//                yesterdaySpending.notifyObserver()
+//            }
+//            dateCompare.ISOTHER -> {
+//            }
+//        }
     }
 
 
@@ -119,11 +120,11 @@ class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
         return goals
     }
 
-    fun getTodaySpending(): LiveData<Resource<ArrayList<Spending>>> {
+    fun getTodaySpending(): LiveData<Resource<ArrayList<SpendingGroupByTag>>> {
         return todaySpending
     }
 
-    fun getYesterdaySpending(): LiveData<Resource<ArrayList<Spending>>> {
+    fun getYesterdaySpending(): LiveData<Resource<ArrayList<SpendingGroupByTag>>> {
         return yesterdaySpending
     }
 }

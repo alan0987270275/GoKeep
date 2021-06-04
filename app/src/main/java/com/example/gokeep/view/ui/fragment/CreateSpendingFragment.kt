@@ -109,10 +109,9 @@ class CreateSpendingFragment : Fragment() {
             androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL,
             false
         )
-        cateGoryAdapter = com.example.gokeep.view.adpter.CategoryAdapter(categoryDataList)
+        cateGoryAdapter = CategoryAdapter(categoryDataList)
         categoryRecyclerView.layoutManager = horizontalLinearLayoutManager
         categoryRecyclerView.adapter = cateGoryAdapter
-
     }
 
     private fun initCalendarView() = with(binding) {
