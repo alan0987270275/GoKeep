@@ -120,7 +120,8 @@ class CreateSpendingFragment : Fragment() {
         var selectedCalendar = Calendar.getInstance()
         val onDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             selectedCalendar.set(year, monthOfYear, dayOfMonth)
-
+            dateTimeStamp = selectedCalendar.timeInMillis
+            dateButton.text = DateHelper.format("yyyy / MM / dd", selectedCalendar.time)
         }
 
         val datePickerDialog = context?.let {
@@ -130,10 +131,6 @@ class CreateSpendingFragment : Fragment() {
                 calendar.get(Calendar.DAY_OF_MONTH))
         }
         dateButton.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                datePickerDialog?.setOnDateSetListener(DateHelper.onDateSetListener(dateButton, selectedCalendar))
-            }
-            dateTimeStamp = selectedCalendar.timeInMillis
             datePickerDialog?.show()
         }
     }

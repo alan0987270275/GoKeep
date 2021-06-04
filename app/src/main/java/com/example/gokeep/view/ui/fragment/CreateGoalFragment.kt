@@ -154,29 +154,35 @@ class CreateGoalFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private fun initCalenderView() = with(binding) {
         val calendar = Calendar.getInstance()
         var selectedCalendar = Calendar.getInstance()
-        val onDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+        val fromOnDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             selectedCalendar.set(year, monthOfYear, dayOfMonth)
-
+            fromDateTimeStamp = selectedCalendar.timeInMillis
+            fromDateButton.text = DateHelper.format("yyyy / MM / dd", selectedCalendar.time)
+        }
+        val toOnDateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+            selectedCalendar.set(year, monthOfYear, dayOfMonth)
+            toDateTimeStamp = selectedCalendar.timeInMillis
+            toDateButton.text = DateHelper.format("yyyy / MM / dd", selectedCalendar.time)
         }
 
-        val datePickerDialog = context?.let {
-                DatePickerDialog(it, onDateSetListener,
+        var datePickerDialog: DatePickerDialog?
+
+        fromDateButton.setOnClickListener {
+            datePickerDialog = context?.let {
+                DatePickerDialog(it, fromOnDateSetListener,
                     calendar.get(Calendar.YEAR),
                     calendar.get(Calendar.MONTH),
                     calendar.get(Calendar.DAY_OF_MONTH))
-        }
-        fromDateButton.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                datePickerDialog?.setOnDateSetListener(DateHelper.onDateSetListener(fromDateButton, selectedCalendar))
             }
-            fromDateTimeStamp = selectedCalendar.timeInMillis
             datePickerDialog?.show()
         }
         toDateButton.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                datePickerDialog?.setOnDateSetListener(DateHelper.onDateSetListener(toDateButton, selectedCalendar))
+            datePickerDialog = context?.let {
+                DatePickerDialog(it, toOnDateSetListener,
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH))
             }
-            toDateTimeStamp = selectedCalendar.timeInMillis
             datePickerDialog?.show()
         }
     }

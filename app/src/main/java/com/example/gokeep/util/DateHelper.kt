@@ -1,11 +1,17 @@
 package com.example.gokeep.util
 
 import android.app.DatePickerDialog
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import java.text.SimpleDateFormat
 import java.util.*
 
+enum class dateCompare{
+    ISTODAY,
+    ISYESTER,
+    ISOTHER
+}
 object DateHelper {
 
     fun onDateSetListener(view: View, selectedCalendar: Calendar) = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
@@ -33,6 +39,21 @@ object DateHelper {
         return calendar.timeInMillis
     }
 
+    // today -> 0, yesterday -> 1, else -> -1
+    fun getIsTodayOrIsYesterday(timeStamp: Long):dateCompare {
+        val calendar = Calendar.getInstance()
+        var startTimeStamp = atStartOfDay(calendar.time)
+        var endTimeStamp = atEndOfDay(calendar.time)
+        if(timeStamp in startTimeStamp until endTimeStamp) return dateCompare.ISTODAY
 
-    private fun format(format: String, date: Date): String = SimpleDateFormat(format, Locale.TAIWAN).format(date)
+        calendar.add(Calendar.DAY_OF_MONTH, -1)
+        startTimeStamp = atStartOfDay(calendar.time)
+        endTimeStamp = atEndOfDay(calendar.time)
+        if(timeStamp in startTimeStamp until endTimeStamp) return dateCompare.ISYESTER
+
+        return dateCompare.ISOTHER
+    }
+
+
+    fun format(format: String, date: Date): String = SimpleDateFormat(format, Locale.TAIWAN).format(date)
 }

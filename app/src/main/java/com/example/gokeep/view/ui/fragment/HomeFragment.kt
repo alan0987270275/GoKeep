@@ -17,6 +17,7 @@ import com.example.gokeep.data.localdb.entity.Spending
 import com.example.gokeep.databinding.FragmentHomeBinding
 import com.example.gokeep.databinding.HomeBodyLayoutBinding
 import com.example.gokeep.databinding.HomeHeaderLayoutBinding
+import com.example.gokeep.util.DateHelper.getIsTodayOrIsYesterday
 import com.example.gokeep.util.Status
 import com.example.gokeep.util.ViewModelFactory
 import com.example.gokeep.view.adpter.GoalAdapter
