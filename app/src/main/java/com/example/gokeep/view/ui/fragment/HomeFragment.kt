@@ -104,6 +104,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initHomeHeaderLayout() = with(homeHeaderLayoutBinding) {
+
         /**
          * Init goalRecyclerView
          */
@@ -118,6 +119,9 @@ class HomeFragment : Fragment() {
 
     private fun initHomeBodyLayout() = with(homeBodyLayoutBinding) {
 
+        seeAllTextView.setOnClickListener {
+            (context as MainActivity).showFragment(R.layout.fragment_history)
+        }
         val verticalLinearLayoutManager1 = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         todaySpendingAdapter = SpendingAdapter(arrayListOf())
         todaySpendingRecyclerView.layoutManager = verticalLinearLayoutManager1

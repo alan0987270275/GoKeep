@@ -8,6 +8,7 @@ import androidx.fragment.app.commit
 import com.example.gokeep.R
 import com.example.gokeep.view.ui.fragment.CreateGoalFragment
 import com.example.gokeep.view.ui.fragment.CreateSpendingFragment
+import com.example.gokeep.view.ui.fragment.HistoryFragment
 import com.example.gokeep.view.ui.fragment.HomeFragment
 
 
@@ -48,6 +49,9 @@ class MainActivity : AppCompatActivity() {
             }
             R.layout.fragment_create_spending -> {
                 fragment = CreateSpendingFragment.newInstance()
+            }
+            R.layout.fragment_history -> {
+                fragment = HistoryFragment.newInstance()
             }
         }
 
