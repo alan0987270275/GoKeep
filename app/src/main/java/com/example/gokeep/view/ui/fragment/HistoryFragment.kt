@@ -61,7 +61,7 @@ class HistoryFragment : Fragment() {
 
     private fun initView() {
         initStaticRecyclerView()
-        initPieChart()
+        initPieChartWithTagLayout()
     }
 
     private fun initStaticRecyclerView() = with(binding) {
@@ -72,7 +72,7 @@ class HistoryFragment : Fragment() {
         staticRecyclerView.adapter = staticAdapter
     }
 
-    private fun initPieChart() = with(binding) {
+    private fun initPieChartWithTagLayout() = with(binding) {
         val entries: ArrayList<PieEntry> = arrayListOf()
         val listColors = ArrayList<Int>()
         // Insert fake data for testing.
@@ -84,25 +84,7 @@ class HistoryFragment : Fragment() {
         listColors.add(ContextCompat.getColor(requireContext(), R.color.red))
         entries.add(PieEntry(30.8f, "Blue"))
         listColors.add(ContextCompat.getColor(requireContext(), R.color.bluePrimary))
-        // Create DataSet and data for PieChart
-        val set = PieDataSet(entries, "")
-        set.colors =listColors
-        val data = PieData(set)
-        /**
-         *  Set data for PieChart and Styling PieChart
-         **/
-        pieChart.data = data
-        pieChart.holeRadius = 80F
-        pieChart.legend.isEnabled = false
-        pieChart.description.isEnabled = false
-        pieChart.centerText = "-$12,589"
-        // Remove labels on PieChart
-        pieChart.setDrawEntryLabels(false)
-        pieChart.data.setDrawValues(false)
-        pieChart.setCenterTextTypeface(Typeface.DEFAULT_BOLD)
-        pieChart.setCenterTextSize(18f);
-        pieChart.setCenterTextColor(ContextCompat.getColor(requireContext(), R.color.bluePrimary))
-        pieChart.invalidate()
+        pieChartWithTagLayout.setData(entries, listColors)
     }
 
     private fun fakeTestingStaticData(): ArrayList<SpendingStaticData> {

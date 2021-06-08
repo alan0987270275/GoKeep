@@ -35,15 +35,15 @@
         tools:orientation="horizontal"
         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChart"
-        android:layout_width="192dp"
-        android:layout_height="192dp"
+    <com.example.gokeep.view.ui.components.PieChartWithTagLayout
+        android:id="@+id/pieChartWithTagLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginRight="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/staticRecyclerView"/>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
