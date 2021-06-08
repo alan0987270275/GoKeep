@@ -77,10 +77,12 @@ class HistoryFragment : Fragment() {
         for (i in 0 .. 11) {
             val data = SpendingStaticData(
                 spending[i],
-                month[i]
+                month[i],
+                false
             )
             spendingStaticData.add(data)
         }
+        spendingStaticData[5].isSelected = true
 
 
         return spendingStaticData
