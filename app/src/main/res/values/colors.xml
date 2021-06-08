@@ -22,4 +22,6 @@
     <color name="yellowLight">#FFCE00</color>
 
     <color name="greenSuccess">#76B91B</color>
+
+    <color name="red">#E57373</color>
 </resources>

@@ -1,15 +1,22 @@
 package com.example.gokeep.view.ui.fragment
 
+import android.graphics.Typeface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gokeep.R
 import com.example.gokeep.data.model.SpendingStaticData
 import com.example.gokeep.databinding.FragmentHistoryBinding
 import com.example.gokeep.view.adpter.StaticAdapter
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.utils.ColorTemplate
+import java.time.format.TextStyle
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,6 +61,7 @@ class HistoryFragment : Fragment() {
 
     private fun initView() {
         initStaticRecyclerView()
+        initPieChart()
     }
 
     private fun initStaticRecyclerView() = with(binding) {
@@ -62,6 +70,39 @@ class HistoryFragment : Fragment() {
         staticAdapter = StaticAdapter(fakeData, fakeData.maxBy{ it.spending }?.spending ?: 0)
         staticRecyclerView.layoutManager = linearLayoutManager
         staticRecyclerView.adapter = staticAdapter
+    }
+
+    private fun initPieChart() = with(binding) {
+        val entries: ArrayList<PieEntry> = arrayListOf()
+        val listColors = ArrayList<Int>()
+        // Insert fake data for testing.
+        entries.add(PieEntry(18.5f, "Green"))
+        listColors.add(ContextCompat.getColor(requireContext(), R.color.greenSuccess))
+        entries.add(PieEntry(26.7f, "Yellow"))
+        listColors.add(ContextCompat.getColor(requireContext(), R.color.yellow))
+        entries.add(PieEntry(24.0f, "Red"))
+        listColors.add(ContextCompat.getColor(requireContext(), R.color.red))
+        entries.add(PieEntry(30.8f, "Blue"))
+        listColors.add(ContextCompat.getColor(requireContext(), R.color.bluePrimary))
+        // Create DataSet and data for PieChart
+        val set = PieDataSet(entries, "")
+        set.colors =listColors
+        val data = PieData(set)
+        /**
+         *  Set data for PieChart and Styling PieChart
+         **/
+        pieChart.data = data
+        pieChart.holeRadius = 80F
+        pieChart.legend.isEnabled = false
+        pieChart.description.isEnabled = false
+        pieChart.centerText = "-$12,589"
+        // Remove labels on PieChart
+        pieChart.setDrawEntryLabels(false)
+        pieChart.data.setDrawValues(false)
+        pieChart.setCenterTextTypeface(Typeface.DEFAULT_BOLD)
+        pieChart.setCenterTextSize(18f);
+        pieChart.setCenterTextColor(ContextCompat.getColor(requireContext(), R.color.bluePrimary))
+        pieChart.invalidate()
     }
 
     private fun fakeTestingStaticData(): ArrayList<SpendingStaticData> {
