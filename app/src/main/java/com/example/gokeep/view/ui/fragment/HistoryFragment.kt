@@ -5,7 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gokeep.R
+import com.example.gokeep.data.model.SpendingStaticData
+import com.example.gokeep.databinding.FragmentHistoryBinding
+import com.example.gokeep.view.adpter.StaticAdapter
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +25,10 @@ class HistoryFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private var _binding: FragmentHistoryBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var staticAdapter: StaticAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +43,47 @@ class HistoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history, container, false)
+        _binding = FragmentHistoryBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+    }
+
+    private fun initView() {
+        initStaticRecyclerView()
+    }
+
+    private fun initStaticRecyclerView() = with(binding) {
+        val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val fakeData = fakeTestingStaticData()
+        staticAdapter = StaticAdapter(fakeData, fakeData.maxBy{ it.spending }?.spending ?: 0)
+        staticRecyclerView.layoutManager = linearLayoutManager
+        staticRecyclerView.adapter = staticAdapter
+    }
+
+    private fun fakeTestingStaticData(): ArrayList<SpendingStaticData> {
+        val spendingStaticData: ArrayList<SpendingStaticData> = arrayListOf()
+        val month = listOf(
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        )
+        val spending = listOf(
+            10000, 12300, 14500, 9000, 18000, 15454,
+            23847, 12345, 15655, 12311, 22234, 9001
+        )
+        for (i in 0 .. 11) {
+            val data = SpendingStaticData(
+                spending[i],
+                month[i]
+            )
+            spendingStaticData.add(data)
+        }
+
+
+        return spendingStaticData
     }
 
     companion object {

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.skydoves.progressview.ProgressView
+        android:id="@+id/progressView"
+        android:layout_width="36dp"
+        android:layout_height="108dp"
+        android:alpha="0.5"
+        app:progressView_orientation="vertical"
+        app:progressView_colorBackground="@color/white"
+        app:progressView_colorProgress="@color/bluePrimary"
+        app:progressView_progress="100"
+        app:progressView_min="0"
+        app:progressView_max="100"
+        app:progressView_progressFromPrevious="true"
+        app:progressView_autoAnimate="true"
+        app:progressView_radius="8dp"
+        app:progressView_padding="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/monthTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jul"
+        app:layout_constraintStart_toStartOf="@id/progressView"
+        app:layout_constraintEnd_toEndOf="@id/progressView"
+        app:layout_constraintTop_toBottomOf="@id/progressView"/>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -62,6 +62,8 @@
     <string name="spending_time_title">Spending Time</string>
     <string name="spending_button_text">Create Spending</string>
 
+    <string name="history_head_title">Spending\nHistory</string>
+
     <!--BottomSheet-->
     <string name="take_photo_by_camera_title">Take a Photo by camera</string>
     <string name="take_photo_by_gallery_title">Take a Photo by gallery</string>

@@ -69,6 +69,8 @@ dependencies {
     implementation 'pub.devrel:easypermissions:3.0.0'
     // Debug Local Database
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+    // ProgressBar
+    implementation "com.github.skydoves:progressview:1.1.1"
 
 
     testImplementation 'junit:junit:4.12'
