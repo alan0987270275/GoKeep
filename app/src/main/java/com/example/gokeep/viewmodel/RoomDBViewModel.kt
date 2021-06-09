@@ -93,19 +93,25 @@ class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
     }
 
     fun insertSpending(spending: Spending) = viewModelScope.launch {
-//        dbHelper.insertSpending(spending)
-//        when(getIsTodayOrIsYesterday(spending.createdTimeStamp)) {
-//            dateCompare.ISTODAY -> {
-//                todaySpending.value?.data?.add(0, spending)
-//                todaySpending.notifyObserver()
-//            }
-//            dateCompare.ISYESTER -> {
-//                yesterdaySpending.value?.data?.add(0, spending)
-//                yesterdaySpending.notifyObserver()
-//            }
-//            dateCompare.ISOTHER -> {
-//            }
-//        }
+        dbHelper.insertSpending(spending)
+        val spendingGroupByTag = SpendingGroupByTag(
+            spending.tag,
+            spending.title,
+            spending.cost,
+            spending.createdTimeStamp
+        )
+        when(getIsTodayOrIsYesterday(spending.createdTimeStamp)) {
+            dateCompare.ISTODAY -> {
+                todaySpending.value?.data?.add(0, spendingGroupByTag)
+                todaySpending.notifyObserver()
+            }
+            dateCompare.ISYESTER -> {
+                yesterdaySpending.value?.data?.add(0, spendingGroupByTag)
+                yesterdaySpending.notifyObserver()
+            }
+            dateCompare.ISOTHER -> {
+            }
+        }
     }
 
 

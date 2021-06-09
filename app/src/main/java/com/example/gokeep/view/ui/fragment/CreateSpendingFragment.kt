@@ -1,14 +1,11 @@
 package com.example.gokeep.view.ui.fragment
 
 import android.app.DatePickerDialog
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.gokeep.data.localdb.DatabaseBuilder
 import com.example.gokeep.data.localdb.DatabaseHelperImpl
@@ -91,12 +88,16 @@ class CreateSpendingFragment : Fragment() {
             val title = goalTitleEditText.text.toString()
             val cost = goalBudgetEditText.text.toString().toInt()
             val time = dateTimeStamp
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = time
+            val month = calendar.get(Calendar.MONTH)
             val spending = Spending(
                 0,
                 tag,
                 title,
                 cost,
-                time
+                time,
+                month
             )
             viewModel.insertSpending(spending)
             parentFragmentManager.popBackStack()

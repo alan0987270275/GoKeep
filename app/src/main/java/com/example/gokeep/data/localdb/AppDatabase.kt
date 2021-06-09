@@ -7,7 +7,7 @@ import com.example.gokeep.data.localdb.dao.SpendingDao
 import com.example.gokeep.data.localdb.entity.Goal
 import com.example.gokeep.data.localdb.entity.Spending
 
-@Database(entities = [Goal::class, Spending::class], version = 2)
+@Database(entities = [Goal::class, Spending::class], version = 3)
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun goalDao(): GoalDao
