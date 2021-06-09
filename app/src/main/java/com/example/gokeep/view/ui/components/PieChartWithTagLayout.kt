@@ -6,14 +6,18 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gokeep.R
 import com.example.gokeep.databinding.ComponentsPiechartWithTagLayoutBinding
+import com.example.gokeep.view.adpter.StaticTagAdapter
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 
 class PieChartWithTagLayout: LinearLayout {
     private lateinit var binding: ComponentsPiechartWithTagLayoutBinding
+    private lateinit var adapter: StaticTagAdapter
+
     constructor(context: Context) : super(context) {
         init(context, null)
     }
@@ -33,6 +37,7 @@ class PieChartWithTagLayout: LinearLayout {
 
     private fun iniView() {
         initPieChart()
+        initAdapter()
     }
 
     private fun initPieChart() = with(binding) {
@@ -46,6 +51,13 @@ class PieChartWithTagLayout: LinearLayout {
         pieChart.setCenterTextTypeface(Typeface.DEFAULT_BOLD)
         pieChart.setCenterTextSize(22f);
         pieChart.setCenterTextColor(ContextCompat.getColor(context, R.color.bluePrimary))
+    }
+
+    private fun initAdapter() = with(binding){
+        val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        adapter = StaticTagAdapter()
+        tagRecyclerView.layoutManager = linearLayoutManager
+        tagRecyclerView.adapter = adapter
     }
 
     /**
