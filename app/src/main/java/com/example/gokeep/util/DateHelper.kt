@@ -14,6 +14,15 @@ enum class dateCompare{
 }
 object DateHelper {
 
+    val monthMap = mapOf(
+        Calendar.JANUARY to "Jan", Calendar.FEBRUARY to "Feb",
+        Calendar.MARCH to "Mar", Calendar.APRIL to "Apr",
+        Calendar.MAY to "May", Calendar.JUNE to "Jun",
+        Calendar.JULY to "Jul", Calendar.AUGUST to "Aug",
+        Calendar.SEPTEMBER to "Sep", Calendar.OCTOBER to "Oct",
+        Calendar.NOVEMBER to "Nov", Calendar.DECEMBER to "Dec"
+    )
+
     fun onDateSetListener(view: View, selectedCalendar: Calendar) = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
         selectedCalendar.set(year, monthOfYear, dayOfMonth)
         (view as Button).text = format("yyyy / MM / dd", selectedCalendar.time)

@@ -1,6 +1,5 @@
 package com.example.gokeep.view.ui.fragment
 
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,15 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gokeep.R
 import com.example.gokeep.data.model.SpendingGroupByTag
-import com.example.gokeep.data.model.SpendingStaticData
+import com.example.gokeep.data.model.StaticMonthlySumData
 import com.example.gokeep.databinding.FragmentHistoryBinding
 import com.example.gokeep.view.adpter.SpendingAdapter
 import com.example.gokeep.view.adpter.StaticAdapter
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.utils.ColorTemplate
-import java.time.format.TextStyle
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -98,28 +93,24 @@ class HistoryFragment : Fragment() {
         historyRecyclerView.adapter = historyAdapter
     }
 
-    private fun fakeTestingStaticData(): ArrayList<SpendingStaticData> {
-        val spendingStaticData: ArrayList<SpendingStaticData> = arrayListOf()
-        val month = listOf(
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-        )
+    private fun fakeTestingStaticData(): ArrayList<StaticMonthlySumData> {
+        val staticMonthlySumData: ArrayList<StaticMonthlySumData> = arrayListOf()
         val spending = listOf(
             10000, 12300, 14500, 9000, 18000, 15454,
             23847, 12345, 15655, 12311, 22234, 9001
         )
         for (i in 0 .. 11) {
-            val data = SpendingStaticData(
+            val data = StaticMonthlySumData(
                 spending[i],
-                month[i],
+                i,
                 false
             )
-            spendingStaticData.add(data)
+            staticMonthlySumData.add(data)
         }
-        spendingStaticData[5].isSelected = true
+        staticMonthlySumData[5].isSelected = true
 
 
-        return spendingStaticData
+        return staticMonthlySumData
     }
 
     private val fakeTestingHistoryData =
