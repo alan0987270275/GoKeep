@@ -9,8 +9,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gokeep.R
+import com.example.gokeep.data.model.SpendingGroupByTag
 import com.example.gokeep.data.model.SpendingStaticData
 import com.example.gokeep.databinding.FragmentHistoryBinding
+import com.example.gokeep.view.adpter.SpendingAdapter
 import com.example.gokeep.view.adpter.StaticAdapter
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -36,6 +38,7 @@ class HistoryFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var staticAdapter: StaticAdapter
+    private lateinit var historyAdapter: SpendingAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +65,7 @@ class HistoryFragment : Fragment() {
     private fun initView() {
         initStaticRecyclerView()
         initPieChartWithTagLayout()
+        initHistoryRecyclerView()
     }
 
     private fun initStaticRecyclerView() = with(binding) {
@@ -87,6 +91,13 @@ class HistoryFragment : Fragment() {
         pieChartWithTagLayout.setData(entries, listColors)
     }
 
+    private fun initHistoryRecyclerView() = with(binding) {
+        val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        historyAdapter = SpendingAdapter(fakeTestingHistoryData)
+        historyRecyclerView.layoutManager = linearLayoutManager
+        historyRecyclerView.adapter = historyAdapter
+    }
+
     private fun fakeTestingStaticData(): ArrayList<SpendingStaticData> {
         val spendingStaticData: ArrayList<SpendingStaticData> = arrayListOf()
         val month = listOf(
@@ -110,6 +121,34 @@ class HistoryFragment : Fragment() {
 
         return spendingStaticData
     }
+
+    private val fakeTestingHistoryData =
+        arrayListOf(
+            SpendingGroupByTag(
+                "Transport",
+                "Bus, Taxi",
+                1000,
+                1622640656931
+            ),
+            SpendingGroupByTag(
+                "Grocery",
+                "Beef, Beer, Candy",
+                23569,
+                1622640656931
+            ),
+            SpendingGroupByTag(
+                "Shopping",
+                "Clothes, Shoes",
+                5200,
+                1622640656931
+            ),
+            SpendingGroupByTag(
+                "Billing",
+                "Utility, Car",
+                15000,
+                1622640656931
+            )
+        )
 
     companion object {
         /**
