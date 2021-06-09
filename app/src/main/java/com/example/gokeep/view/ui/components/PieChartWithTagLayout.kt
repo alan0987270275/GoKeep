@@ -3,6 +3,7 @@ package com.example.gokeep.view.ui.components
 import android.content.Context
 import android.graphics.Typeface
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
@@ -15,6 +16,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 
 class PieChartWithTagLayout: LinearLayout {
+    private val TAG = PieChartWithTagLayout::javaClass.name
     private lateinit var binding: ComponentsPiechartWithTagLayoutBinding
     private lateinit var adapter: StaticTagAdapter
 
@@ -56,6 +58,11 @@ class PieChartWithTagLayout: LinearLayout {
     private fun initAdapter() = with(binding){
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         adapter = StaticTagAdapter()
+        adapter.setOnItemClickListener(object : StaticTagAdapter.OnItemClickListener{
+            override fun onItemClick(position: Int) {
+                pieChart.highlightValue(position.toFloat(), 0, false);
+            }
+        })
         tagRecyclerView.layoutManager = linearLayoutManager
         tagRecyclerView.adapter = adapter
     }

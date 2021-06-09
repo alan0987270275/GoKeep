@@ -7,14 +7,14 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:background="@drawable/round_corners"
-    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+    tools:context=".view.ui.fragment.HistoryFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/round_corners"
-        android:clickable="true"
-        tools:context=".view.ui.fragment.HistoryFragment">
+        android:clickable="true">
 
         <TextView
             style="@style/LargeTitle.create"
