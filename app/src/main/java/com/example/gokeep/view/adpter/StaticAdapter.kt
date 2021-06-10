@@ -48,7 +48,7 @@ class StaticAdapter(private val staticMonthlySumList: ArrayList<StaticMonthlySum
             itemView.apply {
                 monthTitleTextView.text = monthlySumData.monthTitle
                 val progress = (monthlySumData.sumSpending.toFloat() / maxSpending.toFloat()) * 100
-                progressView.progress = progress + 10
+                progressView.progress = if(progress < 10) (progress + 10) * 0.5F else progress
                 progressView.alpha = if(monthlySumData.isSelected) 1F else 0.5F
             }
         }

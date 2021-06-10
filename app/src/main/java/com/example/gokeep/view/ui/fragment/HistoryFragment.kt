@@ -85,9 +85,22 @@ class HistoryFragment : Fragment() {
         viewModel.getStaticMonthlySumDataFromDB().observe(requireActivity(), Observer {
             when(it.status) {
                 Status.SUCCESS -> {
-                    Log.d(TAG, "StaticMonthlySumDataFromDB size: ${it.data?.size}")
                     it.data?.let { list -> renderStaticDataList(list) }
 
+                }
+                Status.LOADING -> {
+
+                }
+                Status.ERROR -> {
+                    Log.e(TAG,"VIEWMODEL ERROR: ${it.message}")
+                }
+            }
+        })
+
+        viewModel.getStaticMonthlyTagData().observe( requireActivity(), Observer {
+            when(it.status) {
+                Status.SUCCESS -> {
+                    Log.d(TAG, "StaticMonthlyTagData size: ${it.data?.size}")
                 }
                 Status.LOADING -> {
 

@@ -3,6 +3,7 @@ package com.example.gokeep.data.localdb
 import com.example.gokeep.data.localdb.entity.Goal
 import com.example.gokeep.data.localdb.entity.Spending
 import com.example.gokeep.data.model.StaticMonthlySumDataFromDB
+import com.example.gokeep.data.model.StaticMonthlyTagData
 
 class DatabaseHelperImpl(private val appDatabase: AppDatabase) : DatabaseHelper {
 
@@ -24,6 +25,9 @@ class DatabaseHelperImpl(private val appDatabase: AppDatabase) : DatabaseHelper 
 
     override suspend fun getStaticDataGroupByMonth(): List<StaticMonthlySumDataFromDB> =
         appDatabase.spendingDao().getStaticDataGroupByMonth()
+
+    override suspend fun getStaticMonthlyTagData(month: Int): List<StaticMonthlyTagData> =
+        appDatabase.spendingDao().getStaticMonthlyTagData(month)
 
     override suspend fun insertSpending(spending: Spending) =
         appDatabase.spendingDao().insert(spending)

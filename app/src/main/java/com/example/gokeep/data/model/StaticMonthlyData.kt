@@ -15,3 +15,9 @@ data class StaticMonthlySumData(
     var monthTitle: String?,
     var isSelected: Boolean = false
 )
+
+data class StaticMonthlyTagData(
+    val sumSpending: Int = 0,
+    var monthTitle: String?,
+    val tag: String
+)
