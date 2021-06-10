@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.example.gokeep.data.localdb.entity.Spending
 import com.example.gokeep.data.model.SpendingGroupByTag
+import com.example.gokeep.data.model.StaticMonthlySumDataFromDB
 
 @Dao
 interface SpendingDao {
@@ -21,6 +22,9 @@ interface SpendingDao {
         WHERE createdTimeStamp BETWEEN :date1 AND :date2 GROUP BY tag ORDER BY id DESC
         """)
     suspend fun getItemByTagAndTimeStamp(date1: Long, date2: Long): List<SpendingGroupByTag>
+
+    @Query("SELECT SUM(cost) as sumSpending, month as _monthTitle FROM Spending GROUP BY month")
+    suspend fun getStaticDataGroupByMonth(): List<StaticMonthlySumDataFromDB>
 
     @Insert
     suspend fun insert(spending: Spending)

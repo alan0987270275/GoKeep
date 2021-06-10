@@ -1,7 +1,6 @@
 package com.example.gokeep.view.ui.fragment
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.app.DatePickerDialog
@@ -19,22 +18,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gokeep.R
 import com.example.gokeep.data.localdb.DatabaseBuilder
 import com.example.gokeep.data.localdb.DatabaseHelperImpl
 import com.example.gokeep.data.localdb.entity.Goal
-import com.example.gokeep.data.model.CategoryViewData
 import com.example.gokeep.databinding.FragmentCreateGoalBinding
 import com.example.gokeep.util.DateHelper
 import com.example.gokeep.util.ViewModelFactory
-import com.example.gokeep.view.adpter.CategoryAdapter
 import com.example.gokeep.view.ui.components.AddPhotoBottomSheetDialog
-import com.example.gokeep.viewmodel.RoomDBViewModel
+import com.example.gokeep.viewmodel.SpendingViewModel
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.File
@@ -68,7 +63,7 @@ class CreateGoalFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private var _binding: FragmentCreateGoalBinding? = null
     private val binding get() = _binding!!
     private lateinit var dbHelperImpl: DatabaseHelperImpl
-    private lateinit var viewModel: RoomDBViewModel
+    private lateinit var viewModel: SpendingViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,7 +99,7 @@ class CreateGoalFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             ViewModelFactory(
                 DatabaseHelperImpl(DatabaseBuilder.getInstance(requireContext().applicationContext))
             )
-        ).get(RoomDBViewModel::class.java)
+        ).get(SpendingViewModel::class.java)
     }
 
     private fun initView() = with(binding) {

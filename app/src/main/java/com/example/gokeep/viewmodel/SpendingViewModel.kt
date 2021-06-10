@@ -1,6 +1,5 @@
 package com.example.gokeep.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,9 +17,9 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
-class RoomDBViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
+class SpendingViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
 
-    private val TAG = RoomDBViewModel::javaClass.name
+    private val TAG = SpendingViewModel::javaClass.name
     private val goals = MutableLiveData<Resource<ArrayList<Goal>>>()
     private val todaySpending = MutableLiveData<Resource<ArrayList<SpendingGroupByTag>>>()
     private val yesterdaySpending = MutableLiveData<Resource<ArrayList<SpendingGroupByTag>>>()

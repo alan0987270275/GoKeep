@@ -13,19 +13,17 @@ import com.example.gokeep.R
 import com.example.gokeep.data.localdb.DatabaseBuilder
 import com.example.gokeep.data.localdb.DatabaseHelperImpl
 import com.example.gokeep.data.localdb.entity.Goal
-import com.example.gokeep.data.localdb.entity.Spending
 import com.example.gokeep.data.model.SpendingGroupByTag
 import com.example.gokeep.databinding.FragmentHomeBinding
 import com.example.gokeep.databinding.HomeBodyLayoutBinding
 import com.example.gokeep.databinding.HomeHeaderLayoutBinding
-import com.example.gokeep.util.DateHelper.getIsTodayOrIsYesterday
 import com.example.gokeep.util.Status
 import com.example.gokeep.util.ViewModelFactory
 import com.example.gokeep.view.adpter.GoalAdapter
 import com.example.gokeep.view.adpter.SpendingAdapter
 import com.example.gokeep.view.ui.activity.MainActivity
 import com.example.gokeep.view.ui.components.ExpandingFloatingActionButton
-import com.example.gokeep.viewmodel.RoomDBViewModel
+import com.example.gokeep.viewmodel.SpendingViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -51,7 +49,7 @@ class HomeFragment : Fragment() {
     private var _homeBodyLayoutBinding: HomeBodyLayoutBinding? = null
     private val homeBodyLayoutBinding get() = _homeBodyLayoutBinding!!
 
-    private lateinit var viewModel: RoomDBViewModel
+    private lateinit var viewModel: SpendingViewModel
     private lateinit var goalAdapter: GoalAdapter
     private lateinit var todaySpendingAdapter: SpendingAdapter
     private lateinit var yesterdaySpendingAdapter: SpendingAdapter
@@ -206,7 +204,7 @@ class HomeFragment : Fragment() {
             ViewModelFactory(
                 DatabaseHelperImpl(DatabaseBuilder.getInstance(requireContext().applicationContext))
             )
-        ).get(RoomDBViewModel::class.java)
+        ).get(SpendingViewModel::class.java)
     }
 
     private fun renderGoalList(goals: List<Goal>) {

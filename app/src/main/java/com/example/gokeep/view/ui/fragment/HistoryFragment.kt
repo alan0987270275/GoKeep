@@ -1,19 +1,30 @@
 package com.example.gokeep.view.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gokeep.R
+import com.example.gokeep.data.localdb.DatabaseBuilder
+import com.example.gokeep.data.localdb.DatabaseHelperImpl
 import com.example.gokeep.data.model.SpendingGroupByTag
 import com.example.gokeep.data.model.StaticMonthlySumData
+import com.example.gokeep.data.model.StaticMonthlySumDataFromDB
 import com.example.gokeep.databinding.FragmentHistoryBinding
+import com.example.gokeep.util.DateHelper
+import com.example.gokeep.util.Status
+import com.example.gokeep.util.ViewModelFactory
 import com.example.gokeep.view.adpter.SpendingAdapter
 import com.example.gokeep.view.adpter.StaticAdapter
+import com.example.gokeep.viewmodel.StaticDataViewModel
 import com.github.mikephil.charting.data.PieEntry
+import kotlinx.coroutines.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,11 +38,13 @@ private const val ARG_PARAM2 = "param2"
  */
 class HistoryFragment : Fragment() {
     // TODO: Rename and change types of parameters
+    private val TAG = HistoryFragment::javaClass.name
     private var param1: String? = null
     private var param2: String? = null
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var viewModel: StaticDataViewModel
     private lateinit var staticAdapter: StaticAdapter
     private lateinit var historyAdapter: SpendingAdapter
 
@@ -54,7 +67,36 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViewModel()
         initView()
+        initObserver()
+    }
+
+    private fun initViewModel() {
+        viewModel = ViewModelProviders.of(
+            requireActivity(),
+            ViewModelFactory(
+                DatabaseHelperImpl(DatabaseBuilder.getInstance(requireContext().applicationContext))
+            )
+        ).get(StaticDataViewModel::class.java)
+    }
+
+    private fun initObserver() {
+        viewModel.getStaticMonthlySumDataFromDB().observe(requireActivity(), Observer {
+            when(it.status) {
+                Status.SUCCESS -> {
+                    Log.d(TAG, "StaticMonthlySumDataFromDB size: ${it.data?.size}")
+                    it.data?.let { list -> renderStaticDataList(list) }
+
+                }
+                Status.LOADING -> {
+
+                }
+                Status.ERROR -> {
+                    Log.e(TAG,"VIEWMODEL ERROR: ${it.message}")
+                }
+            }
+        })
     }
 
     private fun initView() {
@@ -65,10 +107,34 @@ class HistoryFragment : Fragment() {
 
     private fun initStaticRecyclerView() = with(binding) {
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        val fakeData = fakeTestingStaticData()
-        staticAdapter = StaticAdapter(fakeData, fakeData.maxBy{ it.spending }?.spending ?: 0)
+//        val fakeData = fakeTestingStaticData()
+
+        staticAdapter = StaticAdapter(arrayListOf(), 0)
         staticRecyclerView.layoutManager = linearLayoutManager
         staticRecyclerView.adapter = staticAdapter
+    }
+
+    private fun renderStaticDataList(list: ArrayList<StaticMonthlySumDataFromDB>) {
+        // convert StaticMonthlySumDataFromDB List to Map
+        val map = list.associateBy ( {it._monthTitle}, {it} )
+        val itemList = arrayListOf<StaticMonthlySumData>()
+        for (i in 0 .. 11) {
+            var data = StaticMonthlySumData(
+                0,
+                DateHelper.monthMap[i],
+                false
+            )
+            map[i]?.apply {
+                data = StaticMonthlySumData(
+                    this.sumSpending,
+                    this.monthTitle,
+                    false
+                )
+            }
+            itemList.add(data)
+        }
+        staticAdapter.addAllItem(itemList)
+        staticAdapter.notifyDataSetChanged()
     }
 
     private fun initPieChartWithTagLayout() = with(binding) {
@@ -93,25 +159,25 @@ class HistoryFragment : Fragment() {
         historyRecyclerView.adapter = historyAdapter
     }
 
-    private fun fakeTestingStaticData(): ArrayList<StaticMonthlySumData> {
-        val staticMonthlySumData: ArrayList<StaticMonthlySumData> = arrayListOf()
-        val spending = listOf(
-            10000, 12300, 14500, 9000, 18000, 15454,
-            23847, 12345, 15655, 12311, 22234, 9001
-        )
-        for (i in 0 .. 11) {
-            val data = StaticMonthlySumData(
-                spending[i],
-                i,
-                false
-            )
-            staticMonthlySumData.add(data)
-        }
-        staticMonthlySumData[5].isSelected = true
-
-
-        return staticMonthlySumData
-    }
+//    private fun fakeTestingStaticData(): ArrayList<StaticMonthlySumData> {
+//        val staticMonthlySumData: ArrayList<StaticMonthlySumData> = arrayListOf()
+//        val spending = listOf(
+//            10000, 12300, 14500, 9000, 18000, 15454,
+//            23847, 12345, 15655, 12311, 22234, 9001
+//        )
+//        for (i in 0 .. 11) {
+//            val data = StaticMonthlySumData(
+//                spending[i],
+//                i,
+//                false
+//            )
+//            staticMonthlySumData.add(data)
+//        }
+//        staticMonthlySumData[5].isSelected = true
+//
+//
+//        return staticMonthlySumData
+//    }
 
     private val fakeTestingHistoryData =
         arrayListOf(

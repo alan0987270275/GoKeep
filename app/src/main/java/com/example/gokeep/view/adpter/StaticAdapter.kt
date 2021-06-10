@@ -39,7 +39,7 @@ class StaticAdapter(private val staticMonthlySumList: ArrayList<StaticMonthlySum
     fun addAllItem(list: List<StaticMonthlySumData>) {
         staticMonthlySumList.clear()
         staticMonthlySumList.addAll(list)
-        maxSpending = list.maxBy{ it.spending }?.spending ?: 0
+        maxSpending = list.maxBy{ it.sumSpending }?.sumSpending ?: 0
     }
 
     class StaticViewHolder(private val itemBinding: RecyclerItemStaticBinding) : RecyclerView.ViewHolder(itemBinding.root) {
@@ -47,8 +47,8 @@ class StaticAdapter(private val staticMonthlySumList: ArrayList<StaticMonthlySum
         fun bind(monthlySumData: StaticMonthlySumData, maxSpending: Int) = with(itemBinding) {
             itemView.apply {
                 monthTitleTextView.text = monthlySumData.monthTitle
-                val progress = (monthlySumData.spending.toFloat() / maxSpending.toFloat()) * 100
-                progressView.progress = progress
+                val progress = (monthlySumData.sumSpending.toFloat() / maxSpending.toFloat()) * 100
+                progressView.progress = progress + 10
                 progressView.alpha = if(monthlySumData.isSelected) 1F else 0.5F
             }
         }

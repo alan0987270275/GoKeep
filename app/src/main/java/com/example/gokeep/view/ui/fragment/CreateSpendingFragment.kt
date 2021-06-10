@@ -16,7 +16,7 @@ import com.example.gokeep.databinding.FragmentCreateSpendingBinding
 import com.example.gokeep.util.DateHelper
 import com.example.gokeep.util.ViewModelFactory
 import com.example.gokeep.view.adpter.CategoryAdapter
-import com.example.gokeep.viewmodel.RoomDBViewModel
+import com.example.gokeep.viewmodel.SpendingViewModel
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -37,7 +37,7 @@ class CreateSpendingFragment : Fragment() {
 
     private var _binding: FragmentCreateSpendingBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: RoomDBViewModel
+    private lateinit var viewModel: SpendingViewModel
     private lateinit var cateGoryAdapter: CategoryAdapter
     private var dateTimeStamp: Long = 0L
 
@@ -70,7 +70,7 @@ class CreateSpendingFragment : Fragment() {
             ViewModelFactory(
                 DatabaseHelperImpl(DatabaseBuilder.getInstance(requireContext().applicationContext))
             )
-        ).get(RoomDBViewModel::class.java)
+        ).get(SpendingViewModel::class.java)
     }
 
     private fun initView() = with(binding) {
