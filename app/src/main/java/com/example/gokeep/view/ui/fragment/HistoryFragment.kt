@@ -107,8 +107,6 @@ class HistoryFragment : Fragment() {
 
     private fun initStaticRecyclerView() = with(binding) {
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-//        val fakeData = fakeTestingStaticData()
-
         staticAdapter = StaticAdapter(arrayListOf(), 0)
         staticRecyclerView.layoutManager = linearLayoutManager
         staticRecyclerView.adapter = staticAdapter
@@ -158,26 +156,6 @@ class HistoryFragment : Fragment() {
         historyRecyclerView.layoutManager = linearLayoutManager
         historyRecyclerView.adapter = historyAdapter
     }
-
-//    private fun fakeTestingStaticData(): ArrayList<StaticMonthlySumData> {
-//        val staticMonthlySumData: ArrayList<StaticMonthlySumData> = arrayListOf()
-//        val spending = listOf(
-//            10000, 12300, 14500, 9000, 18000, 15454,
-//            23847, 12345, 15655, 12311, 22234, 9001
-//        )
-//        for (i in 0 .. 11) {
-//            val data = StaticMonthlySumData(
-//                spending[i],
-//                i,
-//                false
-//            )
-//            staticMonthlySumData.add(data)
-//        }
-//        staticMonthlySumData[5].isSelected = true
-//
-//
-//        return staticMonthlySumData
-//    }
 
     private val fakeTestingHistoryData =
         arrayListOf(
