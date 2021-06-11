@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.gokeep.R
 import com.example.gokeep.data.localdb.DatabaseBuilder
 import com.example.gokeep.data.localdb.DatabaseHelperImpl
@@ -27,6 +29,8 @@ import com.example.gokeep.view.adpter.StaticAdapter
 import com.example.gokeep.viewmodel.StaticDataViewModel
 import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,6 +49,7 @@ class HistoryFragment : Fragment() {
     private var param2: String? = null
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
+    private lateinit var calendar: Calendar
 
     private lateinit var viewModel: StaticDataViewModel
     private lateinit var staticAdapter: StaticAdapter
@@ -69,6 +74,7 @@ class HistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        calendar = Calendar.getInstance()
         initViewModel()
         initView()
         initObserver()
@@ -127,27 +133,42 @@ class HistoryFragment : Fragment() {
         staticRecyclerView.adapter = staticAdapter
     }
 
-    private fun renderStaticDataList(list: ArrayList<StaticMonthlySumDataFromDB>) {
+    private fun renderStaticDataList(list: ArrayList<StaticMonthlySumDataFromDB>) = with(binding) {
         // convert StaticMonthlySumDataFromDB List to Map
         val map = list.associateBy ( {it._monthTitle}, {it} )
         val itemList = arrayListOf<StaticMonthlySumData>()
         for (i in 0 .. 11) {
+            // Init
             var data = StaticMonthlySumData(
                 0,
                 DateHelper.monthMap[i],
                 false
             )
+            // If have this month's static data then assign value to data.
             map[i]?.apply {
                 data = StaticMonthlySumData(
                     this.sumSpending,
                     this.monthTitle,
-                    false
+                    i == calendar.get(Calendar.MONTH) // Set current month as default selected
                 )
             }
             itemList.add(data)
         }
         staticAdapter.addAllItem(itemList)
         staticAdapter.notifyDataSetChanged()
+        staticRecyclerView.scrollToCenter(calendar.get(Calendar.MONTH))
+    }
+
+    private fun RecyclerView.scrollToCenter(position: Int) {
+        /**
+         * make items show at center position
+          */
+        val scrollToCenter = when (position) {
+            in 0 .. 4 -> 0
+            in 5 .. 8 -> 3
+            else -> 5
+        }
+        this.scrollToPosition(scrollToCenter)
     }
 
     private fun initPieChartWithTagLayout(list: ArrayList<StaticMonthlyTagData>) = with(binding) {
