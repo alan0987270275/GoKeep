@@ -17,15 +17,17 @@ import com.example.gokeep.databinding.ComponentsPiechartWithTagLayoutBinding
 import com.example.gokeep.util.ColorHelper
 import com.example.gokeep.util.TextFormatHelper
 import com.example.gokeep.view.adpter.StaticTagAdapter
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 
 class PieChartWithTagLayout: LinearLayout {
     private val TAG = PieChartWithTagLayout::javaClass.name
     private lateinit var binding: ComponentsPiechartWithTagLayoutBinding
     private lateinit var adapter: StaticTagAdapter
-    private var staticMonthlyTagDataList: ArrayList<StaticMonthlyTagData> = arrayListOf()
 
     constructor(context: Context) : super(context) {
         init(context, null)
@@ -59,6 +61,23 @@ class PieChartWithTagLayout: LinearLayout {
         pieChart.setCenterTextTypeface(Typeface.DEFAULT_BOLD)
         pieChart.setCenterTextSize(22f);
         pieChart.setCenterTextColor(ContextCompat.getColor(context, R.color.bluePrimary))
+        pieChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+            override fun onValueSelected(e: Entry?, h: Highlight?) {
+                val pieEntry = e as PieEntry
+                pieChart.centerText = generateTagSpannable(pieEntry.label,
+                    TextFormatHelper.moneyFormat(pieEntry.value)
+                )
+            }
+
+            override fun onNothingSelected() {
+                val data = adapter.getData()
+                if( data.size > 0) {
+                    val sumCost = TextFormatHelper.moneyFormat(data.sumBy { it.sumSpending })
+                    pieChart.centerText = generateTagSpannable("Total", sumCost)
+                }
+            }
+
+        })
     }
 
     private fun initAdapter() = with(binding){
@@ -67,6 +86,9 @@ class PieChartWithTagLayout: LinearLayout {
         adapter.setOnItemClickListener(object : StaticTagAdapter.OnItemClickListener{
             override fun onItemClick(position: Int) {
                 pieChart.highlightValue(position.toFloat(), 0, false)
+                val data = adapter.getData()
+                val sumCost = TextFormatHelper.moneyFormat(data[position].sumSpending)
+                pieChart.centerText = generateTagSpannable(data[position].tag, sumCost)
             }
         })
         tagRecyclerView.layoutManager = linearLayoutManager
@@ -109,8 +131,7 @@ class PieChartWithTagLayout: LinearLayout {
     /**
      * @param list: the data for pieChart
      */
-    fun setData(list: ArrayList<StaticMonthlyTagData>) = with(binding){
-        staticMonthlyTagDataList = list
+    fun setData(list: ArrayList<StaticMonthlyTagData>) = with(binding) {
         // Create DataSet and data for PieChart
         val set = generateDataSet(list)
         val data = PieData(set)

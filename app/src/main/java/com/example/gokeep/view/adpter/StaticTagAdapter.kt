@@ -47,6 +47,9 @@ class StaticTagAdapter(
         onItemClickListener = _OnItemClickListener
     }
 
+    fun getData() = staticMonthlyTagDataList
+
+
     class StaticTagViewHolder(private val itemBinding: RecyclerItemStaticTagBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
