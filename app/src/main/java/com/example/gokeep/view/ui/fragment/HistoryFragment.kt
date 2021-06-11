@@ -186,6 +186,12 @@ class HistoryFragment : Fragment() {
                 "Utility, Car",
                 15000,
                 1622640656931
+            ),
+            SpendingGroupByTag(
+                "Income",
+                "Salary",
+                85000,
+                1622640656931
             )
         )
 

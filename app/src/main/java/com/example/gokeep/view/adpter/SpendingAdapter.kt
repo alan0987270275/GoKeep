@@ -11,6 +11,7 @@ import com.example.gokeep.data.localdb.entity.Spending
 import com.example.gokeep.data.model.SpendingGroupByTag
 import com.example.gokeep.data.model.getTagImageByTitle
 import com.example.gokeep.databinding.RecyclerItemSpendingBinding
+import com.example.gokeep.util.TextFormatHelper
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -50,11 +51,12 @@ class SpendingAdapter(private val spendingList: ArrayList<SpendingGroupByTag>) :
                     .into(categoryImageView)
                 categoryTextView.text = data.tag
                 contentTextView.text = data.concatTitle
-                if(!data.tag.equals("Income")) {
-                    moneyTextView.text = "-$${data.sumCost}"
+                val spendingString = TextFormatHelper.moneyFormat(data.sumCost)
+                if(data.tag != "Income") {
+                    moneyTextView.text = "-${spendingString}"
                     moneyTextView.setTextColor(ContextCompat.getColor(context, R.color.bluePrimaryDark))
                 } else {
-                    moneyTextView.text = "$${data.sumCost}"
+                    moneyTextView.text = spendingString
                     moneyTextView.setTextColor(ContextCompat.getColor(context, R.color.greenSuccess))
                 }
                 val simpleDateFormat = SimpleDateFormat("MMM dd", Locale.US)
