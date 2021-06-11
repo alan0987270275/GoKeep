@@ -16,7 +16,9 @@ import com.example.gokeep.data.localdb.DatabaseHelperImpl
 import com.example.gokeep.data.model.SpendingGroupByTag
 import com.example.gokeep.data.model.StaticMonthlySumData
 import com.example.gokeep.data.model.StaticMonthlySumDataFromDB
+import com.example.gokeep.data.model.StaticMonthlyTagData
 import com.example.gokeep.databinding.FragmentHistoryBinding
+import com.example.gokeep.util.ColorHelper
 import com.example.gokeep.util.DateHelper
 import com.example.gokeep.util.Status
 import com.example.gokeep.util.ViewModelFactory
@@ -100,7 +102,7 @@ class HistoryFragment : Fragment() {
         viewModel.getStaticMonthlyTagData().observe( requireActivity(), Observer {
             when(it.status) {
                 Status.SUCCESS -> {
-                    Log.d(TAG, "StaticMonthlyTagData size: ${it.data?.size}")
+                    it.data?.let { list -> initPieChartWithTagLayout(list) }
                 }
                 Status.LOADING -> {
 
@@ -114,7 +116,7 @@ class HistoryFragment : Fragment() {
 
     private fun initView() {
         initStaticRecyclerView()
-        initPieChartWithTagLayout()
+        initPieChartWithTagLayout(arrayListOf())
         initHistoryRecyclerView()
     }
 
@@ -148,19 +150,8 @@ class HistoryFragment : Fragment() {
         staticAdapter.notifyDataSetChanged()
     }
 
-    private fun initPieChartWithTagLayout() = with(binding) {
-        val entries: ArrayList<PieEntry> = arrayListOf()
-        val listColors = ArrayList<Int>()
-        // Insert fake data for testing.
-        entries.add(PieEntry(18.5f, "Green"))
-        listColors.add(ContextCompat.getColor(requireContext(), R.color.greenSuccess))
-        entries.add(PieEntry(26.7f, "Yellow"))
-        listColors.add(ContextCompat.getColor(requireContext(), R.color.yellow))
-        entries.add(PieEntry(24.0f, "Red"))
-        listColors.add(ContextCompat.getColor(requireContext(), R.color.red))
-        entries.add(PieEntry(30.8f, "Blue"))
-        listColors.add(ContextCompat.getColor(requireContext(), R.color.bluePrimary))
-        pieChartWithTagLayout.setData(entries, listColors)
+    private fun initPieChartWithTagLayout(list: ArrayList<StaticMonthlyTagData>) = with(binding) {
+        pieChartWithTagLayout.setData(list)
     }
 
     private fun initHistoryRecyclerView() = with(binding) {

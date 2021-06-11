@@ -19,9 +19,12 @@
     <color name="button_blue">#0BB8E4</color>
 
     <color name="yellow">#E6BE15</color>
-    <color name="yellowLight">#FFCE00</color>
+    <color name="yellowLight">#FEDB41</color>
+
+    <color name="orange">#FFA726</color>
 
     <color name="greenSuccess">#76B91B</color>
+    <color name="greenLight">#9CCC65</color>
 
     <color name="red">#E57373</color>
 </resources>
