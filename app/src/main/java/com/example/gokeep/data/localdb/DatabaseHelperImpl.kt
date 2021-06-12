@@ -2,6 +2,7 @@ package com.example.gokeep.data.localdb
 
 import com.example.gokeep.data.localdb.entity.Goal
 import com.example.gokeep.data.localdb.entity.Spending
+import com.example.gokeep.data.model.SpendingGroupByTag
 import com.example.gokeep.data.model.StaticMonthlySumDataFromDB
 import com.example.gokeep.data.model.StaticMonthlyTagData
 
@@ -22,6 +23,9 @@ class DatabaseHelperImpl(private val appDatabase: AppDatabase) : DatabaseHelper 
         date1: Long,
         date2: Long
     ) = appDatabase.spendingDao().getItemByTagAndTimeStamp(date1, date2)
+
+    override suspend fun getSpendingByTagAndMonth(month: Int): List<SpendingGroupByTag> =
+        appDatabase.spendingDao().getItemByTagAndMonth(month)
 
     override suspend fun getStaticDataGroupByMonth(): List<StaticMonthlySumDataFromDB> =
         appDatabase.spendingDao().getStaticDataGroupByMonth()

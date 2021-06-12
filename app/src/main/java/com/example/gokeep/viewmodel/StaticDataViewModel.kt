@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gokeep.data.localdb.DatabaseHelper
+import com.example.gokeep.data.model.SpendingGroupByTag
 import com.example.gokeep.data.model.StaticMonthlySumDataFromDB
 import com.example.gokeep.data.model.StaticMonthlyTagData
 import com.example.gokeep.util.Resource
@@ -16,11 +17,13 @@ class StaticDataViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
     private val TAG = StaticDataViewModel::javaClass.name
     private val staticMonthlySumDataFromDB = MutableLiveData<Resource<ArrayList<StaticMonthlySumDataFromDB>>>()
     private val staticMonthlyTagData = MutableLiveData<Resource<ArrayList<StaticMonthlyTagData>>>()
+    private val staticMonthlyDetailData = MutableLiveData<Resource<ArrayList<SpendingGroupByTag>>>()
 
     init {
         val calendar = Calendar.getInstance()
         fetchStaticMonthlySumData()
         fetchStaticMonthlyTagData(calendar.get(Calendar.MONTH))
+        fetchStaticMonthlyDetailData(calendar.get(Calendar.MONTH))
     }
 
     private fun fetchStaticMonthlySumData() {
@@ -55,6 +58,22 @@ class StaticDataViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
         }
     }
 
+    fun fetchStaticMonthlyDetailData(month: Int) {
+        viewModelScope.launch {
+            staticMonthlyDetailData.postValue(Resource.loading(null))
+            try {
+                val dataFromDb = dbHelper.getSpendingByTagAndMonth(month)
+                if(dataFromDb.isNotEmpty()) {
+                    staticMonthlyDetailData.postValue(Resource.success(java.util.ArrayList(dataFromDb)))
+                } else {
+                    staticMonthlyDetailData.postValue(Resource.success(java.util.ArrayList()))
+                }
+            } catch (e: Exception) {
+                staticMonthlyDetailData.postValue(Resource.error(e.toString(), null))
+            }
+        }
+    }
+
     private fun <T> MutableLiveData<T>.notifyObserver() {
         // Make this call can using the background thread to change the LiveData,
         this.postValue(this.value)
@@ -65,4 +84,6 @@ class StaticDataViewModel(private val dbHelper: DatabaseHelper) : ViewModel() {
     fun getStaticMonthlySumDataFromDB() = staticMonthlySumDataFromDB
 
     fun getStaticMonthlyTagData() = staticMonthlyTagData
+
+    fun getStaticMonthlyDetailData() = staticMonthlyDetailData
 }

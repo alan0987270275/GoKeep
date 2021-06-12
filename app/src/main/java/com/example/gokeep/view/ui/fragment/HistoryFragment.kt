@@ -118,6 +118,20 @@ class HistoryFragment : Fragment() {
                 }
             }
         })
+
+        viewModel.getStaticMonthlyDetailData().observe( requireActivity(), Observer {
+            when(it.status) {
+                Status.SUCCESS -> {
+                    it.data?.let { list -> renderHistoryRecyclerView(list) }
+                }
+                Status.LOADING -> {
+
+                }
+                Status.ERROR -> {
+                    Log.e(TAG,"VIEWMODEL ERROR: ${it.message}")
+                }
+            }
+        })
     }
 
     private fun initView() {
@@ -177,44 +191,15 @@ class HistoryFragment : Fragment() {
 
     private fun initHistoryRecyclerView() = with(binding) {
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        historyAdapter = SpendingAdapter(fakeTestingHistoryData)
+        historyAdapter = SpendingAdapter(arrayListOf())
         historyRecyclerView.layoutManager = linearLayoutManager
         historyRecyclerView.adapter = historyAdapter
     }
 
-    private val fakeTestingHistoryData =
-        arrayListOf(
-            SpendingGroupByTag(
-                "Transport",
-                "Bus, Taxi",
-                1000,
-                1622640656931
-            ),
-            SpendingGroupByTag(
-                "Grocery",
-                "Beef, Beer, Candy",
-                23569,
-                1622640656931
-            ),
-            SpendingGroupByTag(
-                "Shopping",
-                "Clothes, Shoes",
-                5200,
-                1622640656931
-            ),
-            SpendingGroupByTag(
-                "Billing",
-                "Utility, Car",
-                15000,
-                1622640656931
-            ),
-            SpendingGroupByTag(
-                "Income",
-                "Salary",
-                85000,
-                1622640656931
-            )
-        )
+    private fun renderHistoryRecyclerView(list: ArrayList<SpendingGroupByTag>) {
+        historyAdapter.addAllItem(list)
+        historyAdapter.notifyDataSetChanged()
+    }
 
     companion object {
         /**

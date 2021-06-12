@@ -26,6 +26,12 @@ interface SpendingDao {
     )
     suspend fun getItemByTagAndTimeStamp(date1: Long, date2: Long): List<SpendingGroupByTag>
 
+    @Query("""
+        SELECT tag, group_concat(title, ', ') AS concatTitle, sum(cost) AS sumCost, createdTimeStamp FROM Spending
+        WHERE month = :month GROUP BY tag
+        """)
+    suspend fun getItemByTagAndMonth(month: Int): List<SpendingGroupByTag>
+
     @Query("SELECT SUM(cost) as sumSpending, month as _monthTitle FROM Spending GROUP BY month")
     suspend fun getStaticDataGroupByMonth(): List<StaticMonthlySumDataFromDB>
 

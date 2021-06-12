@@ -18,6 +18,8 @@ interface DatabaseHelper {
 
     suspend fun getSpendingByTagAndTime(date1: Long, date2: Long): List<SpendingGroupByTag>
 
+    suspend fun getSpendingByTagAndMonth(month: Int): List<SpendingGroupByTag>
+
     suspend fun getStaticDataGroupByMonth(): List<StaticMonthlySumDataFromDB>
 
     suspend fun getStaticMonthlyTagData(month: Int): List<StaticMonthlyTagData>
