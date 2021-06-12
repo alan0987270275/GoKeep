@@ -55,7 +55,7 @@ class StaticTagAdapter(
 
         fun bind(data: StaticMonthlyTagData) = with(itemBinding) {
             itemView.apply {
-                tagContainer.setBackgroundColor(
+                tagContainer.setCardBackgroundColor(
                     ColorHelper.getStaticColorMap(context, data.tag) ?: ContextCompat.getColor(
                         context,
                         R.color.while_gray

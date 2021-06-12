@@ -10,6 +10,12 @@ import kotlinx.android.synthetic.main.recycler_item_static.view.*
 class StaticAdapter(private val staticMonthlySumList: ArrayList<StaticMonthlySumData>,
                     private var maxSpending: Int = 0) : RecyclerView.Adapter<StaticAdapter.StaticViewHolder>() {
 
+    private var onItemClickListener: StaticAdapter.OnItemClickListener? = null
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StaticViewHolder =
         StaticViewHolder(
             RecyclerItemStaticBinding.inflate(
@@ -22,13 +28,14 @@ class StaticAdapter(private val staticMonthlySumList: ArrayList<StaticMonthlySum
     override fun onBindViewHolder(holder: StaticViewHolder, position: Int) {
         holder.bind(staticMonthlySumList[position], maxSpending)
         holder.itemView.progressView.setOnProgressClickListener {
-            onclickListener(position)
+            highlighting(position)
+            onItemClickListener?.onItemClick(position)
         }
     }
 
     override fun getItemCount() = staticMonthlySumList.size
 
-    private fun onclickListener(position: Int) {
+    private fun highlighting(position: Int) {
         for(i in staticMonthlySumList.indices) {
             staticMonthlySumList[i].isSelected = false
         }
@@ -40,6 +47,10 @@ class StaticAdapter(private val staticMonthlySumList: ArrayList<StaticMonthlySum
         staticMonthlySumList.clear()
         staticMonthlySumList.addAll(list)
         maxSpending = list.maxBy{ it.sumSpending }?.sumSpending ?: 0
+    }
+
+    fun setOnItemClickListener(_OnItemClickListener: StaticAdapter.OnItemClickListener) {
+        onItemClickListener = _OnItemClickListener
     }
 
     class StaticViewHolder(private val itemBinding: RecyclerItemStaticBinding) : RecyclerView.ViewHolder(itemBinding.root) {

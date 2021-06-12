@@ -20,12 +20,10 @@ import com.example.gokeep.data.model.StaticMonthlySumData
 import com.example.gokeep.data.model.StaticMonthlySumDataFromDB
 import com.example.gokeep.data.model.StaticMonthlyTagData
 import com.example.gokeep.databinding.FragmentHistoryBinding
-import com.example.gokeep.util.ColorHelper
-import com.example.gokeep.util.DateHelper
-import com.example.gokeep.util.Status
-import com.example.gokeep.util.ViewModelFactory
+import com.example.gokeep.util.*
 import com.example.gokeep.view.adpter.SpendingAdapter
 import com.example.gokeep.view.adpter.StaticAdapter
+import com.example.gokeep.view.adpter.StaticTagAdapter
 import com.example.gokeep.viewmodel.StaticDataViewModel
 import com.github.mikephil.charting.data.PieEntry
 import kotlinx.coroutines.*
@@ -145,6 +143,12 @@ class HistoryFragment : Fragment() {
         staticAdapter = StaticAdapter(arrayListOf(), 0)
         staticRecyclerView.layoutManager = linearLayoutManager
         staticRecyclerView.adapter = staticAdapter
+        staticAdapter.setOnItemClickListener(object : StaticAdapter.OnItemClickListener{
+            override fun onItemClick(position: Int) {
+                viewModel.fetchStaticMonthlyTagData(position)
+                viewModel.fetchStaticMonthlyDetailData(position)
+            }
+        })
     }
 
     private fun renderStaticDataList(list: ArrayList<StaticMonthlySumDataFromDB>) = with(binding) {
